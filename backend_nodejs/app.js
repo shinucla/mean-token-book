@@ -76,16 +76,17 @@ var session           = require('express-session');
 // Global:
 Config = require('./config.js');
 Domain = require('./domain-models.js')
-AuthoringService = new (require('./service/authoring-service'))();
+UserAuthManager = new (require('./service/user-auth-manager'))();
+AppConstants = require('./app-constants.js');
 
 // Config:
 Domain.init();
 var app = express();
 app.locals.pretty = true;
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/views');
+//app.set('view engine', 'jade');
+//app.set('views', __dirname + '/views');
 
-app.use(express.static(Config.rs_dir)); // public resources: js css img fonts...
+//app.use(express.static(Config.rs_dir)); // public resources: js css img fonts...
 app.use(cookieParser());
 app.use(session({ secret: 'my_super_secrete_word',
                   resave: false,

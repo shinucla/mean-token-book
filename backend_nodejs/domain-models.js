@@ -88,12 +88,18 @@ async function TransactionErrorHandlerMiddleware(err, req, res, next) {
 
 // ------------------------------------------------------------
 
-var UserProfile = defineModel('user_profile', require('./model/user-profile-definition')(Sequelize));
-var UserCredential = defineModel('user_credential', require('./model/user-credential-definition')(Sequelize));
+var User = defineModel('user', require('./model/user-def')(Sequelize));
+var UserAuth = defineModel('user_auth', require('./model/user-auth-def')(Sequelize));
+var Category = defineModel('category', require('./model/category-def')(Sequelize));
+var TokenEvent = defineModel('token_event', require('./model/token-event-def')(Sequelize));
+var TokenRule = defineModel('token_rule', require('./model/token-rule-def')(Sequelize));
 
 async function init() {
-  await UserProfile.sync();
-  await UserCredential.sync();
+  await User.sync();
+  await UserAuth.sync();
+  await Category.sync();
+  await TokenEvent.sync();
+  await TokenRule.sync();
 }
 
 var domain = {
@@ -101,10 +107,14 @@ var domain = {
   init: init,
   TransactionMiddleware: TransactionMiddleware,
   TransactionErrorHandlerMiddleware: TransactionErrorHandlerMiddleware,
+  Sequelize: Sequelize,
 
   /* models */
-  UserProfile: UserProfile,
-  UserCredential: UserCredential,
+  User: User,
+  UserAuth: UserAuth,
+  Category: Category,
+  TokenEvent: TokenEvent,
+  TokenRule: TokenRule,
 };
 
 module.exports = domain;

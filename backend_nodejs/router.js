@@ -5,13 +5,13 @@
  */
 module.exports = function(app) {
   app.apiRequiredLogin = async function(req, res, next) {
-    AuthoringService.verifyToken(req.headers.jwt, (err, user) => {
+    UserAuthManager.verifyToken(req.headers.jwt, (err, user) => {
       if (!err) {
         req.user = user;
         next();
 
       } else {
-        res.status(400).send({ error: { code: 'NOT_AUTHORIZED', text: 'not authorized' }});
+        res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHENTICATED.id, message: 'failed' }});
       }
     });
   };
@@ -33,5 +33,5 @@ module.exports = function(app) {
   };
 
   require('./controller/user-controller')(app);
-  //require('./controller/UserController')(app);
+  require('./controller/token-controller')(app);
 }
