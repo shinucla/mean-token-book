@@ -40,7 +40,7 @@ module.exports = function(app) {
 
   app
     .route('/api/token/create')
-    .post(app.apirequiredlogin,
+    .post(app.apiRequiredLogin,
 	  (req, res, next) => {
 	    // TBI
 	  });
