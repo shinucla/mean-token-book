@@ -9,12 +9,16 @@ export class ServerService {
 
   constructor(private http: HttpClient) { }
 
-  post<T>(path, payload): Observable<T> {
+  resolve<T>(path: string, payload: any): Observable<T> {
+    var jwt = localStorage.getItem('jwt');
+    console.log(jwt);
     return this.http.post<T>(path,
-			     payload,
-			     { headers: new HttpHeaders({
-			       'Content-Type': 'application/json',
-			       'jwt': localStorage.getItem('jwt')
-			     }) });
+			     payload
+			     //,
+			     //{ headers: new HttpHeaders({
+			     //  'Content-Type': 'application/json',
+			     //  'jwt': null == jwt ? null : jwt
+			     //}) }
+			    );
   } 
 }

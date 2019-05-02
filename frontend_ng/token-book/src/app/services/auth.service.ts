@@ -9,8 +9,11 @@ export class AuthService {
   constructor(private server: ServerService) { }
 
   login(user) {
-    this.server.post('/api/user/login', user).subscribe(data => {
-      localStorage.setItem('jwt', data.jwt);
-    });
+    this.server
+      .resolve<any>('/api/user/login', user)
+      .subscribe(data => {
+	console.log(data);
+	localStorage.setItem('jwt', data.data.jwt);
+      });
   }
 }
