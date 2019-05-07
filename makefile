@@ -1,3 +1,5 @@
+serve ::
+	ng serve --proxy-config proxy.conf.json
 tags ::
 	rm -f TAGS;
 	find . -path ./backend_nodejs/node_modules -prune -o -name "*.ts" | xargs etags -a
