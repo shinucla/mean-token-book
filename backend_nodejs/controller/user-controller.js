@@ -67,9 +67,9 @@ module.exports = function(app) {
                     'password': req.body.password,
                     'fbAccessToken': req.body.fbAccessToken };
 
-      UserAuthManager.loginByUserNameEmail(json, function(err, jwt) {
+      UserAuthManager.loginByUserNameEmail(json, function(err, userjwt) {
         if (err) return next(err);
-        res.status(200).send({ data: { jwt: jwt }});
+        res.status(200).send({ data: userjwt });
       });
     });
 

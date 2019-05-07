@@ -134,7 +134,7 @@ module.exports = class UserAuthManager {
 
     } else if (null != json.password && this.comparePasswordHash(json.password, auth.password_hash)) {
       /* --- User Found With Correct Password */
-      callback(null, auth.jwt);
+      callback(null, { user: user, jwt: auth.jwt });
 
     } else {
       /* --- User Found With Incorrect Password */
