@@ -7,11 +7,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+export class RegisterComponent implements OnInit {
+  registerForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
@@ -27,11 +27,14 @@ export class LoginComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get form() { return this.loginForm.controls; }
+  get form() { return this.registerForm.controls; }
   
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.loginForm = this.formBuilder.group({
+    this.registerForm = this.formBuilder.group({
+      firstName: [''],
+      lastName: [''],
+      email: [''],
       username: [''],
       password: ['']
     });
@@ -39,17 +42,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    var user = { username: this.form.username.value,
+    var user = { firstName: this.form.firstName.value,
+		 lastName: this.form.lastName.value,
+		 email: this.form.email.value,
+		 username: this.form.username.value,
 		 password: this.form.password.value };
     this.auth
-      .login(user)
-      .subscribe(u => {
-	if (u && u.jwt) {
-	  console.log('logged in');
-	  this.router.navigate([this.returnUrl]);
-	  location.reload();
+      .register(user)
+      .subscribe(data => {
+	if (data && data.data && data.data.jwt) {
+	  this.router.navigate(['/login']);
 	}
       });
   }
 
 }
+

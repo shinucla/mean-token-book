@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Token Book</a>
+  <a class="navbar-brand" href="#" >Token Book</a>
   <button class="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -31,9 +31,9 @@
           {{user.first_name}} {{user.last_name}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="/settings">Settings</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Logout</a>
+          <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
         </div>
       </li>
     </ul>

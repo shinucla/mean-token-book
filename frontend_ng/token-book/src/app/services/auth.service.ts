@@ -22,8 +22,12 @@ export class AuthService {
     return this.userSubject.value;
   }
 
+  register(user) {
+    return this.server.resolve<any>('/api/user/signupParent', user);
+  }
+  
   login(user) {
-    this.server
+    return this.server
       .resolve<any>('/api/user/login', user)
       .pipe(map(data => {
         let user = data.data.user;
