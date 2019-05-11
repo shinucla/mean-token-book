@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class TokenManager {
+module.exports = class TokenEventManager {
   constructor() { /* ... */ }
 
   ////////////////////////////////////////////////////////////
@@ -20,7 +20,8 @@ module.exports = class TokenManager {
 		category_id: json.categoryId,
 		description: json.description })
       .then(event => callback(null, event))
-      .catch(err => callback(new Error('failed creating token event', 100), null))
+    //.catch(err => callback(new Error('failed creating token event', 100), null))
+      .catch(err => callback(err, null))
     ;
   }
 

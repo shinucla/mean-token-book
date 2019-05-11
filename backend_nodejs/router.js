@@ -33,5 +33,5 @@ module.exports = function(app) {
   };
 
   require('./controller/user-controller')(app);
-  require('./controller/token-controller')(app);
+  require('./controller/token-event-controller')(app);
 }

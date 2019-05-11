@@ -77,6 +77,7 @@ var session           = require('express-session');
 Config = require('./config.js');
 Domain = require('./domain-models.js')
 UserAuthManager = new (require('./service/user-auth-manager'))();
+TokenEventManager = new (require('./service/token-event-manager'))();
 AppConstants = require('./app-constants.js');
 
 // Config:

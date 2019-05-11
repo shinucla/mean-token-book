@@ -28,7 +28,7 @@ module.exports = class UserAuthManager {
   constructor() { /* ... */ }
 
   ////////////////////////////////////////////////////////////
-
+  
   verifyToken(jwt, callback) { /* callback(err, decodedUser) */
     JWT.verify(jwt, Config.auth.secret, (err, obj) => {
       Domain

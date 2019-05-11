@@ -13,6 +13,9 @@ import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
+import { ChildrenComponent } from './components/settings/children/children.component';
+import { CategoryComponent } from './components/settings/category/category.component';
+import { ProfileComponent } from './components/settings/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { JwtInterceptor } from './services/jwt.interceptor';
     HomeChildComponent,
     LoginComponent,
     SettingsComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChildrenComponent,
+    CategoryComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

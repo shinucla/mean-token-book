@@ -11,7 +11,7 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/token/getChildrenTokenBalance')
+    .route('/api/token-event/getChildrenTokenBalance')
     .post(app.apiRequiredLogin,
           (req, res, next) => {
             var json  = { 'parentId': req.user.id };
@@ -25,7 +25,7 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/token/getBalance')
+    .route('/api/token-event/getBalance')
     .post(app.apiRequiredLogin,
           (req, res, next) => {
             var json  = { 'userId': req.user.id };
@@ -39,11 +39,14 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/token/create')
+    .route('/api/tokenevent/create')
     .post(app.apiRequiredLogin,
-	  (req, res, next) => {
-	    // TBI
-	  });
+          (req, res, next) => {
+            TokenEventManager.createTokenEvent(req.body, (err, event) => {
+              if (err) return next(err);
+              res.status(200).send({ data: event });
+            });
+          });
 
   ////////////////////////////////////////////////////////////
 };
