@@ -3,13 +3,11 @@
 var config = {};
 
 config.web = {};
-config.web.port = process.env.PORT || 80;
+config.web.port = process.env.PORT || 8181; // $sudo PORT=8080 node app.js
 
 config.auth = {};
 config.auth.algorithm = 'aes-256-ctr';
 config.auth.secret = 'string';
-
-config.web = { port: 8080 };
 
 config.mysql = {};
 config.mysql.db = 'string';
@@ -22,5 +20,3 @@ config.mysql.pool_config = { max: 5,
 			     idle: 30000 };
 
 module.exports = config;
-
-
