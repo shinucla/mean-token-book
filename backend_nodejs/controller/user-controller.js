@@ -112,12 +112,13 @@ module.exports = function(app) {
 
   app
     .route('/api/user/getChildren')
-    .post(app.apiRequiredLogin, (req, res, next) => {
-      UserAuthManager.getChildren({ parentId: req.user.id }, (err, users) => {
-	if (err) return next(err);
-	res.status(200).send({ data: { users: users }});
-      });
-    });
+    .post(app.apiRequiredLogin,
+	  (req, res, next) => {
+	    UserAuthManager.getChildren({ parentId: req.user.id }, (err, users) => {
+	      if (err) return next(err);
+	      res.status(200).send({ data: { users: users }});
+	    });
+	  });
 
   ////////////////////////////////////////////////////////////
   

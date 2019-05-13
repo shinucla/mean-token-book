@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { ServerService } from './server.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+	      private server: ServerService) { }
 
   isLoggedIn(): boolean {
-    return false;
+    return null !== this.auth.getUserValue();
+  }
+
+  getChildren() {
+    return this.server.resolve('/api/user/getChildren', {});
   }
 }
+
 /*
 auth service:
  - manage authentication

@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { MatSidenavModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +19,7 @@ import { JwtInterceptor } from './services/jwt.interceptor';
 import { ChildrenComponent } from './components/settings/children/children.component';
 import { CategoryComponent } from './components/settings/category/category.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
+import { RegisterChildComponent } from './components/register-child/register-child.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +32,19 @@ import { ProfileComponent } from './components/settings/profile/profile.componen
     RegisterComponent,
     ChildrenComponent,
     CategoryComponent,
-    ProfileComponent
+    ProfileComponent,
+    RegisterChildComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    
     HttpClientModule,
     NgbModule.forRoot()
   ],

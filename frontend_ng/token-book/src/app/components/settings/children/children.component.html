@@ -1,3 +1,19 @@
-<p>
-  children works!
-</p>
+<div class="container row">
+  <div class="col-sm-2">
+    <div class="card">
+      <a class="card-body" href="/registerChild" >
+        <i class="card-add fas fa-user-plus fa-2x"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-sm-2" *ngFor="let child of children">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ child.first_name }} {{ child.last_name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ child.email || child.username }}</h6>
+        <a class="card-link" href (click)="false">Edit</a>
+      </div>
+    </div>
+  </div>
+</div>

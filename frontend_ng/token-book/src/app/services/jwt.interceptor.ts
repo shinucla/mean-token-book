@@ -17,7 +17,8 @@ export class JwtInterceptor implements HttpInterceptor {
     let user = this.auth.getUserValue();
     
     if (user && user.jwt) {
-      request = request.clone({ setHeaders: { Authorization: `jwt ${user.jwt}` }});
+      //request = request.clone({ setHeaders: { Authorization: `jwt ${user.jwt}` }});
+      request = request.clone({ setHeaders: { jwt: user.jwt }});
     }
     
     return next.handle(request);

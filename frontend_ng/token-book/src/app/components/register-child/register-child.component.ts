@@ -5,11 +5,11 @@ import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'app-register-child',
+  templateUrl: './register-child.component.html',
+  styleUrls: ['./register-child.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterChildComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -19,17 +19,14 @@ export class RegisterComponent implements OnInit {
 	      private auth: AuthService,
 	      private route: ActivatedRoute,
               private router: Router
-	     ) {
-    if (this.auth.getUserValue()) {
-      this.router.navigate(['/']);
-    }
-  }
+	     ) { }
 
   // convenience getter for easy access to form fields
   get form() { return this.registerForm.controls; }
   
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    console.log(this.returnUrl);
     this.registerForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
@@ -47,13 +44,15 @@ export class RegisterComponent implements OnInit {
 		 username: this.form.username.value,
 		 password: this.form.password.value };
     this.auth
-      .register(user)
+      .registerChild(user)
       .subscribe(data => {
 	if (data && data.jwt) {
-	  this.router.navigate(['/login']);
+	  this.router.navigate(['/settings']);
 	}
       });
   }
 
+  onCancel() {
+    this.router.navigate(['/settings']);
+  }
 }
-

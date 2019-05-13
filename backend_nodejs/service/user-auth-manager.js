@@ -31,6 +31,7 @@ module.exports = class UserAuthManager {
   
   verifyToken(jwt, callback) { /* callback(err, decodedUser) */
     JWT.verify(jwt, Config.auth.secret, (err, obj) => {
+      console.log(err);
       Domain
         .User
         .findOne({ where: { id: err ? null : obj.id }})
@@ -144,7 +145,7 @@ module.exports = class UserAuthManager {
 
   ////////////////////////////////////////////////////////////
 
-  getChildren(json, callback) {
+  getChildren(json, callback) {console.log('user-auth-manager:getChildren:json', json);
     Domain.User
       .findAll({ where: { parent_id: json.parentId }, raw: true })
       .then(users => callback(null, users))

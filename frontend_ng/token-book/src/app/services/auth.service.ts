@@ -25,13 +25,17 @@ export class AuthService {
   register(user) {
     return this.server.resolve<any>('/api/user/signupParent', user);
   }
+
+  registerChild(user) {
+    return this.server.resolve<any>('/api/user/signupChild', user);
+  }
   
   login(user) {
     return this.server
       .resolve<any>('/api/user/login', user)
       .pipe(map(data => {
-        let user = data.data.user;
-        let jwt = data.data.jwt;
+        let user = data.user;
+        let jwt = data.jwt;
 
         if (user && jwt) {
           user.jwt = jwt;
