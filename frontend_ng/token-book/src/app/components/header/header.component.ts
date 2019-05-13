@@ -20,6 +20,14 @@ export class HeaderComponent implements OnInit {
     this.user = this.auth.getUserValue();
   }
 
+  navToHome() {
+    this.router.navigate(['/home']);
+  }
+  
+  navToSettings() {
+    this.router.navigate(['/settings']);
+  }
+  
   logout() {
     this.auth.logout();
     this.user = this.auth.getUserValue();

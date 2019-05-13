@@ -23,7 +23,9 @@ export class SettingsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.setting = SettingType.CHILDREN;
+    if (null == this.setting) {
+      this.setting = SettingType.CHILDREN;
+    }
   }
 
   loadChildrenSettings() {
