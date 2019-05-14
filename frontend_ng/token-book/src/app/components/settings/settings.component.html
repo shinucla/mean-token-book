@@ -1,14 +1,16 @@
-<div class="row">
-  <div class="center-block">
-    <nav class="nav flex-column">
-      <a class="nav-link active" href="#" (click)="loadChildrenSettings(); false">Children</a>
-      <a class="nav-link active" href="#" (click)="loadCategorySettings(); false">Category</a>
-      <a class="nav-link active" href="#" (click)="loadProfileSettings(); false">Profile</a>
-    </nav>
-  </div>
-  <div class="center-block">
-    <app-settings-children *ngIf="setting==SettingType.CHILDREN"></app-settings-children>
-    <app-settings-category *ngIf="setting==SettingType.CATEGORY"></app-settings-category>
-    <app-settings-profile *ngIf="setting==SettingType.PROFILE"></app-settings-profile>
+<div class="jumbotron">
+  <div class="row">
+    <div class="center-block">
+      <nav class="nav flex-column">
+        <a class="nav-link active" href="#" (click)="loadChildrenSettings(); false">Children</a>
+        <a class="nav-link active" href="#" (click)="loadCategorySettings(); false">Category</a>
+        <a class="nav-link active" href="#" (click)="loadProfileSettings(); false">Profile</a>
+      </nav>
+    </div>
+    <div class="center-block">
+      <app-settings-children *ngIf="setting==SettingType.CHILDREN"></app-settings-children>
+      <app-settings-category *ngIf="setting==SettingType.CATEGORY"></app-settings-category>
+      <app-settings-profile *ngIf="setting==SettingType.PROFILE"></app-settings-profile>
+    </div>
   </div>
 </div>
