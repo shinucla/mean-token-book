@@ -145,7 +145,7 @@ module.exports = class UserAuthManager {
 
   ////////////////////////////////////////////////////////////
 
-  getChildren(json, callback) {console.log('user-auth-manager:getChildren:json', json);
+  getChildren(json, callback) {
     Domain.User
       .findAll({ where: { parent_id: json.parentId }, raw: true })
       .then(users => callback(null, users))

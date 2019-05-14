@@ -18,7 +18,21 @@ module.exports = function(app) {
 
             TokenManager.getChildrenTokenBalance(json, (err, data) => {
               if (err) return next(err);
-              res.status(200).send({ data: { balances: data }});
+              res.status(200).send({ data: data });
+            });
+          });
+
+  ////////////////////////////////////////////////////////////
+
+  app
+    .route('/api/token-event/getChildrenTokenEvents')
+    .post(app.apiRequiredLogin,
+          (req, res, next) => {
+            var json  = { 'parentId': req.user.id };
+
+            TokenManager.getChildrenTokenEvents(json, (err, data) => {
+              if (err) return next(err);
+              res.status(200).send({ data: data });
             });
           });
 

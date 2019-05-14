@@ -1,9 +1,39 @@
-<nav class="navbar navbar-dark bg-dark">
-  <ul class="navbar-nav ml-auto">
+<nav class="navbar navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+  <form class="form-inline">
+    Full text search: <input class="form-control mr-lg-2" type="search" placeholder="Search" aria-label="Search">
+  </form>
+  <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
     <li class="nav-item">
-      <a class="nav-link" href (click)="false">
-	<i class="fas fa-plus-circle"></i>
+      <a class="nav-link" href (click)="refreshTokenEventList(); false">
+        <i class="fas fa-sync"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href (click)="addTokenEvent(); false">
+        <i class="fas fa-plus-circle"></i>
       </a>
     </li>
   </ul>
 </nav>
+
+<!-- table -->
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col"><i class="fas fa-user-friends"></i></th>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Date</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of events; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td><ngb-highlight [result]="event.name" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="event.category" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="event.date | number"></ngb-highlight></td>
+      <td><ngb-highlight [result]="event.amount | number"></ngb-highlight></td>
+    </tr>
+  </tbody>
+</table>

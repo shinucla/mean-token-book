@@ -32,6 +32,17 @@ module.exports = class TokenEventManager {
   }
 
   ////////////////////////////////////////////////////////////
+  
+  getChildrenTokenEvents(json, callback) {
+    Domain
+      .TokenEvent
+      .findAll()
+      .then(events => callback(null, events))
+      .catch(err => callback(err, null))
+    ;
+  }
+
+  ////////////////////////////////////////////////////////////
 
   getBalance(json, callback) {
     // TBI
