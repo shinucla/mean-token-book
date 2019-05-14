@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TokenEventService } from '../../services/token-event.service';
 
@@ -38,12 +39,15 @@ const events: Event[] = [
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [NgbModalConfig, NgbModal]
 })
 export class HomeComponent implements OnInit {
   events: Observable<Event[]>;
 
-  constructor(private tokenEventService: TokenEventService) { }
+  constructor(private tokenEventService: TokenEventService,
+	      private modalConfig: NgbModalConfig,
+	      private modalService: NgbModal) { }
 
   ngOnInit() {
     //this.tokenEventService.getChildrenTokenEvents().pipe(map(x => new Event { name: x['name'], }));
@@ -57,7 +61,9 @@ export class HomeComponent implements OnInit {
     
   }
 
-  addTokenEvent() {
-
+  addTokenEvent(frmContent) {
+    this.modalConfig.backdrop = 'static';
+    this.modalConfig.keyboard = false;
+    this.modalService.open(frmContent);
   }
 }
