@@ -14,9 +14,9 @@ import { HeaderComponent } from '../components/header/header.component';
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title">Hi there!</h4>
+      <h4 class="modal-title">STUPID</h4>
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
       </button>
     </div>
     <div class="modal-body">
@@ -47,15 +47,9 @@ export class ModalService {
        contentComponent: Component,
        onOk: () => void,
        onCancel: () => void) {
-    //const componentFactory = this.componentFactoryResolver.resolveComponentFactory(HeaderComponent);
+    //const componentFactory = this.componentFactoryResolver.resolveComponentFactory(Component);
     //const componentRef = componentFactory.create(this.injector);
 
     this.ngbModal.open(DialogComponent, { size: 'lg', backdrop: 'static' });
-
-    this.delay(10000);
-  }
-
-  async delay(ms: number) {
-    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
   }
 }
