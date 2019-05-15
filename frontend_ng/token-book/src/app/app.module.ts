@@ -21,6 +21,8 @@ import { CategoryComponent } from './components/settings/category/category.compo
 import { ProfileComponent } from './components/settings/profile/profile.component';
 import { RegisterChildComponent } from './components/register-child/register-child.component';
 
+import { DialogComponent } from './services/modal.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,8 @@ import { RegisterChildComponent } from './components/register-child/register-chi
     ChildrenComponent,
     CategoryComponent,
     ProfileComponent,
-    RegisterChildComponent
+    RegisterChildComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ import { RegisterChildComponent } from './components/register-child/register-chi
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
-    
+
     HttpClientModule,
     NgbModule.forRoot()
   ],

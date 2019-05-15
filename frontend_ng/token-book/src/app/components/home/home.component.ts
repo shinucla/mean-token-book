@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TokenEventService } from '../../services/token-event.service';
+import { ModalService } from '../../services/modal.service';
 
 interface Event {
   name: string;
@@ -47,7 +48,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private tokenEventService: TokenEventService,
 	      private modalConfig: NgbModalConfig,
-	      private modalService: NgbModal) { }
+	      private ngbModal: NgbModal,
+	      private modalService: ModalService) { }
 
   ngOnInit() {
     //this.tokenEventService.getChildrenTokenEvents().pipe(map(x => new Event { name: x['name'], }));
@@ -56,14 +58,17 @@ export class HomeComponent implements OnInit {
   search(text: string): Event[] {
     return [];
   }
-  
+
   refreshTokenEventList() {
-    
+
   }
 
   addTokenEvent(frmContent) {
-    this.modalConfig.backdrop = 'static';
-    this.modalConfig.keyboard = false;
-    this.modalService.open(frmContent);
+    //this.ngbModal.open(DialogComponent);
+    //this.modalConfig.backdrop = 'static';
+    //this.modalConfig.keyboard = false;
+    //this.ngbModal.open(frmContent);
+
+    this.modalService.show("Hello", null, null, null);
   }
 }
