@@ -15,9 +15,9 @@ import { HeaderComponent } from '../components/header/header.component';
   template: `
     <div class="modal-header">
       <h4 class="modal-title">STUPID</h4>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true"><i class="far fa-times-circle"></i></span>
-      </button>
+      <a class="close" href (click)="activeModal.dismiss('Cross click'); false">
+        <i class="far fa-times-circle"></i>
+      </a>
     </div>
     <div class="modal-body">
       <p>Hello, World!</p>
