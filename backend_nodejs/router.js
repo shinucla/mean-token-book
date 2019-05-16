@@ -6,8 +6,6 @@
 module.exports = function(app) {
   app.apiRequiredLogin = async function(req, res, next) {
     UserAuthManager.verifyToken(req.headers.jwt, (err, user) => {
-      console.log(err);
-      console.log(user);
       if (!err) {
         req.user = user;
         next();

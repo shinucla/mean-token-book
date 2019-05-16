@@ -31,7 +31,6 @@ module.exports = class UserAuthManager {
   
   verifyToken(jwt, callback) { /* callback(err, decodedUser) */
     JWT.verify(jwt, Config.auth.secret, (err, obj) => {
-      console.log(err);
       Domain
         .User
         .findOne({ where: { id: err ? null : obj.id }})

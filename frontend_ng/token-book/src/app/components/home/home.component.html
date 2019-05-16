@@ -30,10 +30,10 @@
   <tbody>
     <tr *ngFor="let event of events; index as i">
       <th scope="row">{{ i + 1 }}</th>
-      <td><ngb-highlight [result]="event.name" [term]="filter.value"></ngb-highlight></td>
-      <td><ngb-highlight [result]="event.category" [term]="filter.value"></ngb-highlight></td>
-      <td><ngb-highlight [result]="event.date | number"></ngb-highlight></td>
-      <td><ngb-highlight [result]="event.amount | number"></ngb-highlight></td>
+      <td>{{ event.name }}</td>
+      <td>{{ event.category }}</td>
+      <td>{{ event.date + '' }}</td>
+      <td>{{ event.amount | number }}</td>
     </tr>
   </tbody>
 </table>

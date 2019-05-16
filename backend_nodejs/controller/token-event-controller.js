@@ -16,7 +16,7 @@ module.exports = function(app) {
           (req, res, next) => {
             var json  = { 'parentId': req.user.id };
 
-            TokenManager.getChildrenTokenBalance(json, (err, data) => {
+            TokenEventManager.getChildrenTokenBalance(json, (err, data) => {
               if (err) return next(err);
               res.status(200).send({ data: data });
             });
@@ -30,7 +30,7 @@ module.exports = function(app) {
           (req, res, next) => {
             var json  = { 'parentId': req.user.id };
 
-            TokenManager.getChildrenTokenEvents(json, (err, data) => {
+            TokenEventManager.getChildrenTokenEvents(json, (err, data) => {
               if (err) return next(err);
               res.status(200).send({ data: data });
             });
@@ -44,7 +44,7 @@ module.exports = function(app) {
           (req, res, next) => {
             var json  = { 'userId': req.user.id };
 
-            TokenManager.getBalance(json, (err, data) => {
+            TokenEventManager.getBalance(json, (err, data) => {
               if (err) return next(err);
               res.status(200).send({ data: { balances: data }});
             });

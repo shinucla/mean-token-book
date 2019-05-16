@@ -34,9 +34,11 @@ module.exports = class TokenEventManager {
   ////////////////////////////////////////////////////////////
   
   getChildrenTokenEvents(json, callback) {
+    Domain.User.hasMany(Domain.TokenEvent, { foreignKey: 'receiver_id'});
+    Domain.TokenEvent.belongsTo(Domain.User, { foreignKey: 'receiver_id'});
     Domain
       .TokenEvent
-      .findAll()
+      .findAll({ include: [ Domain.User ]})
       .then(events => callback(null, events))
       .catch(err => callback(err, null))
     ;
