@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { UserService } from '../../../services/user.service';
-import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-settings-children',
-  templateUrl: './children.component.html',
-  styleUrls: ['./children.component.scss']
+  selector: 'app-family',
+  templateUrl: './family.component.html',
+  styleUrls: ['./family.component.scss']
 })
-export class ChildrenComponent implements OnInit {
+export class FamilyComponent implements OnInit {
   children = [];
-  
+
   constructor(private userService: UserService,
 	      private auth: AuthService,
 	      private router: Router) { }

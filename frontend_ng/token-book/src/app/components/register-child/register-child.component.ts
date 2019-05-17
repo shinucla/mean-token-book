@@ -47,12 +47,12 @@ export class RegisterChildComponent implements OnInit {
       .registerChild(user)
       .subscribe(data => {
 	if (data && data.jwt) {
-	  this.router.navigate(['/settings']);
+	  this.router.navigate(['/family']);
 	}
       });
   }
 
   onCancel() {
-    this.router.navigate(['/settings']);
+    this.router.navigate(['/family']);
   }
 }

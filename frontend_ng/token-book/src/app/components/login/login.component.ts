@@ -37,6 +37,10 @@ export class LoginComponent implements OnInit {
     
   }
 
+  navToRegister() {
+    this.router.navigate(['/register']);
+  }
+  
   onSubmit() {
     var user = { username: this.form.username.value,
 		 password: this.form.password.value };

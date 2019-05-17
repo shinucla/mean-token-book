@@ -37,9 +37,12 @@ export class RegisterComponent implements OnInit {
       username: [''],
       password: ['']
     });
-    
   }
 
+  navToLogin() {
+    this.router.navigate(['/login']);
+  }
+  
   onSubmit() {
     var user = { firstName: this.form.firstName.value,
 		 lastName: this.form.lastName.value,

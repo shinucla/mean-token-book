@@ -13,15 +13,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { HomeChildComponent } from './components/home-child/home-child.component';
 import { LoginComponent } from './components/login/login.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
-import { ChildrenComponent } from './components/settings/children/children.component';
-import { CategoryComponent } from './components/settings/category/category.component';
-import { ProfileComponent } from './components/settings/profile/profile.component';
 import { RegisterChildComponent } from './components/register-child/register-child.component';
 
 import { DialogComponent } from './services/modal.service';
+import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
+import { FamilyComponent } from './components/family/family.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -30,13 +30,13 @@ import { DialogComponent } from './services/modal.service';
     HomeComponent,
     HomeChildComponent,
     LoginComponent,
-    SettingsComponent,
     RegisterComponent,
-    ChildrenComponent,
-    CategoryComponent,
-    ProfileComponent,
     RegisterChildComponent,
     DialogComponent,
+    SidebarMenuComponent,
+    FamilyComponent,
+    CategoriesComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
