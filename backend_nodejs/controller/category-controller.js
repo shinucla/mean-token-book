@@ -8,8 +8,10 @@
  */
 module.exports = function(app) {
 
+  ////////////////////////////////////////////////////////////
+
   app
-    .route('/api/token-event/getChildrenTokenEvents')
+    .route('/api/category/getCategories')
     .post(app.apiRequiredLogin,
           (req, res, next) => {
             if (null === req.user.family_id) {
@@ -19,9 +21,9 @@ module.exports = function(app) {
             next();
           },
           (req, res, next) => {
-            var json  = { 'familyId': req.user.family_id };
+            var json  = { familyId: req.user.family_id };
 
-            TokenEventManager.getChildrenTokenEvents(json, (err, data) => {
+            CategoryManager.getCategories(json, (err, data) => {
               if (err) return next(err);
               res.status(200).send({ data: data });
             });
@@ -30,7 +32,7 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/tokenevent/create')
+    .route('/api/category/create')
     .post(app.apiRequiredLogin,
           (req, res, next) => {
             if (null === req.user.family_id) {
@@ -41,17 +43,13 @@ module.exports = function(app) {
           },
           (req, res, next) => {
             var json = { familyId: req.user.family_id,
-                         userId: req.body.userId,
-                         fromUserId: req.user.id,
-                         amount: req.body.amount,
-                         categoryId: req.body.categoryId,
+                         label: req.body.label,
                          description: req.body.description };
 
-            TokenEventManager.createTokenEvent(req.body, (err, event) => {
+            CategoryManager.createCategory(json, (err, data) => {
               if (err) return next(err);
-              res.status(200).send({ data: event });
+              res.status(200).send({ data: data });
             });
           });
 
-  ////////////////////////////////////////////////////////////
 };

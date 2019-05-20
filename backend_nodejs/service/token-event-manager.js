@@ -4,12 +4,13 @@ module.exports = class TokenEventManager {
   constructor() { /* ... */ }
 
   ////////////////////////////////////////////////////////////
-  
+
   createTokenEvent(json, callback) {
     var date = new Date();
     Domain.TokenEvent
-      .create({ sender_id: json.senderId,
-                receiver_id: json.receiverId,
+      .create({ family_id: json.familyId,
+                user_id: json.userId,
+                from_user_id: json.fromUserId,
                 date: parseInt(new Date().toISOString().slice(0,10).split('-').join('')),
 		year: date.getFullYear(),
 		month: date.getMonth() + 1,
@@ -27,28 +28,14 @@ module.exports = class TokenEventManager {
 
   ////////////////////////////////////////////////////////////
 
-  getChildrenTokenBalance(json, callback) {
-    // TBI
-  }
-
-  ////////////////////////////////////////////////////////////
-  
   getChildrenTokenEvents(json, callback) {
-    Domain.User.hasMany(Domain.TokenEvent, { foreignKey: 'receiver_id'});
-    Domain.TokenEvent.belongsTo(Domain.User, { foreignKey: 'receiver_id'});
+    Domain.User.hasMany(Domain.TokenEvent, { foreignKey: 'user_id'});
+    Domain.TokenEvent.belongsTo(Domain.User, { foreignKey: 'user_id'});
     Domain
       .TokenEvent
-      .findAll({ include: [ Domain.User ]})
+      .findAll({ family_id: json.familyId }, { include: [ Domain.User ]})
       .then(events => callback(null, events))
       .catch(err => callback(err, null))
     ;
   }
-
-  ////////////////////////////////////////////////////////////
-
-  getBalance(json, callback) {
-    // TBI
-  }
-
-  ////////////////////////////////////////////////////////////
 }

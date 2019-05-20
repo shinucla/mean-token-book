@@ -77,6 +77,8 @@ var session           = require('express-session');
 Config = require('./config.js');
 Domain = require('./domain-models.js')
 UserAuthManager = new (require('./service/user-auth-manager'))();
+FamilyManager = new (require('./service/family-manager'))();
+CategoryManager = new (require('./service/category-manager'))();
 TokenEventManager = new (require('./service/token-event-manager'))();
 AppConstants = require('./app-constants.js');
 
@@ -106,4 +108,3 @@ app.use(Domain.TransactionErrorHandlerMiddleware);
 http.createServer(app).listen(Config.web.port);  // $sudo PORT=8080 node app.js
 
 console.log('started');
-

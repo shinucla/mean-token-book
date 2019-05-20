@@ -1,7 +1,7 @@
 'user strict';
 
 module.exports = function (Sequelize) {
-  return { schema: { parent_id: { type: Sequelize.DataTypes.INTEGER, allowNull: true },
+  return { schema: { family_id: { type: Sequelize.DataTypes.INTEGER, allowNull: true },
 		     username: { type: Sequelize.DataTypes.STRING, allowNull: false },
 		     email: { type: Sequelize.DataTypes.STRING, allowNull: true },
 		     first_name: { type: Sequelize.DataTypes.STRING, allowNull: false, defaultValue: 'Guest' },
@@ -13,7 +13,7 @@ module.exports = function (Sequelize) {
            indexes: [{ unique: true, fields: ['id'] },
 		     { unique: true, fields: ['username'] },
 		     { unique: true, fields: ['email'] },
-		     { fields: ['parent_id'] },
+		     { fields: ['family_id'] },
 		    ],
 
            classMethods: {
@@ -21,7 +21,7 @@ module.exports = function (Sequelize) {
            },
 
            instanceMethods: {
-	     
+
            },
          };
 };

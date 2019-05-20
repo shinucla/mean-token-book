@@ -90,6 +90,7 @@ async function TransactionErrorHandlerMiddleware(err, req, res, next) {
 
 var User = defineModel('user', require('./model/user-def')(Sequelize));
 var UserAuth = defineModel('user_auth', require('./model/user-auth-def')(Sequelize));
+var Family = defineModel('family', require('./model/family-def')(Sequelize));
 var Category = defineModel('category', require('./model/category-def')(Sequelize));
 var TokenEvent = defineModel('token_event', require('./model/token-event-def')(Sequelize));
 var TokenRule = defineModel('token_rule', require('./model/token-rule-def')(Sequelize));
@@ -97,6 +98,7 @@ var TokenRule = defineModel('token_rule', require('./model/token-rule-def')(Sequ
 async function init() {
   await User.sync();
   await UserAuth.sync();
+  await Family.sync();
   await Category.sync();
   await TokenEvent.sync();
   await TokenRule.sync();
@@ -112,6 +114,7 @@ var domain = {
   /* models */
   User: User,
   UserAuth: UserAuth,
+  Family: Family,
   Category: Category,
   TokenEvent: TokenEvent,
   TokenRule: TokenRule,

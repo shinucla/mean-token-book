@@ -44,8 +44,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  addTokenEvent(frmContent) {
+  showDialog(frmContent) {
     this.modalService.show("Hello", null, null, null);
   }
 }
-  
