@@ -13,7 +13,11 @@ module.exports = function(app) {
     .post(app.apiRequiredLogin,
           app.apiRequiredFamily,
           (req, res, next) => {
-            var json  = { 'familyId': req.user.family_id };
+            var json  = { familyId: req.user.family_id };
+
+            if (AppConstants.RoleEnum.CHILD.id === req.user.role_id) {
+              json.userId = req.user.id;
+            }
 
             TokenEventManager.getChildrenTokenEvents(json, (err, data) => {
               if (err) return next(err);

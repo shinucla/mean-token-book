@@ -23,15 +23,15 @@ interface Event {
 export class HomeComponent implements OnInit {
   events: Event[] = [];
   constructor(private tokenEventService: TokenEventService,
-	      private modalService: ModalService) { }
+              private modalService: ModalService) { }
 
   ngOnInit() {
     this.tokenEventService
       .getChildrenTokenEvents()
       .pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
-      							 category: event.category_id,
-      							 date: event.date,
-      						 amount: event.amount }))))
+                                                 category: event.category.label,
+                                                 date: event.date,
+                                                 amount: event.amount }))))
       .subscribe(events => this.events = events)
     ;
   }
