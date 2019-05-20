@@ -28,7 +28,7 @@ module.exports = class UserAuthManager {
   constructor() { /* ... */ }
 
   ////////////////////////////////////////////////////////////
-  
+
   verifyToken(jwt, callback) { /* callback(err, decodedUser) */
     JWT.verify(jwt, Config.auth.secret, (err, obj) => {
       Domain
@@ -61,7 +61,7 @@ module.exports = class UserAuthManager {
   }
 
   ////////////////////////////////////////////////////////////
-  
+
   async signupByUserNameEmail(json, callback) {
     var conditions = [];
     if (json.username) {
@@ -79,7 +79,7 @@ module.exports = class UserAuthManager {
 
     } else {
       Domain.User
-        .create({ parent_id: json.parentId,
+        .create({ family_id: json.familyId,
                   first_name: json.firstName,
                   last_name: json.lastName,
                   username: (json.username ? json.username.toLowerCase() : null),
@@ -114,7 +114,7 @@ module.exports = class UserAuthManager {
   }
 
   ////////////////////////////////////////////////////////////
-  
+
   async loginByUserNameEmail(json, callback) {
     var conditions = [];
     if (json.username) {
@@ -146,11 +146,25 @@ module.exports = class UserAuthManager {
 
   getChildren(json, callback) {
     Domain.User
-      .findAll({ where: { parent_id: json.parentId }, raw: true })
+      .findAll({ raw: true,
+                 where: { family_id: json.familyId,
+                          role_id: AppConstants.RoleEnum.CHILD.id }})
       .then(users => callback(null, users))
       .catch(err => callback(new Error('getting children failed', 100), null))
     ;
   }
-  
+
   ////////////////////////////////////////////////////////////
+
+  updateFamily(json, callback) {
+    Domain
+      .User
+      .update({ family_id: json.familyId },
+              { returning: true,
+                where: { id: json.ownerId }})
+      .then(data => callback(null, data))
+      .catch(err => callback(new Error('update family failed', 100), null))
+      //.catch(err => callback(err, null))
+    ;
+  }
 }

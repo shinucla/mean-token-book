@@ -16,6 +16,24 @@ module.exports = function(app) {
     });
   };
 
+  app.apiRequiredParent = async function(req, res, next) {
+    if (AppConstants.RoleEnum.PARENT.id !== req.user.role_id) {
+      res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
+                                      message: 'require parent' }});
+    } else {
+      next();
+    }
+  };
+
+  app.apiRequiredFamily = async function(req, res, next) {
+    if (!req.user.family_id) {
+      res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
+                                      message: 'require family' }});
+    } else {
+      next();
+    }
+  };
+
   app.series = function() {
     var callbacks = Array.prototype.slice.call(arguments);
     var args = {};

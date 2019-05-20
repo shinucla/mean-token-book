@@ -39,20 +39,8 @@ module.exports = function(app) {
   app
     .route('/api/user/signupChild')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (AppConstants.RoleEnum.PARENT.id !== req.user.role_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json  = { 'familyId': req.user.family_id,
                           'firstName': req.body.firstName,
@@ -124,13 +112,7 @@ module.exports = function(app) {
   app
     .route('/api/user/createFamily')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (AppConstants.RoleEnum.PARENT.id !== req.user.role_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredParent,
           (req, res, next) => {
             var json  = { ownerId: req.user.id,
                           title: req.body.title };
@@ -138,10 +120,13 @@ module.exports = function(app) {
             FamilyManager.create(json, (err,  family) => {
               if (err) return next(err);
 
-              UserAuthManager.updateFamily({ familyId: data.id }, (err, user) => {
-                if (err) return next(err);
-                res.status(200).send({ data: family });
-              });
+              UserAuthManager.updateFamily({ familyId: family.id,
+                                             ownerId: req.user.id },
+                                           (err, user) => {
+                                             if (err) return next(err);
+
+                                             res.status(200).send({ data: family });
+                                           });
             });
           });
 
@@ -150,13 +135,7 @@ module.exports = function(app) {
   app
     .route('/api/user/getFamily')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (AppConstants.RoleEnum.PARENT.id !== req.user.role_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json  = { ownerId: req.user.id };
 
@@ -171,13 +150,8 @@ module.exports = function(app) {
   app
     .route('/api/user/getChildren')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
           (req, res, next) => {
             UserAuthManager.getChildren({ familyId: req.user.family_id }, (err, users) => {
               if (err) return next(err);

@@ -11,13 +11,7 @@ module.exports = function(app) {
   app
     .route('/api/token-event/getChildrenTokenEvents')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json  = { 'familyId': req.user.family_id };
 
@@ -32,13 +26,7 @@ module.exports = function(app) {
   app
     .route('/api/tokenevent/create')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json = { familyId: req.user.family_id,
                          userId: req.body.userId,

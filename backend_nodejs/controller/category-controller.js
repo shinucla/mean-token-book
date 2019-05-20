@@ -13,13 +13,7 @@ module.exports = function(app) {
   app
     .route('/api/category/getCategories')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json  = { familyId: req.user.family_id };
 
@@ -34,13 +28,8 @@ module.exports = function(app) {
   app
     .route('/api/category/create')
     .post(app.apiRequiredLogin,
-          (req, res, next) => {
-            if (null === req.user.family_id) {
-              res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                              message: 'not allowed' }});
-            }
-            next();
-          },
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
           (req, res, next) => {
             var json = { familyId: req.user.family_id,
                          label: req.body.label,
