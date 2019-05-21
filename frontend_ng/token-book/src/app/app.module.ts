@@ -11,13 +11,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
-import { HomeChildComponent } from './components/home-child/home-child.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 
 import { DialogComponent } from './services/modal.service';
+import { DialogContainerComponent } from './services/modal.service';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
@@ -28,11 +28,11 @@ import { FooterComponent } from './components/footer/footer.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    HomeChildComponent,
     LoginComponent,
     RegisterComponent,
     RegisterFamilyMemberComponent,
     DialogComponent,
+    DialogContainerComponent,
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
@@ -55,6 +55,6 @@ import { FooterComponent } from './components/footer/footer.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent ]
+  entryComponents: [ DialogComponent, DialogContainerComponent ]
 })
 export class AppModule { }
