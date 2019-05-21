@@ -29,7 +29,7 @@ export class AuthService {
   registerChild(user) {
     return this.server.resolve<any>('/api/user/signupChild', user);
   }
-  
+
   login(user) {
     return this.server
       .resolve<any>('/api/user/login', user)
@@ -50,5 +50,10 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
+  }
+
+  updateUser(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.userSubject.next(user);
   }
 }

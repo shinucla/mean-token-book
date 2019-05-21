@@ -159,4 +159,18 @@ module.exports = function(app) {
             });
           });
 
+
+  app
+    .route('/api/user/getFamilyMembers')
+    .post(app.apiRequiredLogin,
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
+          (req, res, next) => {
+            UserAuthManager.getFamilyMembers({ familyId: req.user.family_id }, (err, users) => {
+              if (err) return next(err);
+              res.status(200).send({ data: { members: users,
+                                             family: users[0].family }});
+            });
+          });
+
 };

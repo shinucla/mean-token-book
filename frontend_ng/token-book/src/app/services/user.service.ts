@@ -17,6 +17,14 @@ export class UserService {
   getChildren() {
     return this.server.resolve('/api/user/getChildren', {});
   }
+
+  getFamilyMembers() {
+    return this.server.resolve('/api/user/getFamilyMembers', {});
+  }
+
+  createFamily(json) {
+    return this.server.resolve('/api/user/createFamily', json);
+  }
 }
 
 /*

@@ -167,4 +167,16 @@ module.exports = class UserAuthManager {
       //.catch(err => callback(err, null))
     ;
   }
+
+  getFamilyMembers(json, callback) {
+    Domain.Family.hasMany(Domain.User, { foreignKey: 'family_id' });
+    Domain.User.belongsTo(Domain.Family, { foreignKey: 'family_id' });
+    Domain
+      .User
+      .findAll({ where: { family_id: json.familyId },
+                 include: [ Domain.Family ]
+               })
+      .then(data => callback(null, data))
+      .catch(err => callback(new Error('cannot get family memebers'), null));
+  }
 }

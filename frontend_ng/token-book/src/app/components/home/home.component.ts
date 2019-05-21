@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { TokenEventService } from '../../services/token-event.service';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -21,19 +22,25 @@ interface Event {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  user: any;
   events: Event[] = [];
-  constructor(private tokenEventService: TokenEventService,
+
+  constructor(private auth: AuthService,
+	      private tokenEventService: TokenEventService,
               private modalService: ModalService) { }
 
   ngOnInit() {
-    this.tokenEventService
-      .getChildrenTokenEvents()
-      .pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
-                                                 category: event.category.label,
-                                                 date: event.date,
-                                                 amount: event.amount }))))
-      .subscribe(events => this.events = events)
-    ;
+    this.user = this.auth.getUserValue();
+
+    if (this.user.family_id) {
+      this.tokenEventService
+	.getChildrenTokenEvents()
+	.pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
+                                                   category: event.category.label,
+                                                   date: event.date,
+                                                   amount: event.amount }))))
+	.subscribe(events => this.events = events);
+    }
   }
 
   search(text: string): Event[] {
