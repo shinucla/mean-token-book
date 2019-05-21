@@ -15,7 +15,7 @@ import { HomeChildComponent } from './components/home-child/home-child.component
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
-import { RegisterChildComponent } from './components/register-child/register-child.component';
+import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 
 import { DialogComponent } from './services/modal.service';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
@@ -31,7 +31,7 @@ import { FooterComponent } from './components/footer/footer.component';
     HomeChildComponent,
     LoginComponent,
     RegisterComponent,
-    RegisterChildComponent,
+    RegisterFamilyMemberComponent,
     DialogComponent,
     SidebarMenuComponent,
     FamilyComponent,

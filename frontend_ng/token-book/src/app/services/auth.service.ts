@@ -26,8 +26,8 @@ export class AuthService {
     return this.server.resolve<any>('/api/user/signupParent', user);
   }
 
-  registerChild(user) {
-    return this.server.resolve<any>('/api/user/signupChild', user);
+  registerFamilyMember(user) {
+    return this.server.resolve<any>('/api/user/signupFamilyMember', user);
   }
 
   login(user) {

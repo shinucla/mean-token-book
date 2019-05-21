@@ -5,16 +5,16 @@ import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-register-child',
-  templateUrl: './register-child.component.html',
-  styleUrls: ['./register-child.component.scss']
+  selector: 'app-register-family-member',
+  templateUrl: './register-family-member.component.html',
+  styleUrls: ['./register-family-member.component.scss']
 })
-export class RegisterChildComponent implements OnInit {
+export class RegisterFamilyMemberComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
-  
+
   constructor(private formBuilder: FormBuilder,
 	      private auth: AuthService,
 	      private route: ActivatedRoute,
@@ -23,10 +23,9 @@ export class RegisterChildComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get form() { return this.registerForm.controls; }
-  
+
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    console.log(this.returnUrl);
     this.registerForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
@@ -34,7 +33,7 @@ export class RegisterChildComponent implements OnInit {
       username: [''],
       password: ['']
     });
-    
+
   }
 
   onSubmit() {
@@ -44,7 +43,7 @@ export class RegisterChildComponent implements OnInit {
 		 username: this.form.username.value,
 		 password: this.form.password.value };
     this.auth
-      .registerChild(user)
+      .registerFamilyMember(user)
       .subscribe(data => {
 	if (data && data.jwt) {
 	  this.router.navigate(['/family']);

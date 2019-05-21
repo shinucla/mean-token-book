@@ -34,8 +34,8 @@ export class FamilyComponent implements OnInit {
 
     if (this.user.family_id) {
       this.userService.getFamilyMembers().subscribe(data => {
-	this.family = data.family;
-	this.members = data.members;
+	this.family = data['family'];
+	this.members = data['members'];
       });
 
     } else {
@@ -48,8 +48,8 @@ export class FamilyComponent implements OnInit {
   // convenience getter for easy access to form fields
   get form() { return this.createFamilyForm.controls; }
 
-  navToRegisterChild() {
-    this.router.navigate(['/registerChild']);
+  navToRegisterFamilyMember() {
+    this.router.navigate(['/registerFamilyMember']);
   }
 
   onSubmit() {
@@ -58,7 +58,7 @@ export class FamilyComponent implements OnInit {
       .createFamily(family)
       .subscribe(f => {
 	var newUser = this.user;
-	newUser.family_id = f.id;
+	newUser.family_id = f['id'];
 	this.auth.updateUser(newUser);
 	location.reload();
       });
