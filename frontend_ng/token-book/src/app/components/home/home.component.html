@@ -3,12 +3,12 @@
     Full text search: <input class="form-control mr-lg-2" type="search" placeholder="Search" aria-label="Search">
   </form>
   <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="!!user.family_id">
       <a class="nav-link" href (click)="refreshTokenEventList(); false">
         <i class="fas fa-sync"></i>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="!!user.family_id && RoleEnum.PARENT === user.role_id">
       <a class="nav-link" href (click)="showDialog(frmAddTokenEvent); false">
         <i class="fas fa-plus-circle"></i>
       </a>

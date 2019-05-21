@@ -16,6 +16,11 @@ interface Event {
   amount: number;
 }
 
+const RoleEnum = {
+  PARENT: 1,
+  CHILD: 2,
+};
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,6 +28,8 @@ interface Event {
 })
 export class HomeComponent implements OnInit {
   user: any;
+
+  RoleEnum = RoleEnum;
   events: Event[] = [];
 
   constructor(private auth: AuthService,
