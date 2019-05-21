@@ -37,7 +37,7 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/user/signupChild')
+    .route('/api/user/signupFamilyMember')
     .post(app.apiRequiredLogin,
           app.apiRequiredParent,
           app.apiRequiredFamily,
@@ -48,7 +48,10 @@ module.exports = function(app) {
                           'username': req.body.username,
                           'password': req.body.password,
                           'status': 0,
-                          'roleId': AppConstants.RoleEnum.CHILD.id };
+                          'roleId': (req.body.role
+                                     ? req.body.role
+                                     : AppConstants.RoleEnum.CHILD.id)
+                        };
 
             UserAuthManager.signupByUserNameEmail(json, (err, jwt) => {
               if (err) return next(err);

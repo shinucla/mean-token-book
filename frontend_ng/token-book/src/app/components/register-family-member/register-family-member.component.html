@@ -2,9 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6 offset-sm-3">
-        <h2>Register Child</h2>
+        <h2>Register A Family Member</h2>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <!-- first name -->
+          <!-- role -->
+          <div class="form-group">
+            <label for="role">Role</label>
+	    <select class="form-control"
+		    formControlName="role">
+              <option *ngFor="let r of roles" [value]="r.id">
+		{{ r.label }}
+              </option>
+            </select>
+          </div>
+	  <!-- first name -->
           <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text"

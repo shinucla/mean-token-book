@@ -4,6 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
+const roles = [{ id: 1, label: 'Parent' },
+	       { id: 2, label: 'Child' },
+	      ];
+
 @Component({
   selector: 'app-register-family-member',
   templateUrl: './register-family-member.component.html',
@@ -14,6 +18,8 @@ export class RegisterFamilyMemberComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+
+  roles = roles;
 
   constructor(private formBuilder: FormBuilder,
 	      private auth: AuthService,
@@ -27,6 +33,7 @@ export class RegisterFamilyMemberComponent implements OnInit {
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.registerForm = this.formBuilder.group({
+      role: [''],
       firstName: [''],
       lastName: [''],
       email: [''],
@@ -37,7 +44,8 @@ export class RegisterFamilyMemberComponent implements OnInit {
   }
 
   onSubmit() {
-    var user = { firstName: this.form.firstName.value,
+    var user = { role: this.form.role.value,
+		 firstName: this.form.firstName.value,
 		 lastName: this.form.lastName.value,
 		 email: this.form.email.value,
 		 username: this.form.username.value,
