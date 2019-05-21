@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./family.component.scss']
 })
 export class FamilyComponent implements OnInit {
+  user: any;
   children = [];
 
   constructor(private userService: UserService,
@@ -18,6 +19,7 @@ export class FamilyComponent implements OnInit {
 	      private router: Router) { }
 
   ngOnInit() {
+    this.user = this.auth.getUserValue();
     this.userService.getChildren().subscribe(data => {
       this.children = data['users'];
     });

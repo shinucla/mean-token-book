@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
+const RoleEnum = {
+  PARENT: 1,
+  CHILD: 2,
+};
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -7,10 +13,14 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  user: any;
+  RoleEnum = RoleEnum;
+  
+  constructor(private router: Router,
+	      private auth: AuthService) { }
 
   ngOnInit() {
+    this.user = this.auth.getUserValue();
   }
 
   navToHome() {
