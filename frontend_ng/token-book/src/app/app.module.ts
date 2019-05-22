@@ -17,7 +17,6 @@ import { JwtInterceptor } from './services/jwt.interceptor';
 import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 
 import { DialogComponent } from './services/modal.service';
-import { DialogContainerComponent } from './services/modal.service';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
@@ -32,7 +31,6 @@ import { FooterComponent } from './components/footer/footer.component';
     RegisterComponent,
     RegisterFamilyMemberComponent,
     DialogComponent,
-    DialogContainerComponent,
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
@@ -55,6 +53,6 @@ import { FooterComponent } from './components/footer/footer.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent, DialogContainerComponent ]
+  entryComponents: [ DialogComponent ]
 })
 export class AppModule { }
