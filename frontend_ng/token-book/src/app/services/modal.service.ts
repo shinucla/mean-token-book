@@ -18,20 +18,20 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   template: `
-    <div class="modal-header">
-      <h4 class="modal-title">{{ data.title }}</h4>
-      <a class="close" href (click)="onCancel(); false">
-        <i class="far fa-times-circle"></i>
-      </a>
-    </div>
-    <div class="modal-body">
-      <ng-template #container></ng-template>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" *ngIf="!!_onOk" (click)="onOk()">OK</button>
-      <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
-    </div>
-  `
+<div class="modal-header">
+<h4 class="modal-title">{{ data.title }}</h4>
+<a class="close" href (click)="onCancel(); false">
+<i class="far fa-times-circle"></i>
+</a>
+</div>
+<div class="modal-body">
+<ng-template #container></ng-template>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" *ngIf="!!_onOk" (click)="onOk()">OK</button>
+<button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
+</div>
+`
 })
 export class DialogComponent implements OnInit, OnDestroy {
   @Input() data: any;
@@ -41,7 +41,7 @@ export class DialogComponent implements OnInit, OnDestroy {
   _onCancel: () => void;
 
   constructor(private activeModal: NgbActiveModal,
-	      private componentFactoryResolver: ComponentFactoryResolver) { }
+              private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
     if (!this.data.component) return;
@@ -78,10 +78,31 @@ export class DialogComponent implements OnInit, OnDestroy {
 })
 export class ModalService {
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-	      private ngbModal: NgbModal) { }
+              private ngbModal: NgbModal) { }
 
   show(title: string, content: Component) {
     let compRef = this.ngbModal.open(DialogComponent, { size: 'lg', backdrop: 'static' });
     compRef.componentInstance.data = { title: title, component: content};
   }
 }
+
+
+
+
+/*
+ * Future modal service should go for following style:
+ *
+ * addImageAds: function(scope, records) {
+ *   return (RipDialog.editor({ title: i18n('Add Image Ads'),
+ *                              windowStyleName: 'rip-dialog-editor-xlarge',
+ *                              directive: 'ripLocationEditorImageAdsEditor',
+ *                              bindings: { records: [],
+ *                                          canAddRemoveImageFiles: true }
+ *                                        })
+ *                    .result(function(ads) {
+ *                       recordForSave(_.union(records, ads), scope.location);
+ *                       return scope.updateLocation(scope.location);
+ *                     }));
+ * },
+ *
+*/
