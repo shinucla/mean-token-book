@@ -4,15 +4,11 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
-//import { Inject } from '@angular/core';
-//import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
-
 import { TokenEventService } from '../../services/token-event.service';
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 
-import { HeaderComponent } from '../header/header.component';
+import { IConfirm } from '../../interfaces/IConfirm';
 
 // ================================================================
 
@@ -22,7 +18,18 @@ import { HeaderComponent } from '../header/header.component';
 <input type="password" />
 `
 })
-export class AddTokenEventComponent { }
+export class AddTokenEventComponent implements IConfirm {
+
+  //@Override
+  onOk() {
+    console.log('customized on ok');
+  }
+
+  //@Override
+  onCancel() {
+    console.log('customized on cancel');
+  }
+}
 
 // ================================================================
 
@@ -76,9 +83,6 @@ export class HomeComponent implements OnInit {
   }
 
   showAddTokenDialog() {
-    this.modalService.show('Create Token Event',
-			   AddTokenEventComponent,
-			   () => { console.log('OK'); },
-			   () => { console.log('Cancel'); });
+    this.modalService.show('Create Token Event', AddTokenEventComponent);
   }
 }

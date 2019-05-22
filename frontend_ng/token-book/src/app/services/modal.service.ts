@@ -1,7 +1,5 @@
 import {
-  Directive,
   Injectable,
-  Injector,
   Input,
   OnInit,
   OnDestroy,
@@ -9,28 +7,12 @@ import {
   ComponentFactory,
   ComponentFactoryResolver,
   ComponentRef,
-  EmbeddedViewRef,
-  ApplicationRef,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent } from '../components/header/header.component';
 
-// ================================================================
-
-/*
- * The anchor directive
- * https://angular.io/guide/dynamic-component-loader#the-anchor-directive
- * Before you can add components you have to define an anchor point to tell Angular where to insert components.
- */
-@Directive({
-  selector: '[app-insertion]',
-})
-class InsertionDirective {
-  constructor(public viewContainerRef: ViewContainerRef) {}
-}
 
 // ================================================================
 
@@ -46,15 +28,17 @@ class InsertionDirective {
       <ng-template #container></ng-template>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" *ngIf="!!data.onOk" (click)="onOk()">OK</button>
-      <button type="button" class="btn btn-outline-dark" *ngIf="!!data.onCancel" (click)="onCancel()">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" *ngIf="!!_onOk" (click)="onOk()">OK</button>
+      <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
     </div>
   `
 })
 export class DialogComponent implements OnInit, OnDestroy {
   @Input() data: any;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
-  componentRef: ComponentRef<any>
+  componentRef: ComponentRef<any>; // must implements IConfirm interface
+  _onOk: () => void;
+  _onCancel: () => void;
 
   constructor(private activeModal: NgbActiveModal,
 	      private componentFactoryResolver: ComponentFactoryResolver) { }
@@ -64,6 +48,8 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.data.component);
     this.componentRef = this.container.createComponent(componentFactory);
+    this._onOk = this.componentRef.instance.onOk;
+    this._onCancel = this.componentRef.instance.onCancel;
   }
 
   ngOnDestroy() {
@@ -73,12 +59,14 @@ export class DialogComponent implements OnInit, OnDestroy {
   }
 
   onOk() {
-    this.data.onOk();
+    this._onOk();
     this.activeModal.close('Close');
   }
 
   onCancel() {
-    this.data.onCancel();
+    if (this._onCancel) {
+      this._onCancel();
+    }
     this.activeModal.close('Close');
   }
 }
@@ -90,19 +78,10 @@ export class DialogComponent implements OnInit, OnDestroy {
 })
 export class ModalService {
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-	      private appRef: ApplicationRef,
-	      private injector: Injector,
 	      private ngbModal: NgbModal) { }
 
-  show(title: string,
-       content: Component,
-       onOk: () => void,
-       onCancel: () => void) {
+  show(title: string, content: Component) {
     let compRef = this.ngbModal.open(DialogComponent, { size: 'lg', backdrop: 'static' });
-    compRef.componentInstance.data = { title: title,
-				       component: content,
-				       onOk: onOk,
-				       onCancel: onCancel
-				     };
+    compRef.componentInstance.data = { title: title, component: content};
   }
 }
