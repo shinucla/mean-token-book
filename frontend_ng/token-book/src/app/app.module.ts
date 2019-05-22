@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent, AddTokenEventComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
@@ -26,7 +26,7 @@ import { FooterComponent } from './components/footer/footer.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
+    HomeComponent, AddTokenEventComponent,
     LoginComponent,
     RegisterComponent,
     RegisterFamilyMemberComponent,
@@ -53,6 +53,6 @@ import { FooterComponent } from './components/footer/footer.component';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent ]
+  entryComponents: [ DialogComponent, AddTokenEventComponent ]
 })
 export class AppModule { }

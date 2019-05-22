@@ -9,7 +9,7 @@
       </a>
     </li>
     <li class="nav-item" *ngIf="!!user.family_id && RoleEnum.PARENT === user.role_id">
-      <a class="nav-link" href (click)="showDialog(frmAddTokenEvent); false">
+      <a class="nav-link" href (click)="showAddTokenDialog(); false">
         <i class="fas fa-plus-circle"></i>
       </a>
     </li>
@@ -37,18 +37,3 @@
     </tr>
   </tbody>
 </table>
-
-
-<!--ol>
-  <li>
-    <mat-form-field>
-      <input matInput [(ngModel)]="name" placeholder="What's your name?">
-    </mat-form-field>
-  </li>
-  <li>
-    <button mat-raised-button (click)="openDialog()">Pick one</button>
-  </li>
-  <li *ngIf="animal">
-    You chose: <i>{{animal}}</i>
-  </li>
-</ol-->

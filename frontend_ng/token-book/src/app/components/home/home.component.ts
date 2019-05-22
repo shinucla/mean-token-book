@@ -14,6 +14,18 @@ import { AuthService } from '../../services/auth.service';
 
 import { HeaderComponent } from '../header/header.component';
 
+// ================================================================
+
+@Component({
+  template: `
+<input type="text" />
+<input type="password" />
+`
+})
+export class AddTokenEventComponent { }
+
+// ================================================================
+
 interface Event {
   name: string;
   category: string;
@@ -63,7 +75,10 @@ export class HomeComponent implements OnInit {
 
   }
 
-  showDialog(frmContent) {
-    this.modalService.show("Hello", null, null, null);
+  showAddTokenDialog() {
+    this.modalService.show('Create Token Event',
+			   AddTokenEventComponent,
+			   () => { console.log('OK'); },
+			   () => { console.log('Cancel'); });
   }
 }
