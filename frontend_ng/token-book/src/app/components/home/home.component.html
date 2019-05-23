@@ -21,19 +21,19 @@
   <thead>
     <tr>
       <th scope="col"><i class="fas fa-user-friends"></i></th>
-      <th scope="col">Name</th>
-      <th scope="col">Category</th>
       <th scope="col">Date</th>
+      <th scope="col">Category</th>
       <th scope="col">Amount</th>
+      <th scope="col">Description</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let event of events; index as i">
-      <th scope="row">{{ i + 1 }}</th>
       <td>{{ event.name }}</td>
-      <td>{{ event.category }}</td>
       <td>{{ event.date + '' }}</td>
+      <td>{{ event.category }}</td>
       <td>{{ event.amount | number }}</td>
+      <td>{{ event.description }}</td>
     </tr>
   </tbody>
 </table>

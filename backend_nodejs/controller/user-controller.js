@@ -158,7 +158,7 @@ module.exports = function(app) {
           (req, res, next) => {
             UserAuthManager.getChildren({ familyId: req.user.family_id }, (err, users) => {
               if (err) return next(err);
-              res.status(200).send({ data: { users: users }});
+              res.status(200).send({ data: users });
             });
           });
 

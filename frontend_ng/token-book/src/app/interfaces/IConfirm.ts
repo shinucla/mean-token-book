@@ -1,4 +1,4 @@
-public interface IConfirm {
+export interface IConfirm {
   onOk();
   onCancel();
 }

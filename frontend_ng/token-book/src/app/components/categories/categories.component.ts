@@ -13,7 +13,7 @@ export class CategoriesComponent implements OnInit {
   ngOnInit() {
   }
 
-  showDialog(form) {
-    this.modalService.show("Hello", null, null, null);
+  showDialog() {
+    //this.modalService.show("Hello", null, null, null);
   }
 }

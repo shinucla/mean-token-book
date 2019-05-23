@@ -28,8 +28,9 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
-    .route('/api/tokenevent/create')
+    .route('/api/token-event/create')
     .post(app.apiRequiredLogin,
+          app.apiRequiredParent,
           app.apiRequiredFamily,
           (req, res, next) => {
             var json = { familyId: req.user.family_id,
@@ -39,7 +40,7 @@ module.exports = function(app) {
                          categoryId: req.body.categoryId,
                          description: req.body.description };
 
-            TokenEventManager.createTokenEvent(req.body, (err, event) => {
+            TokenEventManager.createTokenEvent(json, (err, event) => {
               if (err) return next(err);
               res.status(200).send({ data: event });
             });

@@ -3,35 +3,10 @@ import { FormControl } from '@angular/forms';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-
 import { TokenEventService } from '../../services/token-event.service';
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
-
-import { IConfirm } from '../../interfaces/IConfirm';
-
-// ================================================================
-
-@Component({
-  template: `
-<input type="text" />
-<input type="password" />
-`
-})
-export class AddTokenEventComponent implements IConfirm {
-
-  //@Override
-  onOk() {
-    console.log('customized on ok');
-  }
-
-  //@Override
-  onCancel() {
-    console.log('customized on cancel');
-  }
-}
-
-// ================================================================
+import { AddTokenEventComponent } from './add-token-event.component';
 
 interface Event {
   name: string;
@@ -62,16 +37,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
-
-    if (this.user.family_id) {
-      this.tokenEventService
-	.getChildrenTokenEvents()
-	.pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
-                                                   category: event.category.label,
-                                                   date: event.date,
-                                                   amount: event.amount }))))
-	.subscribe(events => this.events = events);
-    }
+    this.refreshTokenEventList();
   }
 
   search(text: string): Event[] {
@@ -79,10 +45,21 @@ export class HomeComponent implements OnInit {
   }
 
   refreshTokenEventList() {
-
+    if (this.user.family_id) {
+      this.tokenEventService
+	.getChildrenTokenEvents()
+	.pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
+                                                   category: event.category.label,
+                                                   date: event.date,
+                                                   amount: event.amount,
+						   description: event.description }))))
+	.subscribe(events => this.events = events);
+    }
   }
 
   showAddTokenDialog() {
-    this.modalService.show('Create Token Event', AddTokenEventComponent);
+    this.modalService.show(AddTokenEventComponent,
+			   { title: 'Create Token Event',
+			     style: { size: 'md', backdrop: 'static' }});
   }
 }

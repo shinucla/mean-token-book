@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent, AddTokenEventComponent } from './components/home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
@@ -21,6 +21,8 @@ import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.com
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FooterComponent } from './components/footer/footer.component';
+
+import { AddTokenEventComponent } from './components/home/add-token-event.component';
 
 @NgModule({
   declarations: [

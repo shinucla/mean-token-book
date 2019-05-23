@@ -21,8 +21,8 @@ module.exports = class CategoryManager {
 
   getCategories(json, callback) {
     Domain
-      .TokenEvent
-      .findAll({ family_id: json.familyId })
+      .Category
+      .findAll({ where: { family_id: json.familyId }})
       .then(categories => callback(null, categories))
       .catch(err => callback(err, null))
     ;
