@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class ServerService {
     return (this.http
 	    .post<T>(path, payload)
 	    .pipe(
-	      map(x => x['data']) // TODO: what if there is error?
+	      map(x => x['data']), // TODO: what if there is error?
+	      take(1)              // will automatically unsubscribe after first execution
 	    ));
-  } 
+  }
 }

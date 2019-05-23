@@ -25,14 +25,12 @@ export class AddTokenEventComponent implements OnInit, IConfirm {
 	      private tokenService: TokenEventService) {}
 
   ngOnInit() {
-    const sub1 = this.userService.getChildren().subscribe(data => {
+    this.userService.getChildren().subscribe(data => {
       this.children = data;
-      sub1.unsubscribe();
     });
 
-    const sub2 = this.categoryService.getCategories().subscribe(data => {
+    this.categoryService.getCategories().subscribe(data => {
       this.categories = data;
-      sub2.unsubscribe();
     });
 
     this.form = this.formBuilder.group({
@@ -46,22 +44,22 @@ export class AddTokenEventComponent implements OnInit, IConfirm {
   //@Override
   onOk() {
     let control = this.form.controls;
-    const sub = (this.tokenService
-		 .createTokenEvent({ userId: control.child.value,
-				     amount: control.amount.value,
-				     categoryId: control.category.value,
-				     description: control.description.value })
-		 .subscribe(data => {
-		   sub.unsubscribe();
-		   if (this['close']) {
-		     this['close'](); // injected by modal.service
-		   }
-		 }));
-    ;
+    this.tokenService
+      .createTokenEvent({ userId: control.child.value,
+			  amount: control.amount.value,
+			  categoryId: control.category.value,
+			  description: control.description.value })
+      .subscribe(data => {
+	if (this['close']) {
+	  this['close'](); // injected by modal.service
+	}
+      });
   }
 
   //@Override
   onCancel() {
-    console.log(this.form.controls);
+    if (this['close']) {
+      this['close'](); // injected by modal.service
+    }
   }
 }
