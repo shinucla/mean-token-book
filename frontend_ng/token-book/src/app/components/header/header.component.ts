@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   user: any;
-  
+
   constructor(private auth: AuthService,
 	      private http: HttpClient,
 	      private router: Router
@@ -23,14 +23,14 @@ export class HeaderComponent implements OnInit {
   navToHome() {
     this.router.navigate(['/home']);
   }
-  
+
   navToSettings() {
     this.router.navigate(['/settings']);
   }
-  
+
   logout() {
     this.auth.logout();
-    this.user = this.auth.getUserValue();
+    this.user = null;
     //this.router.navigate(['/login']);
     location.reload();
   }

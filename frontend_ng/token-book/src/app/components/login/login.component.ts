@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   get fields() { return this.form.controls; }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.form = this.formBuilder.group({
       username: [''],
       password: ['']
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       .subscribe(u => {
 	if (u && u.jwt) {
 	  console.log('logged in');
-	  this.router.navigate(['/']);
+	  //this.router.navigate(['/']);
 	  location.reload();
 	}
       });
