@@ -90,6 +90,7 @@ app.locals.pretty = true;
 //app.set('views', __dirname + '/views');
 
 //app.use(express.static(Config.rs_dir)); // public resources: js css img fonts...
+app.use(express.static('./dist'));
 app.use(cookieParser());
 app.use(session({ secret: 'my_super_secrete_word',
                   resave: false,
