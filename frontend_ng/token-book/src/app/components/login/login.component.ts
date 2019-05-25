@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       .subscribe(u => {
 	if (u && u.jwt) {
 	  console.log('logged in');
-	  this.router.navigate([this.returnUrl]);
+	  this.router.navigate(['/']);
 	  location.reload();
 	}
       });
