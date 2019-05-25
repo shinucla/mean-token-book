@@ -14,7 +14,7 @@ const roles = [{ id: 1, label: 'Parent' },
   styleUrls: ['./register-family-member.component.scss']
 })
 export class RegisterFamilyMemberComponent implements OnInit {
-  registerForm: FormGroup;
+  form: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
@@ -28,11 +28,11 @@ export class RegisterFamilyMemberComponent implements OnInit {
 	     ) { }
 
   // convenience getter for easy access to form fields
-  get form() { return this.registerForm.controls; }
+  get fields() { return this.form.controls; }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.registerForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       role: [''],
       firstName: [''],
       lastName: [''],
@@ -44,12 +44,12 @@ export class RegisterFamilyMemberComponent implements OnInit {
   }
 
   onSubmit() {
-    var user = { role: this.form.role.value,
-		 firstName: this.form.firstName.value,
-		 lastName: this.form.lastName.value,
-		 email: this.form.email.value,
-		 username: this.form.username.value,
-		 password: this.form.password.value };
+    var user = { role: this.fields.role.value,
+		 firstName: this.fields.firstName.value,
+		 lastName: this.fields.lastName.value,
+		 email: this.fields.email.value,
+		 username: this.fields.username.value,
+		 password: this.fields.password.value };
     this.auth
       .registerFamilyMember(user)
       .subscribe(data => {

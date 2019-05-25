@@ -8,12 +8,15 @@ node.js setup:
 
 
 ng setup:
- 1) ng new token-book --style=scss
+  1) installs
+     npm install -g @angular/cli
+     npm install --save @ng-bootstrap/ng-bootstrap
+     ng add @ng-bootstrap/ng-bootstrap
+     ng add @ng-bootstrap/schematics
 
- 1) bootstrap (inside ng project folder):
-    npm install --save @ng-bootstrap/ng-bootstrap
-    ng add @ng-bootstrap/ng-bootstrap
-    ng add @ng-bootstrap/schematics
+  2) setup new project:
+     ng new token-book --style=scss
 
- 2) proxy.conf.json
-    ng serve --proxy-config proxy.conf.json
+
+  3) proxy.conf.json
+     ng serve --proxy-config proxy.conf.json

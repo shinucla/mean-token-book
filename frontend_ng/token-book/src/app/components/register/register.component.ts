@@ -10,11 +10,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+  form: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
-  
+
   constructor(private formBuilder: FormBuilder,
 	      private auth: AuthService,
 	      private route: ActivatedRoute,
@@ -26,11 +26,11 @@ export class RegisterComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get form() { return this.registerForm.controls; }
-  
+  get fields() { return this.form.controls; }
+
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.registerForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
       email: [''],
@@ -42,13 +42,13 @@ export class RegisterComponent implements OnInit {
   navToLogin() {
     this.router.navigate(['/login']);
   }
-  
+
   onSubmit() {
-    var user = { firstName: this.form.firstName.value,
-		 lastName: this.form.lastName.value,
-		 email: this.form.email.value,
-		 username: this.form.username.value,
-		 password: this.form.password.value };
+    var user = { firstName: this.fields.firstName.value,
+		 lastName: this.fields.lastName.value,
+		 email: this.fields.email.value,
+		 username: this.fields.username.value,
+		 password: this.fields.password.value };
     this.auth
       .register(user)
       .subscribe(data => {
@@ -59,4 +59,3 @@ export class RegisterComponent implements OnInit {
   }
 
 }
-

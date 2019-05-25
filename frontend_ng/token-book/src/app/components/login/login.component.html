@@ -9,20 +9,20 @@
             - import { ReactiveFormsModule } from '@angular/forms';
             -
           -->
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text"
                    class="form-control"
                    formControlName="username"
-                   [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                   [ngClass]="{ 'is-invalid': !!fields.username.errors }" />
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password"
                    class="form-control"
                    formControlName="password"
-                   [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                   [ngClass]="{ 'is-invalid': !!fields.password.errors }" />
           </div>
           <div class="form-group">
             <button class="btn btn-primary">Login</button>

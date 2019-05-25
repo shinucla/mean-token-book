@@ -7,6 +7,7 @@ import { ModalService } from '../../services/modal.service';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
+  categories: any[];
 
   constructor(private modalService: ModalService) { }
 

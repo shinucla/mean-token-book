@@ -35,7 +35,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   </div>
 `
 })
-export class DialogComponent implements OnInit, OnDestroy {
+export class ContainerComponent implements OnInit, OnDestroy {
   @Input() data: any;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>; // must implements IConfirm interface

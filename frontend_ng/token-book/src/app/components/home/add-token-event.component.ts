@@ -24,6 +24,7 @@ export class AddTokenEventComponent implements OnInit, IConfirm {
 	      private categoryService: CategoryService,
 	      private tokenService: TokenEventService) {}
 
+  //@Override
   ngOnInit() {
     this.userService.getChildren().subscribe(data => {
       this.children = data;
@@ -41,14 +42,15 @@ export class AddTokenEventComponent implements OnInit, IConfirm {
     });
   }
 
+  get fields() { return this.form.controls; }
+
   //@Override
   onOk() {
-    let control = this.form.controls;
     this.tokenService
-      .createTokenEvent({ userId: control.child.value,
-			  amount: control.amount.value,
-			  categoryId: control.category.value,
-			  description: control.description.value })
+      .createTokenEvent({ userId: this.fields.child.value,
+			  amount: this.fields.amount.value,
+			  categoryId: this.fields.category.value,
+			  description: this.fields.description.value })
       .subscribe(data => {
 	if (this['close']) {
 	  this['close'](); // injected by modal.service

@@ -10,11 +10,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  form: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
-  
+
   constructor(private formBuilder: FormBuilder,
 	      private auth: AuthService,
 	      private route: ActivatedRoute,
@@ -26,24 +26,24 @@ export class LoginComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get form() { return this.loginForm.controls; }
-  
+  get fields() { return this.form.controls; }
+
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.loginForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       username: [''],
       password: ['']
     });
-    
+
   }
 
   navToRegister() {
     this.router.navigate(['/register']);
   }
-  
+
   onSubmit() {
-    var user = { username: this.form.username.value,
-		 password: this.form.password.value };
+    var user = { username: this.fields.username.value,
+		 password: this.fields.password.value };
     this.auth
       .login(user)
       .subscribe(u => {
