@@ -103,29 +103,28 @@ app.use(session({ secret: 'my_super_secrete_word',
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// Middlewares
+// SETUP SETVER
+if ('prod' === Config.web.env) {
+  https.createServer({ key: fs.readFileSync('../ssl/privkey.pem'),
+		       cert: fs.readFileSync('../ssl/cert.pem'),
+		       ca: fs.readFileSync('../ssl/chain.pem') },
+		     app).listen(443);
+  
+  http.createServer((req, res) => {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  }).listen(80);
+  
+} else if ('dev' === Config.web.env) {
+  http.createServer(app).listen(Config.web.port);  // $sudo PORT=8080 node app.js
+
+} else {
+  throw new Error("Please setup Config.web.env: 'dev' or 'prod'.");
+}
+
+// SETUP Middlewares
 app.use(Domain.TransactionMiddleware);
 require('./router.js')(app);
 app.use(Domain.TransactionErrorHandlerMiddleware);
-
-http.createServer(app).listen(Config.web.port);  // $sudo PORT=8080 node app.js
-
-if ('prod' === Config.web.env) {
-  app.use((req, res, next) => {
-    if (req.secure) {
-      next();
-      
-    } else {
-      res.redirect('https://' + req.headers.host + req.url);
-    }
-  });
-
-  https
-    .createServer({ key: fs.readFileSync('../ssl/privkey.pem'),
-		    cert: fs.readFileSync('../ssl/cert.pem'),
-		    ca: fs.readFileSync('../ssl/chain.pem') },
-		  app)
-    .listen(443);
-}
 
 console.log('started');
