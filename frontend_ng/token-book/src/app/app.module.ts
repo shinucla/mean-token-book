@@ -17,7 +17,7 @@ import { JwtInterceptor } from './services/jwt.interceptor';
 import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 
 import { DialogComponent } from './services/modal.service';
-import { ContainerComponent } from './services/dialog.service';
+import { FormFieldComponent } from './services/dialog.service';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
@@ -34,7 +34,7 @@ import { AddTokenEventComponent } from './components/home/add-token-event.compon
     RegisterComponent,
     RegisterFamilyMemberComponent,
     DialogComponent,
-    ContainerComponent,
+    FormFieldComponent,
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
@@ -57,6 +57,6 @@ import { AddTokenEventComponent } from './components/home/add-token-event.compon
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ ContainerComponent, DialogComponent, AddTokenEventComponent ]
+  entryComponents: [ FormFieldComponent, DialogComponent, AddTokenEventComponent ]
 })
 export class AppModule { }

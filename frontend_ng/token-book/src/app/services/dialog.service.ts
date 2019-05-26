@@ -10,47 +10,87 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 // ================================================================
 
 @Component({
   template: `
   <div class="modal-header">
-    <h3 class="modal-title">{{ data.title }}</h3>
+    <h3 class="modal-title">{{ config.title }}</h3>
     <a class="close" href (click)="onCancel(); false">
       <i class="far fa-times-circle"></i>
     </a>
   </div>
   <div class="modal-body">
     <ng-template #container></ng-template>
+    <form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onOk()">
+      <div class="form-group">
+        <div class="row" *ngFor="let field of config.bindings.fields">
+          <label for="{{field.name}}">{{field.title}}</label>
+          <input type="{{field.type}}" class="form-control" formControlName="{{field.name}}" />
+        </div>
+      </div>
+   </form>
   </div>
   <div class="modal-body text-right">
-    <button type="button" class="btn btn-outline-dark"
-            *ngIf="componentRef && componentRef.instance.onOk"
-            (click)="onOk()">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onOk()">OK</button>
     <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
   </div>
 `
 })
-export class ContainerComponent implements OnInit, OnDestroy {
-  @Input() data: any;
+export class FormFieldComponent implements OnInit, OnDestroy {
+  /* config def:
+   * { title: string,
+   *   style: string,
+   *   component?: Component,
+   *   bindings?: { fields: [{ name: string,
+   *                           title: string,
+   *                           type: string,
+   *                           required?: boolean,
+   *                           values: [{...}],
+   *                           displayKey: string,
+   *                           valueKey: string
+   *                         }, ...],
+   *                record?: { name: value, ... },
+   *                onOk: (record, closeCallBack) => { ... },
+   *                onCancel?: (closeCallBack) => { ... }
+   *              }
+   * }
+   */
+  @Input() config: any;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>; // must implements IConfirm interface
-
-  constructor(private activeModal: NgbActiveModal,
+  _form: FormGroup;
+  
+  constructor(private formBuilder: FormBuilder,
+	      private activeModal: NgbActiveModal,
               private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    if (!this.data.component) return;
+    if (!this.config.component) {
+      let record = this.config.bindings.record;
+      let group = {};
+      for (let field of this.config.bindings.fields) {
+	var value = record ? record[field.name] : '';
+	group[field.name] = [ value ];
+      }
+      
+      this._form = this.formBuilder.group(group);
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.data.component);
-    this.componentRef = this.container.createComponent(componentFactory);
-    this.componentRef.instance.close = () => this.activeModal.close('close');
+    } else {
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.config.component);
+      this.componentRef = this.container.createComponent(componentFactory);
+      this.componentRef.instance.close = () => this.activeModal.close('close');
+    }
   }
 
+  get form() { return this._form.controls; }
+  
   ngOnDestroy() {
     if (this.componentRef) {
       this.componentRef.destroy();
@@ -58,15 +98,29 @@ export class ContainerComponent implements OnInit, OnDestroy {
   }
 
   onOk() {
-    this.componentRef.instance.onOk();
-    //this.activeModal.close('Close');
+    if (this.componentRef) {
+      this.componentRef.instance.onOk();
+      
+    } else {
+      this.config.bindings.onOk(_
+				.chain(this.config.bindings.fields)
+				.keyBy('name')
+				.mapValues(x => this.form[x.name].value)
+				.value(),
+				this.activeModal.close);
+    }
   }
 
   onCancel() {
     if (this.componentRef && this.componentRef.instance.onCancel) {
-      this.componentRef.instance.onCancel();
+      this.componentRef.instance.onCancel(this.activeModal.close);
+      
+    } else if (this.config.bindings.onCancel){
+      this.config.bindings.onCancel(this.activeModal.close);
+      
+    } else {
+      this.activeModal.close();
     }
-    //this.activeModal.close('Close');
   }
 }
 
@@ -80,7 +134,8 @@ export class DialogService {
               private ngbModal: NgbModal) { }
 
   open(config) {
-    // TBI
+    let compRef = this.ngbModal.open(FormFieldComponent, (config.style || { size: 'md', backdrop: 'static' }));
+    compRef.componentInstance.config = config;
   }
 
   popup(config) {
@@ -89,7 +144,7 @@ export class DialogService {
 
   editor(config) {
     //let compRef = this.ngbModal.open(DialogComponent, (config.style || { size: 'md', backdrop: 'static' }));
-    //compRef.componentInstance.data = { title: config.title, component: content};
+    //compRef.componentInstance.config = { title: config.title, component: content};
   }
 
   warn(config) {
