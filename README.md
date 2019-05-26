@@ -17,7 +17,7 @@ ng setup:
      npm install --save @ng-bootstrap/ng-bootstrap
      ng add @ng-bootstrap/ng-bootstrap
      ng add @ng-bootstrap/schematics
-     add: 
+     copy and paste the css stylesheet<link> to ng src/index.html (https://getbootstrap.com/)
 
      npm install --save lodash
      npm install --save-dev @types/lodash
