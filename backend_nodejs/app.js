@@ -67,11 +67,13 @@
 
 var express           = require('express');
 var http              = require('http');
+var https             = require('https');
 var flash             = require('connect-flash');
 var favicon           = require('serve-favicon');
 var bodyParser        = require('body-parser');
 var cookieParser      = require('cookie-parser');
 var session           = require('express-session');
+var fs                = require('fs');
 
 // Global:
 Config = require('./config.js');
@@ -107,5 +109,23 @@ require('./router.js')(app);
 app.use(Domain.TransactionErrorHandlerMiddleware);
 
 http.createServer(app).listen(Config.web.port);  // $sudo PORT=8080 node app.js
+
+if ('prod' === config.web.env) {
+  app.use((req, res, next) => {
+    if (req.secure) {
+      next();
+      
+    } else {
+      res.redirect('https://' + req.headers.host + req.url);
+    }
+  });
+
+  https
+    .createServer({ key: fs.readFileSync('../ssl/privkey.pem'),
+		    cert: fs.readFileSync('../ssl/cert.pem'),
+		    ca: fs.readFileSync('../ssl/chain.pem') },
+		  app)
+    .listen(443);
+}
 
 console.log('started');

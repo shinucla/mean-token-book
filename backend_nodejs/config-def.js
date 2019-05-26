@@ -4,6 +4,7 @@ var config = {};
 
 config.web = {};
 config.web.port = process.env.PORT || 8181; // $sudo PORT=8080 node app.js
+config.web.env = 'dev'; // dev, prod
 
 config.auth = {};
 config.auth.algorithm = 'aes-256-ctr';
