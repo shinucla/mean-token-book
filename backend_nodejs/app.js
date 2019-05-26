@@ -110,7 +110,7 @@ app.use(Domain.TransactionErrorHandlerMiddleware);
 
 http.createServer(app).listen(Config.web.port);  // $sudo PORT=8080 node app.js
 
-if ('prod' === config.web.env) {
+if ('prod' === Config.web.env) {
   app.use((req, res, next) => {
     if (req.secure) {
       next();
