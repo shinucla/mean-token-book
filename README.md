@@ -35,3 +35,14 @@ ng setup:
        
      - deploy with static output folder
        ng build --prod --output-path ../../backend_nodejs/dist
+
+================================================================
+
+[Free UI wireframe tool]
+https://www.fluidui.com/editor/live/
+
+
+[Free Project Tracker]
+https://www.backlog.com
+
+================================================================
