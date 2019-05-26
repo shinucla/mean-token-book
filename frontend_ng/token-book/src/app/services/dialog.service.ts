@@ -56,10 +56,10 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                           displayKey: string,
    *                           valueKey: string
    *                         }, ...],
-   *                record?: { name: value, ... },
-   *                onOk: (record, closeCallBack) => { ... },
-   *                onCancel?: (closeCallBack) => { ... }
-   *              }
+   *                record?: { name: value, ... }
+   *              },
+   *   onOk: (record, closeCallBack) => { ... },
+   *   onCancel?: (closeCallBack) => { ... }
    * }
    */
   @Input() config: any;
@@ -102,21 +102,21 @@ export class FormFieldComponent implements OnInit, OnDestroy {
       this.componentRef.instance.onOk();
       
     } else {
-      this.config.bindings.onOk(_
-				.chain(this.config.bindings.fields)
-				.keyBy('name')
-				.mapValues(x => this.form[x.name].value)
-				.value(),
-				this.activeModal.close);
+      this.config.onOk(_
+		       .chain(this.config.bindings.fields)
+		       .keyBy('name')
+		       .mapValues(x => this.form[x.name].value)
+		       .value(),
+		       this.activeModal.close);
     }
   }
 
   onCancel() {
     if (this.componentRef && this.componentRef.instance.onCancel) {
-      this.componentRef.instance.onCancel(this.activeModal.close);
+      this.componentRef.instance.onCancel();
       
-    } else if (this.config.bindings.onCancel){
-      this.config.bindings.onCancel(this.activeModal.close);
+    } else if (this.config.onCancel){
+      this.config.onCancel(this.activeModal.close);
       
     } else {
       this.activeModal.close();
