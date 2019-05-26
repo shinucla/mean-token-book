@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { DialogService } from '../../services/dialog.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-categories',
@@ -8,12 +9,14 @@ import { DialogService } from '../../services/dialog.service';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  categories: any[];
+  categories: any;
 
   constructor(private modalService: ModalService,
-	      private dialogService: DialogService) { }
+	      private dialogService: DialogService,
+	      private categoryService: CategoryService) { }
 
   ngOnInit() {
+    this.reload();
   }
 
   showDialog() {
@@ -23,10 +26,15 @@ export class CategoriesComponent implements OnInit {
 						   { name: 'description', title: 'Description', type: 'text' }],
 					},
 			      onOk: (record, closeCallBack) => {
-				console.log(record);
-				closeCallBack();
+				this.categoryService.create(record).subscribe(x => {
+				  this.reload();
+				  closeCallBack();
+				});
 			      }
 			    });
-    //this.modalService.show("Hello", null, null, null);
+  }
+
+  reload() {
+    this.categoryService.getCategories().subscribe(records => this.categories = records);
   }
 }

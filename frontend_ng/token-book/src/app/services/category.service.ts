@@ -12,7 +12,7 @@ export class CategoryService {
     return this.server.resolve('/api/category/getCategories', {});
   }
 
-  createCategory(json) {
-    return this.server.resolve('/api/category/createCategory', json);
+  create(json) {
+    return this.server.resolve('/api/category/create', json);
   }
 }
