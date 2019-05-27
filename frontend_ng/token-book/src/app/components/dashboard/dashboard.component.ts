@@ -108,8 +108,8 @@ export class DashboardComponent implements OnInit {
   }
   
   showAddTokenDialog() {
-    this.dialogService.open({ title: 'Create Token Event',
-                              style: { size: 'md', backdrop: 'static' },
+    this.dialogService.open({ title: 'Token',
+                              style: { size: 'sm', backdrop: 'static' },
 			      bindings: { fields: [{ name: 'userId', title: 'Child', type: 'number',
 						     values: (this.userService
 							      .getChildren()
@@ -124,6 +124,7 @@ export class DashboardComponent implements OnInit {
 						     displayKey: 'label',
 						     valueKey: 'id' },
 						   { name: 'description', title: 'Description', type: 'string' }],
+					  record: { amount: 1 }
 					},
 			      onOk: (record, closeCallBack) => {
 				this.tokenEventService.create(record).subscribe(x => {

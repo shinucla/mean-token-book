@@ -19,7 +19,7 @@ export class CategoriesComponent implements OnInit {
 
   showDialog() {
     this.dialogService.open({ title: 'Add Category',
-			      style: { size: 'lg', backdrop: 'static' },
+			      style: { size: 'sm', backdrop: 'static' },
 			      bindings: { fields: [{ name: 'label', title: 'Label', type: 'text' },
 						   { name: 'description', title: 'Description', type: 'text' }],
 					},
