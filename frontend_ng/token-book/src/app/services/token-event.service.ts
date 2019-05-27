@@ -14,7 +14,7 @@ export class TokenEventService {
     return this.server.resolve('/api/token-event/getChildrenTokenEvents', {});
   }
 
-  createTokenEvent(json): Observable<any[]> {
+  create(json): Observable<any[]> {
     return this.server.resolve('/api/token-event/create', json);
   }
 

@@ -17,6 +17,8 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { CategoryService } from '../../services/category.service';
 
+import * as _ from 'lodash';
+
 // ================================================================
 
 export type SortDirection = 'asc' | 'desc' | '';
@@ -104,26 +106,29 @@ export class DashboardComponent implements OnInit {
   showAddTokenDialog() {
     this.dialogService.open({ title: 'Create Token Event',
                               style: { size: 'md', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'child', title: 'Child', type: 'number',
+			      bindings: { fields: [{ name: 'userId', title: 'Child', type: 'number',
 						     values: (this.userService
 							      .getChildren()
-							      .pipe(map(x => {
-								x['name'] = x['first_name'] + ' ' + x['last_name'];
-								return x;
+							      .pipe(map(records => {
+								_.forEach(records, (u) => {
+								  u['name'] = u['first_name'] + ' ' + u['last_name'];
+								});
+								return records;
 							      }))),
 						     displayKey: 'name',
 						     valueKey: 'id' },
 						   { name: 'amount', title: 'Amount', type: 'number' },
-						   { name: 'category', title: 'Category', type: 'number',
+						   { name: 'categoryId', title: 'Category', type: 'number',
 						     values: this.categoryService.getCategories(),
 						     displayKey: 'label',
 						     valueKey: 'id' },
 						   { name: 'description', title: 'Description', type: 'string' }],
 					},
 			      onOk: (record, closeCallBack) => {
-				console.log(record);
-				this.reload();
-				closeCallBack();
+				this.tokenEventService.create(record).subscribe(x => {
+				  this.reload();
+				  closeCallBack();
+				});
 			      }
 			    });
   }

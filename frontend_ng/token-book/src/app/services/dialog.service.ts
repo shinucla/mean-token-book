@@ -30,9 +30,17 @@ import * as _ from 'lodash';
     <ng-template #container></ng-template>
     <form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onOk()">
       <div class="form-group">
-        <div class="row" *ngFor="let field of config.bindings.fields">
+        <div *ngFor="let field of config.bindings.fields">
           <label for="{{field.name}}">{{field.title}}</label>
-          <input type="{{field.type}}" class="form-control" formControlName="{{field.name}}" />
+          <input *ngIf="!field.values"
+                 type="{{field.type}}"
+                 class="form-control"
+                 formControlName="{{field.name}}" />
+          <select *ngIf="field.values" class="form-control" formControlName="{{field.name}}">
+            <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
+	      {{c[field.displayKey]}}
+            </option>
+          </select>
         </div>
       </div>
    </form>
@@ -52,7 +60,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                           title: string,
    *                           type: string,
    *                           required?: boolean,
-   *                           values: [{...}],
+   *                           values: [{...}] | Observale<[{...}]>,
    *                           displayKey: string,
    *                           valueKey: string
    *                         }, ...],
@@ -66,7 +74,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>; // must implements IConfirm interface
   _form: FormGroup;
-  
+
   constructor(private formBuilder: FormBuilder,
 	      private activeModal: NgbActiveModal,
               private componentFactoryResolver: ComponentFactoryResolver) { }
@@ -78,8 +86,14 @@ export class FormFieldComponent implements OnInit, OnDestroy {
       for (let field of this.config.bindings.fields) {
 	var value = record ? record[field.name] : '';
 	group[field.name] = [ value ];
+
+	if (field.values instanceof Observable) {
+	  field._values = field.values;
+	  field.values = [];
+	  field._values.subscribe(x => field.values = x);
+	}
       }
-      
+
       this._form = this.formBuilder.group(group);
 
     } else {
@@ -90,7 +104,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
   }
 
   get form() { return this._form.controls; }
-  
+
   ngOnDestroy() {
     if (this.componentRef) {
       this.componentRef.destroy();
@@ -100,7 +114,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
   onOk() {
     if (this.componentRef) {
       this.componentRef.instance.onOk();
-      
+
     } else {
       this.config.onOk(_
 		       .chain(this.config.bindings.fields)
@@ -114,10 +128,10 @@ export class FormFieldComponent implements OnInit, OnDestroy {
   onCancel() {
     if (this.componentRef && this.componentRef.instance.onCancel) {
       this.componentRef.instance.onCancel();
-      
+
     } else if (this.config.onCancel){
       this.config.onCancel(this.activeModal.close);
-      
+
     } else {
       this.activeModal.close();
     }
