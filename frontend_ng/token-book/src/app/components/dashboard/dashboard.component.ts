@@ -103,18 +103,19 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  _assignFullName(record) {
+    return Object.assign(record, { name: record.first_name + ' ' + record.last_name });
+  }
+  
   showAddTokenDialog() {
     this.dialogService.open({ title: 'Create Token Event',
                               style: { size: 'md', backdrop: 'static' },
 			      bindings: { fields: [{ name: 'userId', title: 'Child', type: 'number',
 						     values: (this.userService
 							      .getChildren()
-							      .pipe(map(records => {
-								_.forEach(records, (u) => {
-								  u['name'] = u['first_name'] + ' ' + u['last_name'];
-								});
-								return records;
-							      }))),
+							      .pipe(
+								map(records => _.map(records, (x) => this._assignFullName(x)))
+							      )),
 						     displayKey: 'name',
 						     valueKey: 'id' },
 						   { name: 'amount', title: 'Amount', type: 'number' },
