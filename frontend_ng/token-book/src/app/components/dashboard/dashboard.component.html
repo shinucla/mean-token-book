@@ -4,7 +4,7 @@
   </form>
   <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
     <li class="nav-item" *ngIf="!!user.family_id">
-      <a class="nav-link" href (click)="refreshTokenEventList(); false">
+      <a class="nav-link" href (click)="reload(); false">
         <i class="fas fa-sync"></i>
       </a>
     </li>
