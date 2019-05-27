@@ -10,35 +10,33 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent, NgbdSortableHeader } from './components/home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 
-import { DialogComponent } from './services/modal.service';
 import { FormFieldComponent } from './services/dialog.service';
 import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.component';
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FooterComponent } from './components/footer/footer.component';
-
-import { AddTokenEventComponent } from './components/home/add-token-event.component';
+import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent, NgbdSortableHeader, AddTokenEventComponent,
+    HomeComponent,
     LoginComponent,
     RegisterComponent,
     RegisterFamilyMemberComponent,
-    DialogComponent,
     FormFieldComponent,
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
     FooterComponent,
+    DashboardComponent, NgbdSortableHeader,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +55,6 @@ import { AddTokenEventComponent } from './components/home/add-token-event.compon
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ FormFieldComponent, DialogComponent, AddTokenEventComponent ]
+  entryComponents: [ FormFieldComponent ]
 })
 export class AppModule { }

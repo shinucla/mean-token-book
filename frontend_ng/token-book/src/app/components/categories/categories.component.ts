@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '../../services/modal.service';
 import { DialogService } from '../../services/dialog.service';
 import { CategoryService } from '../../services/category.service';
 
@@ -11,8 +10,7 @@ import { CategoryService } from '../../services/category.service';
 export class CategoriesComponent implements OnInit {
   categories: any;
 
-  constructor(private modalService: ModalService,
-	      private dialogService: DialogService,
+  constructor(private dialogService: DialogService,
 	      private categoryService: CategoryService) { }
 
   ngOnInit() {
