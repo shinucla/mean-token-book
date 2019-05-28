@@ -1,12 +1,12 @@
 <app-header *ngIf="user"></app-header>
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar" *ngIf="user">
+    <nav class="col-2 d-none d-md-block bg-light sidebar" *ngIf="user">
       <div class="sidebar-sticky">
 	<app-sidebar-menu></app-sidebar-menu>
       </div>
     </nav>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-3">
+    <main role="main" class="col-9 ml-sm-auto col-lg-10 px-4 mt-3">
       <router-outlet></router-outlet>
     </main>
   </div>
