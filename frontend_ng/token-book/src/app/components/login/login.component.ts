@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   navToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register'], { queryParams: { returnUrl: '/login' }});
   }
 
   onSubmit() {

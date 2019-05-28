@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    console.log(this.returnUrl);
     this.form = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
@@ -39,8 +40,8 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  navToLogin() {
-    this.router.navigate(['/login']);
+  onCancel() {
+    this.router.navigate([this.returnUrl || '/login']);
   }
 
   onSubmit() {

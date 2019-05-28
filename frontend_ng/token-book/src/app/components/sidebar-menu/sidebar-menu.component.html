@@ -1,7 +1,12 @@
 <ul class="nav flex-column mt-3">
   <li class="nav-item">
     <a class="nav-link active" href (click)="navToHome(); false;">
-      <i class="fas fa-home"></i>Dashboard
+      <i class="fas fa-home"></i>Home
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href (click)="navToDashboard(); false;">
+      <i class="fas fa-list"></i>Dashboard
     </a>
   </li>
   <li class="nav-item" *ngIf="user.role_id === RoleEnum.PARENT">

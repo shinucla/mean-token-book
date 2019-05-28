@@ -26,6 +26,10 @@ export class SidebarMenuComponent implements OnInit {
   navToHome() {
     this.router.navigate(['/home']);
   }
+
+  navToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
   
   navToFamily() {
     this.router.navigate(['/family']);
