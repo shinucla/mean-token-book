@@ -2,13 +2,13 @@
 mean = mysql express angular node
 
 node.js setup:
-  [ubuntu]
-  sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-  sudo apt-get install -y nodejs
+ - [ubuntu]
+   sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+   sudo apt-get install -y nodejs
 
-  [mac]
-  install brew: https://brew.sh/
-  brew install node@10
+ - [mac]
+   install brew: https://brew.sh/
+   brew install node@10
 
 ng setup:
   1) installs
@@ -44,5 +44,8 @@ https://www.fluidui.com/editor/live/
 
 [Free Project Tracker]
 https://www.backlog.com
+
+[Free SSL cert]
+https://certbot.eff.org/docs/using.html#manual
 
 ================================================================
