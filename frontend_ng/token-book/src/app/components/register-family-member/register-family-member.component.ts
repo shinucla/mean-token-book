@@ -33,7 +33,7 @@ export class RegisterFamilyMemberComponent implements OnInit {
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.form = this.formBuilder.group({
-      role: [''],
+      role: [2],
       firstName: [''],
       lastName: [''],
       email: [''],
