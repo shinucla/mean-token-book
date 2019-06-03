@@ -5,7 +5,7 @@
       <app-sidebar-menu></app-sidebar-menu>
     </div>
   </nav>
-  <main role="main" class="col-sm-11 col-md-9 ml-sm-auto">
+  <main [ngClass]="getMainPanelClass()" role="main">
     <router-outlet></router-outlet>
   </main>
 </div>

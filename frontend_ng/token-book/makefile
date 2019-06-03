@@ -2,7 +2,7 @@
 serve ::
 	ng serve --proxy-config proxy.conf.json --port $(port)
 build ::
-	ng build --prod --output-path ../../backend_nodejs/dist
+	ng build --prod --output-path ../../backend_nodejs/dist --build-optimizer
 tags ::
 	rm -f TAGS;
 	find . -path ./backend_nodejs/node_modules -prune -o -name "*.ts" | xargs etags -a

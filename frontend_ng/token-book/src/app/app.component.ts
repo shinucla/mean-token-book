@@ -13,4 +13,8 @@ export class AppComponent {
   constructor(private auth: AuthService) {
     this.user = auth.getUserValue();
   }
+
+  getMainPanelClass() {
+    return (!!this.user ? "col-sm-11 col-md-9 ml-sm-auto" : "col-12");
+  }
 }
