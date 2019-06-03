@@ -84,7 +84,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
       let record = this.config.bindings.record;
       let group = {};
       for (let field of this.config.bindings.fields) {
-	var value = record ? record[field.name] : '';
+	var value = record ? record[field.name] : null;
 	group[field.name] = [ value ];
 
 	if (field.values instanceof Observable) {

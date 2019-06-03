@@ -11,6 +11,8 @@ import { FormControl } from '@angular/forms';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AuthService } from '../../services/auth.service';
+
 // ================================================================
 
 @Component({
@@ -19,9 +21,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router) { }
+  user: any;
+
+  constructor(private router: Router,
+	      private auth: AuthService) { }
 
   ngOnInit() {
+    this.user = this.auth.getUserValue();
   }
 
   signup() {

@@ -1,12 +1,14 @@
-<app-header *ngIf="user"></app-header>
-<div class="row">
-  <nav class="col-sm-1 col-md-3 bg-light sidebar" *ngIf="user">
-    <div class="sidebar-sticky">
-      <app-sidebar-menu></app-sidebar-menu>
-    </div>
-  </nav>
-  <main [ngClass]="getMainPanelClass()" role="main">
-    <router-outlet></router-outlet>
-  </main>
+<div class="container-fluid">
+  <app-header *ngIf="user"></app-header>
+  <div class="row">
+    <nav class="col-sm-1 col-md-3 bg-light sidebar" *ngIf="user">
+      <div class="sidebar-sticky">
+        <app-sidebar-menu></app-sidebar-menu>
+      </div>
+    </nav>
+    <main [ngClass]="getMainPanelClass()" role="main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <app-footer></app-footer>
 </div>
-<app-footer></app-footer>

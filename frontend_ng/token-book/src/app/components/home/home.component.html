@@ -2,7 +2,7 @@
   <section class="jumbotron text-center">
     <h1 class="jumbotron-heading">My Token Book</h1>
     <p class="lead text-muted">It is all about promoting good behaviors. My Token Book provides such a rewarding system helping motivate your children to complete their homework, encourage them to participate more of household tasks, inspire them to work harder, and creates positive competitions among them.</p>
-    <p>
+    <p *ngIf="!user">
       <a href="#" class="btn btn-primary my-2" (click)="signup(); false;">Signup</a>
       <a href="#" class="btn btn-secondary my-2" (click)="login(); false;">Login</a>
     </p>
