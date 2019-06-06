@@ -18,14 +18,14 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col" sortable="name" (sort)="onSort($event)" *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
+      <th scope="col"
+	  sortable="name"
+	  (sort)="onSort($event)"
+	  *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
 	<i class="fas fa-user-friends"></i>
       </th>
       <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
       <th scope="col" sortable="category" (sort)="onSort($event)">Category</th>
-      <th scope="col" sortable="description" (sort)="onSort($event)" class="d-none d-sm-inline">
-	Description
-      </th>
     </tr>
   </thead>
   <tbody>
@@ -34,8 +34,13 @@
 	{{ event.name }}
       </td>
       <td>{{ event.date + '' }}</td>
-      <td>{{ event.category }} <span class="badge badge-secondary">{{ event.amount | number }}</span></td>
-      <td class="d-none d-sm-inline">{{ event.description }}</td>
+      <td>{{ event.category }}
+	<span class="badge badge-secondary"
+	      placement="top"
+	      ngbTooltip="{{ event.description}}">
+	  {{ event.amount | number }}
+	</span>
+      </td>
     </tr>
   </tbody>
 </table>
