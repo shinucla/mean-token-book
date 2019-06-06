@@ -22,7 +22,6 @@ import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/dashboard.component';
-import { TopbarMenuComponent } from './components/topbar-menu/topbar-menu.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,8 @@ import { TopbarMenuComponent } from './components/topbar-menu/topbar-menu.compon
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
+    DashboardComponent, NgbdSortableHeader,
     FooterComponent,
-    DashboardComponent, NgbdSortableHeader, TopbarMenuComponent,
   ],
   imports: [
     BrowserModule,
