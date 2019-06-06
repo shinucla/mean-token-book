@@ -18,20 +18,24 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col" sortable="name" (sort)="onSort($event)"><i class="fas fa-user-friends"></i></th>
+      <th scope="col" sortable="name" (sort)="onSort($event)" *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
+	<i class="fas fa-user-friends"></i>
+      </th>
       <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
       <th scope="col" sortable="category" (sort)="onSort($event)">Category</th>
-      <th scope="col" sortable="amount" (sort)="onSort($event)">Amount</th>
-      <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+      <th scope="col" sortable="description" (sort)="onSort($event)" class="d-none d-sm-inline">
+	Description
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let event of events; index as i">
-      <td>{{ event.name }}</td>
+      <td *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
+	{{ event.name }}
+      </td>
       <td>{{ event.date + '' }}</td>
-      <td>{{ event.category }}</td>
-      <td>{{ event.amount | number }}</td>
-      <td>{{ event.description }}</td>
+      <td>{{ event.category }} <span class="badge badge-secondary">{{ event.amount | number }}</span></td>
+      <td class="d-none d-sm-inline">{{ event.description }}</td>
     </tr>
   </tbody>
 </table>
