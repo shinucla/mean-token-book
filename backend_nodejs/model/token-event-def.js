@@ -11,7 +11,7 @@ module.exports = function (Sequelize) {
 		     day_of_week: { type: Sequelize.DataTypes.INTEGER, allowNull: false },
 		     utc: { type: Sequelize.DataTypes.BIGINT, allowNull: false },
 		     amount: { type: Sequelize.DataTypes.INTEGER, allowNull: false },
-                     category_id: { type: Sequelize.DataTypes.INTEGER, allowNull: true },
+                     category_id: { type: Sequelize.DataTypes.INTEGER, allowNull: false },
 		     description: { type: Sequelize.DataTypes.STRING, allowNull: false },
                    },
            indexes: [{ fields: ['family_id'] },
