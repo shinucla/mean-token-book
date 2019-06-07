@@ -1,0 +1,32 @@
+<!-- copy from dialog service's form template -->
+
+
+<!-- Alert Message -->
+<ngb-alert type="danger" [dismissible]="false" *ngIf="alertMessage">
+  {{ alertMessage }}
+</ngb-alert>
+<ng-template #container></ng-template>
+<form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <div *ngFor="let field of config.bindings.fields">
+      <label for="{{ field.name }}">{{ field.title }}</label>
+      <input *ngIf="!field.values"
+             type="{{ field.type }}"
+             formControlName="{{ field.name }}"
+             class="form-control"
+             [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
+      <select *ngIf="field.values"
+              class="form-control"
+              formControlName="{{ field.name }}"
+              [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }">
+        <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
+          {{ c[field.displayKey] }}
+        </option>
+      </select>
+      <!-- Error Message -->
+      <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">
+        <div *ngIf="form[field.name].errors.required">required</div>
+      </div>
+    </div>
+  </div>
+</form>

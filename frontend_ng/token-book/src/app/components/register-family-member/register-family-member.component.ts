@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { RecordFormComponent } from '../record-form/record-form.component';
 
 const roles = [{ id: 1, label: 'Parent' },
 	       { id: 2, label: 'Child' },
@@ -18,6 +19,7 @@ export class RegisterFamilyMemberComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  config: any;
 
   roles = roles;
 
@@ -41,6 +43,40 @@ export class RegisterFamilyMemberComponent implements OnInit {
       password: ['']
     });
 
+    this.config = { title: 'Register a family member',
+		    style: { size: 'lg', backdrop: 'static' },
+		    bindings: { fields: [{ name: 'role',
+					   title: 'Role',
+					   type: 'number',
+					   required: true,
+					   values: this.roles,
+					   displayKey: 'label',
+					   valueKey: 'id' },
+					 { name: 'firstName',
+					   title: 'First Name',
+					   type: 'text',
+					   required: true },
+					 { name: 'lastName',
+					   title: 'Last Name',
+					   type: 'text',
+					   required: true },
+					 { name: 'email',
+					   title: 'Email',
+					   type: 'email',
+					   required: true },
+					 { name: 'username',
+					   title: 'Username',
+					   type: 'text',
+					   required: true },
+					 { name: 'password',
+					   title: 'Password',
+					   type: 'password',
+					   required: true }],
+				record: { role: 2 }
+			      },
+		    onSubmit: (records, onSuccessCallback, onErrorCallback) => {
+		    }
+		  };
   }
 
   onSubmit() {

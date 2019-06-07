@@ -22,6 +22,7 @@ import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/dashboard.component';
+import { RecordFormComponent } from './components/record-form/record-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/d
     CategoriesComponent,
     DashboardComponent, NgbdSortableHeader,
     FooterComponent,
+    RecordFormComponent,
   ],
   imports: [
     BrowserModule,
