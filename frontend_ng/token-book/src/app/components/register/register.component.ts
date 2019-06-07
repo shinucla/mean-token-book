@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,53 +8,43 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  form: FormGroup;
-  loading = false;
-  submitted = false;
   returnUrl: string;
+  recordForm: any;
 
-  constructor(private formBuilder: FormBuilder,
-	      private auth: AuthService,
-	      private route: ActivatedRoute,
+  constructor(private auth: AuthService,
+              private route: ActivatedRoute,
               private router: Router
-	     ) {
+             ) {
     if (this.auth.getUserValue()) {
       this.router.navigate(['/']);
     }
   }
 
-  // convenience getter for easy access to form fields
-  get fields() { return this.form.controls; }
-
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    console.log(this.returnUrl);
-    this.form = this.formBuilder.group({
-      firstName: [''],
-      lastName: [''],
-      email: [''],
-      username: [''],
-      password: ['']
-    });
+    this.recordForm = { title: 'Sign up',
+                        bindings: { fields: [{ name: 'firstName', title: 'First Name', type: 'text', required: true },
+                                             { name: 'lastName', title: 'Last Name', type: 'text', required: true },
+                                             { name: 'email', title: 'Email', type: 'email', required: true },
+                                             { name: 'username', title: 'Username', type: 'text', required: true },
+                                             { name: 'password', title: 'Password', type: 'password', required: true }]
+                                  },
+                        submit: { title: 'Sign up',
+				  type: 'button',
+				  click: (record, onSuccess, onError) => {
+				    this.auth
+				      .register(record)
+				      .subscribe(data => {
+					if (data && data.jwt) {
+					  this.router.navigate(['/login']);
+					}
+				      }, err => onError(err));
+				  }},
+                        cancel: { title: 'Cancel',
+				  type: 'link',
+				  click: () => {
+				    this.router.navigate([this.returnUrl || '/login']);
+				  }}
+                      };
   }
-
-  onCancel() {
-    this.router.navigate([this.returnUrl || '/login']);
-  }
-
-  onSubmit() {
-    var user = { firstName: this.fields.firstName.value,
-		 lastName: this.fields.lastName.value,
-		 email: this.fields.email.value,
-		 username: this.fields.username.value,
-		 password: this.fields.password.value };
-    this.auth
-      .register(user)
-      .subscribe(data => {
-	if (data && data.jwt) {
-	  this.router.navigate(['/login']);
-	}
-      });
-  }
-
 }

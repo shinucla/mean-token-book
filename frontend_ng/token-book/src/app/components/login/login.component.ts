@@ -10,49 +10,42 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  form: FormGroup;
-  loading = false;
-  submitted = false;
+  recordForm: any;
   returnUrl: string;
 
-  constructor(private formBuilder: FormBuilder,
-	      private auth: AuthService,
-	      private route: ActivatedRoute,
+  constructor(private auth: AuthService,
+              private route: ActivatedRoute,
               private router: Router
-	     ) {
+             ) {
     if (this.auth.getUserValue()) {
       this.router.navigate(['/']);
     }
   }
 
-  // convenience getter for easy access to form fields
-  get fields() { return this.form.controls; }
-
   ngOnInit() {
     //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.form = this.formBuilder.group({
-      username: [''],
-      password: ['']
-    });
 
+    this.recordForm = { title: 'Sign in',
+                        style: { size: 'lg', backdrop: 'static' },
+                        bindings: { fields: [{ name: 'username', title: 'Username', type: 'text', required: true },
+                                             { name: 'password', title: 'Password', type: 'password', required: true }],
+                                  },
+                        submit: { title: 'Sign in',
+                                  click: (record, onSuccess, onError) => {
+                                    this.auth
+                                      .login(record)
+                                      .subscribe(u => {
+                                        if (u && u.jwt) {
+                                          //this.router.navigate(['/']);
+                                          location.reload();
+                                        }
+					onSuccess();
+                                      }, err=>onError(err));
+                                  }},
+                        cancel: { title: 'Sign up',
+                                  click: () => {
+                                    this.router.navigate(['/register'], { queryParams: { returnUrl: '/login' }});
+                                  }}
+                      };
   }
-
-  navToRegister() {
-    this.router.navigate(['/register'], { queryParams: { returnUrl: '/login' }});
-  }
-
-  onSubmit() {
-    var user = { username: this.fields.username.value,
-		 password: this.fields.password.value };
-    this.auth
-      .login(user)
-      .subscribe(u => {
-	if (u && u.jwt) {
-	  console.log('logged in');
-	  //this.router.navigate(['/']);
-	  location.reload();
-	}
-      });
-  }
-
 }

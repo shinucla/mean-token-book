@@ -1,59 +1,10 @@
 <br>
 <div class="jumbotron">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-sm-6 offset-sm-3">
-        <h2>Register</h2>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <!-- first name -->
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="firstName"
-                   [ngClass]="{ 'is-invalid': !!fields.firstName.errors }" />
-          </div>
-
-          <!-- last name -->
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="lastName"
-                   [ngClass]="{ 'is-invalid': !!fields.lastName.errors }" />
-          </div>
-
-          <!-- email -->
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email"
-                   class="form-control"
-                   formControlName="email"
-                   [ngClass]="{ 'is-invalid': !!fields.email.errors }" />
-          </div>
-
-          <!-- username -->
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text"
-                   class="form-control"
-                   formControlName="username"
-                   [ngClass]="{ 'is-invalid': !!fields.username.errors }" />
-          </div>
-
-          <!-- password -->
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password"
-                   class="form-control"
-                   formControlName="password"
-                   [ngClass]="{ 'is-invalid': !!fields.password.errors }" />
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary">Register</button>
-            <a class="btn btn-link" href (click)="onCancel(); false;">Cancel</a>
-          </div>
-        </form>
+        <h2>Sign up</h2>
+	<app-record-form [config]="recordForm"></app-record-form>
       </div>
     </div>
   </div>

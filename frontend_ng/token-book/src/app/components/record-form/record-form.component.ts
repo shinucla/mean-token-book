@@ -35,8 +35,8 @@ export class RecordFormComponent implements OnInit, OnDestroy {
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   onSubmit: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
-   *   onCancel?: (closeCallBack) => { ... }
+   *   submit: { title: '', click: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
+   *   cancel?: (closeCallBack) => { ... }
    * }
    */
 
@@ -92,7 +92,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.config.onSubmit(/* record */_
+    this.config.submit.click(/* record */_
         .chain(this.config.bindings.fields)
         .keyBy('name')
         .mapValues(x => this.form[x.name].value)
@@ -110,8 +110,8 @@ export class RecordFormComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
-    if (this.config.onCancel){
-      this.config.onCancel();
+    if (this.config.cancel){
+      this.config.cancel.click();
     }
   }
 }
