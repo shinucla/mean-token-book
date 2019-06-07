@@ -41,7 +41,10 @@ import * as _ from 'lodash';
                  formControlName="{{ field.name }}"
                  class="form-control"
                  [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
-          <select *ngIf="field.values" class="form-control" formControlName="{{ field.name }}">
+          <select *ngIf="field.values"
+                  class="form-control"
+                  formControlName="{{ field.name }}"
+                  [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }">
             <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
 	      {{ c[field.displayKey] }}
             </option>

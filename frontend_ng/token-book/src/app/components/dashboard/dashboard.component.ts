@@ -122,7 +122,10 @@ export class DashboardComponent implements OnInit {
 							      )),
 						     displayKey: 'name',
 						     valueKey: 'id' },
-						   { name: 'amount', title: 'Amount', type: 'number', required: true },
+						   { name: 'amount',
+						     title: 'Amount',
+						     type: 'number',
+						     required: true },
 						   { name: 'categoryId',
 						     title: 'Category',
 						     type: 'number',
@@ -130,7 +133,10 @@ export class DashboardComponent implements OnInit {
 						     values: this.categoryService.getCategories(),
 						     displayKey: 'label',
 						     valueKey: 'id' },
-						   { name: 'description', title: 'Description', type: 'string' }],
+						   { name: 'description',
+						     title: 'Description',
+						     type: 'string',
+						     required: true }],
 					  record: { amount: 1 }
 					},
 			      onSubmit: (record, onSuccessCallback, onErrorCallback) => {
