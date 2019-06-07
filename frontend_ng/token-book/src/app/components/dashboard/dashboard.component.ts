@@ -118,7 +118,6 @@ export class DashboardComponent implements OnInit {
 							      .getChildren()
 							      .pipe(
 								map(records => _.map(records, (x) => this._assignFullName(x))),
-								map(records => _.concat(records, {}))
 							      )),
 						     displayKey: 'name',
 						     valueKey: 'id' },

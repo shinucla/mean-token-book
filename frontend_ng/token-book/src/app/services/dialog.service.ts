@@ -109,9 +109,13 @@ export class FormFieldComponent implements OnInit, OnDestroy {
 	group[field.name] = [ value, validators ];
 
 	if (field.values instanceof Observable) {
+	  var dummy = {};
+	  dummy[field.displayKey] = null;
+	  dummy[field.valueKey] = '';
+
 	  field._values = field.values;
 	  field.values = [];
-	  field._values.subscribe(x => field.values = x);
+	  field._values.subscribe(x => field.values = _.concat([dummy],x));
 	}
       }
 
