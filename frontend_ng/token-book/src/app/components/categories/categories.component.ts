@@ -20,14 +20,20 @@ export class CategoriesComponent implements OnInit {
   showDialog() {
     this.dialogService.open({ title: 'Add Category',
 			      style: { size: 'sm', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'label', title: 'Label', type: 'text' },
-						   { name: 'description', title: 'Description', type: 'text' }],
+			      bindings: { fields: [{ name: 'label',
+						     title: 'Label',
+						     type: 'text',
+						     required: true },
+						   { name: 'description',
+						     title: 'Description',
+						     type: 'text',
+						     required: true }],
 					},
-			      onOk: (record, closeCallBack) => {
+			      onSubmit: (record, onSuccessCallback, onErrorCallback) => {
 				this.categoryService.create(record).subscribe(x => {
 				  this.reload();
-				  closeCallBack();
-				});
+				  onSuccessCallback();
+				}, err => onErrorCallback(err));
 			      }
 			    });
   }

@@ -1,4 +1,4 @@
 export interface IConfirm {
-  onOk();
+  onSubmit();
   onCancel();
 }

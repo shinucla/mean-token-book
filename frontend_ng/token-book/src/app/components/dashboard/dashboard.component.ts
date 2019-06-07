@@ -106,31 +106,38 @@ export class DashboardComponent implements OnInit {
   _assignFullName(record) {
     return Object.assign(record, { name: record.first_name + ' ' + record.last_name });
   }
-  
+
   showAddTokenDialog() {
     this.dialogService.open({ title: 'Token',
                               style: { size: 'sm', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'userId', title: 'Child', type: 'number',
+			      bindings: { fields: [{ name: 'userId',
+						     title: 'Child',
+						     type: 'number',
+						     required: true,
 						     values: (this.userService
 							      .getChildren()
 							      .pipe(
-								map(records => _.map(records, (x) => this._assignFullName(x)))
+								map(records => _.map(records, (x) => this._assignFullName(x))),
+								map(records => _.concat(records, {}))
 							      )),
 						     displayKey: 'name',
 						     valueKey: 'id' },
-						   { name: 'amount', title: 'Amount', type: 'number' },
-						   { name: 'categoryId', title: 'Category', type: 'number',
+						   { name: 'amount', title: 'Amount', type: 'number', required: true },
+						   { name: 'categoryId',
+						     title: 'Category',
+						     type: 'number',
+						     required: true,
 						     values: this.categoryService.getCategories(),
 						     displayKey: 'label',
 						     valueKey: 'id' },
 						   { name: 'description', title: 'Description', type: 'string' }],
 					  record: { amount: 1 }
 					},
-			      onOk: (record, closeCallBack) => {
+			      onSubmit: (record, onSuccessCallback, onErrorCallback) => {
 				this.tokenEventService.create(record).subscribe(x => {
 				  this.reload();
-				  closeCallBack();
-				});
+				  onSuccessCallback();
+				}, err => onErrorCallback(err));
 			      }
 			    });
   }

@@ -6,6 +6,14 @@ module.exports = class CategoryManager {
   ////////////////////////////////////////////////////////////
 
   createCategory(json, callback) {
+
+    if (!json.label
+        || !json.description
+        || 0 === json.label.trim().length
+        || 0 === json.description.trim().length) {
+      return callback(new Error('label/description is not allowed.'), null);
+    }
+
     Domain
       .Category
       .create({ family_id: json.familyId,

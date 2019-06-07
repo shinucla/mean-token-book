@@ -27,26 +27,35 @@ import * as _ from 'lodash';
     </a>
   </div>
   <div class="modal-body">
+    <!-- Alert Message -->
+    <ngb-alert type="danger" [dismissible]="false" *ngIf="alertMessage">
+      {{ alertMessage }}
+    </ngb-alert>
     <ng-template #container></ng-template>
-    <form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onOk()">
+    <form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <div *ngFor="let field of config.bindings.fields">
-          <label for="{{field.name}}">{{field.title}}</label>
+          <label for="{{ field.name }}">{{ field.title }}</label>
           <input *ngIf="!field.values"
-                 type="{{field.type}}"
+                 type="{{ field.type }}"
+                 formControlName="{{ field.name }}"
                  class="form-control"
-                 formControlName="{{field.name}}" />
-          <select *ngIf="field.values" class="form-control" formControlName="{{field.name}}">
+                 [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
+          <select *ngIf="field.values" class="form-control" formControlName="{{ field.name }}">
             <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
-	      {{c[field.displayKey]}}
+	      {{ c[field.displayKey] }}
             </option>
           </select>
+          <!-- Error Message -->
+          <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">
+            <div *ngIf="form[field.name].errors.required">required</div>
+          </div>
         </div>
       </div>
    </form>
   </div>
   <div class="modal-body text-right">
-    <button type="button" class="btn btn-outline-dark" (click)="onOk()">OK</button>
+    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">OK</button>
     <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
   </div>
 `
@@ -66,7 +75,7 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   onOk: (record, closeCallBack) => { ... },
+   *   onSubmit: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
    *   onCancel?: (closeCallBack) => { ... }
    * }
    */
@@ -74,6 +83,8 @@ export class FormFieldComponent implements OnInit, OnDestroy {
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>; // must implements IConfirm interface
   _form: FormGroup;
+  submitted: boolean = false;
+  alertMessage: string = null;
 
   constructor(private formBuilder: FormBuilder,
 	      private activeModal: NgbActiveModal,
@@ -85,7 +96,14 @@ export class FormFieldComponent implements OnInit, OnDestroy {
       let group = {};
       for (let field of this.config.bindings.fields) {
 	var value = record ? record[field.name] : null;
-	group[field.name] = [ value ];
+	var validators = [];
+
+	if (field.required) validators.push(Validators.required);
+	if (field.min) validators.push(Validators.minLength(field.min));
+	if (field.max) validators.push(Validators.maxLength(field.max));
+	if ('email' === field.type.toLowerCase()) validators.push(Validators.email);
+
+	group[field.name] = [ value, validators ];
 
 	if (field.values instanceof Observable) {
 	  field._values = field.values;
@@ -111,17 +129,33 @@ export class FormFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  onOk() {
+  onSubmit() {
+    this.submitted = true;
+    this.alertMessage = null;
+
+    if (this._form.invalid) {
+      return;
+    }
+
     if (this.componentRef) {
-      this.componentRef.instance.onOk();
+      this.componentRef.instance.onSubmit();
 
     } else {
-      this.config.onOk(_
-		       .chain(this.config.bindings.fields)
-		       .keyBy('name')
-		       .mapValues(x => this.form[x.name].value)
-		       .value(),
-		       this.activeModal.close);
+      this.config.onSubmit(/* record */_
+			   .chain(this.config.bindings.fields)
+			   .keyBy('name')
+			   .mapValues(x => this.form[x.name].value)
+			   .value(),
+			   /* onSuccessCallback */
+			   () => {
+			     this.activeModal.close();
+			   },
+			   /* onErrorCallback */
+			   (err) => {
+			     this.alertMessage = (err.error && err.error.error
+						  ? err.error.error
+						  : 'There is some error in the form');
+			   });
     }
   }
 
