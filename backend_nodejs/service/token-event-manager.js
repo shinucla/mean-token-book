@@ -21,8 +21,8 @@ module.exports = class TokenEventManager {
 		category_id: json.categoryId,
 		description: json.description })
       .then(event => callback(null, event))
-    //.catch(err => callback(new Error('failed creating token event', 100), null))
-      .catch(err => callback(err, null))
+      .catch(err => callback(new Error('failed creating token event', 100), null))
+    //.catch(err => callback(err, null))
     ;
   }
 

@@ -7,11 +7,11 @@ module.exports = class CategoryManager {
 
   createCategory(json, callback) {
 
-    if (!json.label
-        || !json.description
-        || 0 === json.label.trim().length
-        || 0 === json.description.trim().length) {
-      return callback(new Error('label/description is not allowed.'), null);
+    if (!json.label || 0 === json.label.trim().length) {
+      return callback(new Error('label cannot be empty.'), null);
+
+    } else if (!json.description || 0 === json.description.trim().length) {
+      return callback(new Error('description cannot be empty.'), null);
     }
 
     Domain
