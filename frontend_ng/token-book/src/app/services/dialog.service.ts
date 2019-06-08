@@ -74,12 +74,12 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                           required?: boolean,
    *                           values: [{...}] | Observale<[{...}]>,
    *                           displayKey: string,
-   *                           valueKey: string
+   *                           valueKey: string,
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   onSubmit: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
-   *   onCancel?: (closeCallBack) => { ... }
+   *   submit: { title: string, click: (record, () => { onSuccess(); }, () => { onError(err); }) }
+   *   cancel?: (closeCallBack) => { ... }
    * }
    */
   @Input() config: any;
@@ -153,11 +153,11 @@ export class FormFieldComponent implements OnInit, OnDestroy {
 			   .keyBy('name')
 			   .mapValues(x => this.form[x.name].value)
 			   .value(),
-			   /* onSuccessCallback */
+			   /* onSuccess callback */
 			   () => {
 			     this.activeModal.close();
 			   },
-			   /* onErrorCallback */
+			   /* onError callback */
 			   (err) => {
 			     this.alertMessage = (err.error && err.error.error
 						  ? err.error.error

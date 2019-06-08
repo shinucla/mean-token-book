@@ -35,7 +35,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   submit: { title: '', click: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
+   *   submit: { title: '', click: (record, () => { onSuccess(); }, () => { onError(err); })
    *   cancel?: (closeCallBack) => { ... }
    * }
    */
@@ -92,21 +92,21 @@ export class RecordFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.config.submit.click(/* record */_
-        .chain(this.config.bindings.fields)
-        .keyBy('name')
-        .mapValues(x => this.form[x.name].value)
-        .value(),
-      /* onSuccessCallback */
-      () => {
-        // NOP;
-      },
-      /* onErrorCallback */
-      (err) => {
-        this.alertMessage = (err.error && err.error.error
-                             ? err.error.error
-                             : 'There is some error in the form');
-      });
+    this.config.submit.click(_/* record */
+                             .chain(this.config.bindings.fields)
+                             .keyBy('name')
+                             .mapValues(x => this.form[x.name].value)
+                             .value(),
+			     
+                             /* onSuccess callback */
+                             () => { /* NOP */ },
+
+			     /* onError callback */
+                             (exception) => {
+                               this.alertMessage = (exception.error && exception.error.error
+                                                    ? exception.error.error
+                                                    : 'There is error in the form');
+                             });
   }
 
   onCancel() {

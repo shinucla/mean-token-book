@@ -57,15 +57,15 @@ export class RegisterFamilyMemberComponent implements OnInit {
                                     record: { role: 2 }
                                   },
                         submit: { title: 'Register',
-                                  click: (record, onSuccessCallback, onErrorCallback) => {
+                                  click: (record, onSuccess, onError) => {
                                     this.auth
                                       .registerFamilyMember(record)
                                       .subscribe(data => {
                                         if (data && data.jwt) {
                                           this.router.navigate(['/family']);
                                         }
-                                        onSuccessCallback();
-                                      }, err => onErrorCallback(err));
+                                        onSuccess();
+                                      }, err => onError(err));
                                   }},
                         cancel: { title: 'Cancel',
                                   click: () => {
