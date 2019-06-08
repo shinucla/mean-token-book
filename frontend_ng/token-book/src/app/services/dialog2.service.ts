@@ -29,10 +29,6 @@ import * as _ from 'lodash';
     <ng-template #container></ng-template>
     <app-record-form [config]="recordForm"></app-record-form>
   </div>
-  <!--div class="modal-body text-right">
-    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">OK</button>
-    <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
-  </div-->
 `
 })
 export class FormField2Component implements OnInit, OnDestroy {
@@ -66,12 +62,13 @@ export class FormField2Component implements OnInit, OnDestroy {
     if (!this.config.component) {
       var submit = this.config.submit.click;
       var cancel = this.config.cancel.click;
+
       this.recordForm = this.config;
       this.recordForm.submit.click = (record, onSuccess, onError) => {
 	submit(record,
 	       () => {
-		 onSuccess();
-		 this.activeModal.close();
+	       	 onSuccess();
+	       	 this.activeModal.close();
 	       },
 	       onError);
       };
@@ -92,47 +89,16 @@ export class FormField2Component implements OnInit, OnDestroy {
     }
   }
 
- //onSubmit() {
- //  this.submitted = true;
- //  this.alertMessage = null;
- //
- //  if (this._form.invalid) {
- //    return;
- //  }
- //
- //  if (this.componentRef) {
- //    this.componentRef.instance.onSubmit();
- //
- //  } else {
- //    this.config.onSubmit(/* record */_
- //			   .chain(this.config.bindings.fields)
- //			   .keyBy('name')
- //			   .mapValues(x => this.form[x.name].value)
- //			   .value(),
- //			   /* onSuccessCallback */
- //			   () => {
- //			     this.activeModal.close();
- //			   },
- //			   /* onErrorCallback */
- //			   (err) => {
- //			     this.alertMessage = (err.error && err.error.error
- //						  ? err.error.error
- //						  : 'There is some error in the form');
- //			   });
- //  }
- //}
- //
- //onCancel() {
- //  if (this.componentRef && this.componentRef.instance.onCancel) {
- //    this.componentRef.instance.onCancel();
- //
- //  } else if (this.config.onCancel){
- //    this.config.onCancel(this.activeModal.close);
- //
- //  } else {
- //    this.activeModal.close();
- //  }
- //}
+ onCancel() {
+   if (this.componentRef && this.componentRef.instance.onCancel) {
+     this.componentRef.instance.onCancel();
+ 
+   } else if (this.config.cancel){
+     this.config.cancel.click();
+   } 
+
+   this.activeModal.close();
+ }
 }
 
 // ================================================================
