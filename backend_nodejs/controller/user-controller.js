@@ -45,6 +45,7 @@ module.exports = function(app) {
             var json  = { 'familyId': req.user.family_id,
                           'firstName': req.body.firstName,
                           'lastName': req.body.lastName,
+			  'email': req.body.email,
                           'username': req.body.username,
                           'password': req.body.password,
                           'status': 0,

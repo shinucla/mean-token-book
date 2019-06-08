@@ -11,9 +11,12 @@
     <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let member of members">
       <div class="card card-default">
         <div class="card-body">
-          <h5 class="card-title">{{ member.first_name }} {{ member.last_name }}</h5>
+          <h5 class="card-title">
+	    {{ member.first_name }} {{ member.last_name }}
+	    <span class="badge badge-success">{{ RoleEnum.PARENT === member.role_id ? 'p' : 'c' }}</span>
+	  </h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ member.email || member.username }}</h6>
-          <a class="card-link" href (click)="editProfile(member); false">Edit</a>
+          <a class="card-link" href (click)="viewProfile(member); false">view</a>
         </div>
       </div>
     </div>

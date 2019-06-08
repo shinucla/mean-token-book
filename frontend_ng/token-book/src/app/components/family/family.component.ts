@@ -6,6 +6,11 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { DialogService } from '../../services/dialog.service';
 
+const RoleEnum = {
+  PARENT: 1,
+  CHILD: 2
+};
+
 @Component({
   selector: 'app-family',
   templateUrl: './family.component.html',
@@ -17,6 +22,8 @@ export class FamilyComponent implements OnInit {
   members: any;
   recordForm: any;
 
+  RoleEnum = RoleEnum;
+  
   constructor(private userService: UserService,
               private auth: AuthService,
               private dialog: DialogService,
@@ -54,9 +61,8 @@ export class FamilyComponent implements OnInit {
     this.router.navigate(['/registerFamilyMember']);
   }
 
-  editProfile(member) {
-    console.log(member);
-    this.dialog.open({ title: 'Edit Profile',
+  viewProfile(member) {
+    this.dialog.open({ title: member.first_name + ' ' + member.last_name,
                        style: { size: 'md', backdrop: 'static' },
                        bindings: { fields: [{ name: 'first_name', title: 'First Name', type: 'text', required: true },
                                             { name: 'last_name', title: 'Last Name', type: 'text', required: true },
