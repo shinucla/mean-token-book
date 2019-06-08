@@ -2,10 +2,10 @@
   <a class="navbar-brand" href (click)="navToHome(); false">
     Token Book
   </a>
-  <div class="col text-right">
+  <div class="col text-right" *ngIf="user">
     <div ngbDropdown placement="bottom-right" class="d-inline-block">
       <button class="btn btn-outline-primary" id="headerDropdownMenu" ngbDropdownToggle>
-        <i class="far fa-user-circle"></i> {{ user.first_name.charAt(0) }}{{ user.last_name.charAt(0) }}
+        <i class="far fa-user-circle"></i> {{ user.first_name.toUpperCase().charAt(0) }}{{ user.last_name.toUpperCase().charAt(0) }}
       </button>
       <div ngbDropdownMenu aria-labelledby="headerDropdownMenu">
 	<button ngbDropdownItem (click)="logout()">Logout</button>
