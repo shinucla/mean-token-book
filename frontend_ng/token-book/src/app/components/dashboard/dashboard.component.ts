@@ -138,11 +138,11 @@ export class DashboardComponent implements OnInit {
 						     required: true }],
 					  record: { amount: 1 }
 					},
-			      onSubmit: (record, onSuccess, onError) => {
+			      onSubmit: (record, next) => {
 				this.tokenEventService.create(record).subscribe(x => {
 				  this.reload();
-				  onSuccess();
-				}, err => onError(err));
+				  next();
+				}, err => next(err));
 			      }
 			    });
   }

@@ -31,16 +31,19 @@ export class LoginComponent implements OnInit {
                                              { name: 'password', title: 'Password', type: 'password', required: true }],
                                   },
                         submit: { title: 'Sign in',
-                                  click: (record, onSuccess, onError) => {
+                                  click: (record, next) => {
                                     this.auth
                                       .login(record)
                                       .subscribe(u => {
                                         if (u && u.jwt) {
                                           //this.router.navigate(['/']);
                                           location.reload();
-                                        }
-					onSuccess();
-                                      }, err=>onError(err));
+					  next();
+					  
+                                        } else {
+					  next(new Error('Please try again later'));
+					}
+                                      }, err => next(err));
                                   }},
                         cancel: { title: 'Sign up',
                                   click: () => {

@@ -78,8 +78,8 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   submit: { title: string, click: (record, () => { onSuccess(); }, () => { onError(err); }) }
-   *   cancel?: (closeCallBack) => { ... }
+   *   submit: { title: string, click: (record, next) => { ... },
+   *   cancel?: () => { ... }
    * }
    */
   @Input() config: any;
@@ -148,20 +148,21 @@ export class FormFieldComponent implements OnInit, OnDestroy {
       this.componentRef.instance.onSubmit();
 
     } else {
-      this.config.onSubmit(/* record */_
+      this.config.onSubmit(_/* record */
 			   .chain(this.config.bindings.fields)
 			   .keyBy('name')
 			   .mapValues(x => this.form[x.name].value)
 			   .value(),
-			   /* onSuccess callback */
-			   () => {
-			     this.activeModal.close();
-			   },
-			   /* onError callback */
+	                   
+			   /* next callback */
 			   (err) => {
-			     this.alertMessage = (err.error && err.error.error
-						  ? err.error.error
-						  : 'There is some error in the form');
+			     if (err) {
+			       this.alertMessage = (err.error && err.error.error
+						    ? err.error.error
+						    : 'There is some error in the form');
+			     } else {
+			       this.activeModal.close();
+			     }
 			   });
     }
   }

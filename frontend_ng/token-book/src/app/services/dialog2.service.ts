@@ -19,16 +19,16 @@ import * as _ from 'lodash';
 
 @Component({
   template: `
-  <div class="modal-header">
-    <h3 class="modal-title">{{ config.title }}</h3>
-    <a class="close" href (click)="onCancel(); false">
-      <i class="far fa-times-circle"></i>
-    </a>
-  </div>
-  <div class="modal-body">
-    <ng-template #container></ng-template>
-    <app-record-form [config]="recordForm"></app-record-form>
-  </div>
+<div class="modal-header">
+<h3 class="modal-title">{{ config.title }}</h3>
+<a class="close" href (click)="onCancel(); false">
+<i class="far fa-times-circle"></i>
+</a>
+</div>
+<div class="modal-body">
+<ng-template #container></ng-template>
+<app-record-form [config]="recordForm"></app-record-form>
+</div>
 `
 })
 export class FormField2Component implements OnInit, OnDestroy {
@@ -46,9 +46,13 @@ export class FormField2Component implements OnInit, OnDestroy {
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   onSubmit: (record, () => { onSuccessCallback(); }, () => { onErrorCallback(err); })
-   *   onCancel?: (closeCallBack) => { ... }
+   *   submit: { title: string, click: (record, next) => { ... } },
+   *   cancel?: { title: string, click: () => { ... } }
    * }
+   *
+   * definition of submit.click:
+   *   record: returned form record,
+   *   next: callback function: function(err?: Error) { ... }
    */
   @Input() config: any;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
@@ -64,16 +68,21 @@ export class FormField2Component implements OnInit, OnDestroy {
       var cancel = this.config.cancel.click;
 
       this.recordForm = this.config;
-      this.recordForm.submit.click = (record, onSuccess, onError) => {
-	submit(record,
-	       () => {
-	       	 onSuccess();
-	       	 this.activeModal.close();
-	       },
-	       onError);
+      this.recordForm.submit.click = (record, next) => {
+        submit(record,
+               (error) => {
+                 if (error) {
+                   next(error);
+
+                 } else {
+                   this.activeModal.close();
+                 }
+               });
       };
+
       this.recordForm.cancel.click = () => {
-	this.activeModal.close();
+        cancel();
+        this.activeModal.close();
       };
 
     } else {
@@ -89,16 +98,16 @@ export class FormField2Component implements OnInit, OnDestroy {
     }
   }
 
- onCancel() {
-   if (this.componentRef && this.componentRef.instance.onCancel) {
-     this.componentRef.instance.onCancel();
- 
-   } else if (this.config.cancel){
-     this.config.cancel.click();
-   } 
+  onCancel() {
+    if (this.componentRef && this.componentRef.instance.onCancel) {
+      this.componentRef.instance.onCancel();
 
-   this.activeModal.close();
- }
+    } else if (this.config.cancel){
+      this.config.cancel.click();
+    }
+
+    this.activeModal.close();
+  }
 }
 
 // ================================================================
@@ -160,4 +169,4 @@ export class Dialog2Service {
  *                     }));
  * },
  *
-*/
+ */

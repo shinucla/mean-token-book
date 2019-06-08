@@ -31,11 +31,11 @@ export class CategoriesComponent implements OnInit {
 						     type: 'text',
 						     required: true }],
 					},
-			      onSubmit: (record, onSuccess, onError) => {
+			      onSubmit: (record, next) => {
 				this.categoryService.create(record).subscribe(x => {
 				  this.reload();
-				  onSuccess();
-				}, err => onError(err));
+				  next();
+				}, err => next(err));
 			      }
 			    });
   }
@@ -53,16 +53,14 @@ export class CategoriesComponent implements OnInit {
 						     required: true }],
 					},
 			       submit: { title: 'Create',
-					 click: (record, onSuccess, onError) => {
+					 click: (record, next) => {
 					   this.categoryService.create(record).subscribe(x => {
 					     this.reload();
-					     onSuccess();
-					   }, err => onError(err));
+					     next();
+					   }, err => next(err));
 					 }},
 			       cancel: { title: 'Cancel',
-					 click: () => {
-					   console.log('clicking cancel for categories.component create');
-					 }}
+					 click: () => { /* NOP */ }}
 			     });
   }
 

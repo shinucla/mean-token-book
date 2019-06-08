@@ -31,14 +31,18 @@ export class RegisterComponent implements OnInit {
                                   },
                         submit: { title: 'Sign up',
 				  type: 'button',
-				  click: (record, onSuccess, onError) => {
+				  click: (record, next) => {
 				    this.auth
 				      .register(record)
 				      .subscribe(data => {
 					if (data && data.jwt) {
 					  this.router.navigate(['/login']);
+					  next();
+					  
+					} else {
+					  next(new Error('Please try again later'));
 					}
-				      }, err => onError(err));
+				      }, err => next(err));
 				  }},
                         cancel: { title: 'Cancel',
 				  type: 'link',
