@@ -35,11 +35,12 @@
       </td>
       <td>{{ event.date + '' }}</td>
       <td>{{ event.category }}
-	<span class="badge badge-secondary"
-	      placement="top"
-	      ngbTooltip="{{ event.description}}">
+	<button class="badge badge-secondary"
+		placement="top"
+		ngbTooltip="{{ event.description}}"
+		triggers="click:blur">
 	  {{ event.amount | number }}
-	</span>
+	</button>
       </td>
     </tr>
   </tbody>
