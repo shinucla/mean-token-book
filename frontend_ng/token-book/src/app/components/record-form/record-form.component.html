@@ -29,6 +29,11 @@
 
   <div class="form-group text-right mt-4">
     <button type="submit" class="btn btn-outline-dark">{{ config.submit.title }}</button>
-    <button type="button" class="btn btn-outline-dark" (click)="onCancel()">{{ config.cancel.title }}</button>
+    <button *ngIf="config.cancel"
+	    type="button"
+	    class="btn btn-outline-dark"
+	    (click)="onCancel()">
+      {{ config.cancel.title }}
+    </button>
   </div>
 </form>

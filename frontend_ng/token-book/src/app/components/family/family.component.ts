@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-
-const RoleEnum = {
-  PARENT: 1,
-  CHILD: 2
-};
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'app-family',
@@ -17,50 +12,65 @@ const RoleEnum = {
   styleUrls: ['./family.component.scss']
 })
 export class FamilyComponent implements OnInit {
-  createFamilyForm: FormGroup;
   user: any;
-
-  RoleEnum = RoleEnum;
-  family = { title: '' };
-  members = [];
+  family: any;
+  members: any;
+  recordForm: any;
 
   constructor(private userService: UserService,
-	      private auth: AuthService,
-	      private router: Router,
-	      private formBuilder: FormBuilder) { }
+              private auth: AuthService,
+              private dialog: DialogService,
+              private router: Router) { }
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
 
     if (this.user.family_id) {
       this.userService.getFamilyMembers().subscribe(data => {
-	this.family = data['family'];
-	this.members = data['members'];
+        this.family = data['family'];
+        this.members = data['members'];
       });
 
     } else {
-      this.createFamilyForm = this.formBuilder.group({
-	title: [''],
-      });
+      this.recordForm = { bindings: { fields: [{ name: 'title', title: 'Title', type: 'text', required: true }] },
+                          submit: { title: 'Create',
+                                    click: (record, next) => {
+                                      this.userService
+                                        .createFamily(record)
+                                        .subscribe(data => {
+                                          var newUser = this.user;
+                                          newUser.family_id = data['id'];
+                                          this.auth.updateUser(newUser);
+                                          next();
+					  location.reload();
+					  
+                                        }, err => next(err));
+                                    }}
+                        };
     }
   }
-
-  // convenience getter for easy access to form fields
-  get form() { return this.createFamilyForm.controls; }
 
   navToRegisterFamilyMember() {
     this.router.navigate(['/registerFamilyMember']);
   }
 
-  onSubmit() {
-    var family = { title: this.form.title.value };
-    this.userService
-      .createFamily(family)
-      .subscribe(f => {
-	var newUser = this.user;
-	newUser.family_id = f['id'];
-	this.auth.updateUser(newUser);
-	location.reload();
-      });
+  editProfile(member) {
+    console.log(member);
+    this.dialog.open({ title: 'Edit Profile',
+                       style: { size: 'md', backdrop: 'static' },
+                       bindings: { fields: [{ name: 'first_name', title: 'First Name', type: 'text', required: true },
+                                            { name: 'last_name', title: 'Last Name', type: 'text', required: true },
+                                            { name: 'email', title: 'Email', type: 'email', required: true },
+                                            { name: 'birth_date', title: 'Birth Date', type: 'date', required: false },
+                                            { name: 'username', title: 'Username', type: 'text', required: true },
+                                            { name: 'password', title: 'Password', type: 'password', required: true },
+                                           ],
+                                   record: member },
+                       submit: { title: 'Save',
+                                 click: (record, next) => {
+                                   console.log(record);
+                                 }},
+                       cancel: { title: 'Cancel', click: () => {}}
+                     });
   }
 }

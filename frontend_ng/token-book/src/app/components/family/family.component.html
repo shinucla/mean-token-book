@@ -1,4 +1,4 @@
-<div *ngIf="user.family_id">
+<div *ngIf="user.family_id && family">
   <nav class="navbar navbar-light bg-light">
     <ul class="navbar-nav flex-row">
       <li class="nav-item">
@@ -13,7 +13,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ member.first_name }} {{ member.last_name }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ member.email || member.username }}</h6>
-          <a class="card-link" href (click)="false">Edit</a>
+          <a class="card-link" href (click)="editProfile(member); false">Edit</a>
         </div>
       </div>
     </div>
@@ -30,20 +30,10 @@
 </div>
 
 <!-- creating family --->
+<br>
 <div class="row" *ngIf="!user.family_id">
   <div class="col-sm-6 offset-sm-3">
     <h2>Creating Family</h2>
-    <form [formGroup]="createFamilyForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text"
-               class="form-control"
-               formControlName="title"
-               [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary">Create</button>
-      </div>
-    </form>
+    <app-record-form [config]="recordForm"></app-record-form>
   </div>
 </div>
