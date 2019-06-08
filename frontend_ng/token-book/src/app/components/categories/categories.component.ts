@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../services/dialog.service';
-import { Dialog2Service } from '../../services/dialog2.service';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
@@ -12,7 +11,6 @@ export class CategoriesComponent implements OnInit {
   categories: any;
 
   constructor(private dialogService: DialogService,
-	      private dialog2Service: Dialog2Service,
 	      private categoryService: CategoryService) { }
 
   ngOnInit() {
@@ -21,27 +19,6 @@ export class CategoriesComponent implements OnInit {
 
   showDialog() {
     this.dialogService.open({ title: 'Add Category',
-			      style: { size: 'sm', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'label',
-						     title: 'Label',
-						     type: 'text',
-						     required: true },
-						   { name: 'description',
-						     title: 'Description',
-						     type: 'text',
-						     required: true }],
-					},
-			      onSubmit: (record, next) => {
-				this.categoryService.create(record).subscribe(x => {
-				  this.reload();
-				  next();
-				}, err => next(err));
-			      }
-			    });
-  }
-
-  showDialog2() {
-    this.dialog2Service.open({ title: 'Add Category',
 			      style: { size: 'sm', backdrop: 'static' },
 			      bindings: { fields: [{ name: 'label',
 						     title: 'Label',

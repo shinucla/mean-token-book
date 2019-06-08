@@ -10,7 +10,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -27,39 +26,8 @@ import * as _ from 'lodash';
     </a>
   </div>
   <div class="modal-body">
-    <!-- Alert Message -->
-    <ngb-alert type="danger" [dismissible]="false" *ngIf="alertMessage">
-      {{ alertMessage }}
-    </ngb-alert>
     <ng-template #container></ng-template>
-    <form *ngIf="!config.component" [formGroup]="_form" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <div *ngFor="let field of config.bindings.fields">
-          <label for="{{ field.name }}">{{ field.title }}</label>
-          <input *ngIf="!field.values"
-                 type="{{ field.type }}"
-                 formControlName="{{ field.name }}"
-                 class="form-control"
-                 [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
-          <select *ngIf="field.values"
-                  class="form-control"
-                  formControlName="{{ field.name }}"
-                  [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }">
-            <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
-	      {{ c[field.displayKey] }}
-            </option>
-          </select>
-          <!-- Error Message -->
-          <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">
-            <div *ngIf="form[field.name].errors.required">required</div>
-          </div>
-        </div>
-      </div>
-   </form>
-  </div>
-  <div class="modal-body text-right">
-    <button type="button" class="btn btn-outline-dark" (click)="onSubmit()">OK</button>
-    <button type="button" class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
+    <app-record-form [config]="recordForm"></app-record-form>
   </div>
 `
 })
@@ -74,52 +42,48 @@ export class FormFieldComponent implements OnInit, OnDestroy {
    *                           required?: boolean,
    *                           values: [{...}] | Observale<[{...}]>,
    *                           displayKey: string,
-   *                           valueKey: string,
+   *                           valueKey: string
    *                         }, ...],
    *                record?: { name: value, ... }
    *              },
-   *   submit: { title: string, click: (record, next) => { ... },
-   *   cancel?: () => { ... }
+   *   submit: { title: string, click: (record, next) => { ... } },
+   *   cancel?: { title: string, click: () => { ... } }
    * }
+   *
+   * definition of submit.click:
+   *   record: returned form record,
+   *   next: callback function: function(err?: Error) { ... }
    */
   @Input() config: any;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>; // must implements IConfirm interface
-  _form: FormGroup;
-  submitted: boolean = false;
-  alertMessage: string = null;
+  recordForm: any;
 
-  constructor(private formBuilder: FormBuilder,
-	      private activeModal: NgbActiveModal,
+  constructor(private activeModal: NgbActiveModal,
               private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
     if (!this.config.component) {
-      let record = this.config.bindings.record;
-      let group = {};
-      for (let field of this.config.bindings.fields) {
-	var value = record ? record[field.name] : null;
-	var validators = [];
+      var submit = this.config.submit.click;
+      var cancel = this.config.cancel.click;
 
-	if (field.required) validators.push(Validators.required);
-	if (field.min) validators.push(Validators.minLength(field.min));
-	if (field.max) validators.push(Validators.maxLength(field.max));
-	if ('email' === field.type.toLowerCase()) validators.push(Validators.email);
+      this.recordForm = this.config;
+      this.recordForm.submit.click = (record, next) => {
+        submit(record,
+               (error) => {
+                 if (error) {
+                   next(error);
 
-	group[field.name] = [ value, validators ];
+                 } else {
+                   this.activeModal.close();
+                 }
+               });
+      };
 
-	if (field.values instanceof Observable) {
-	  var dummy = {};
-	  dummy[field.displayKey] = null;
-	  dummy[field.valueKey] = '';
-
-	  field._values = field.values;
-	  field.values = [];
-	  field._values.subscribe(x => field.values = _.concat([dummy],x));
-	}
-      }
-
-      this._form = this.formBuilder.group(group);
+      this.recordForm.cancel.click = () => {
+        cancel();
+        this.activeModal.close();
+      };
 
     } else {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.config.component);
@@ -128,42 +92,9 @@ export class FormFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  get form() { return this._form.controls; }
-
   ngOnDestroy() {
     if (this.componentRef) {
       this.componentRef.destroy();
-    }
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    this.alertMessage = null;
-
-    if (this._form.invalid) {
-      return;
-    }
-
-    if (this.componentRef) {
-      this.componentRef.instance.onSubmit();
-
-    } else {
-      this.config.onSubmit(_/* record */
-			   .chain(this.config.bindings.fields)
-			   .keyBy('name')
-			   .mapValues(x => this.form[x.name].value)
-			   .value(),
-	                   
-			   /* next callback */
-			   (err) => {
-			     if (err) {
-			       this.alertMessage = (err.error && err.error.error
-						    ? err.error.error
-						    : 'There is some error in the form');
-			     } else {
-			       this.activeModal.close();
-			     }
-			   });
     }
   }
 
@@ -171,12 +102,11 @@ export class FormFieldComponent implements OnInit, OnDestroy {
     if (this.componentRef && this.componentRef.instance.onCancel) {
       this.componentRef.instance.onCancel();
 
-    } else if (this.config.onCancel){
-      this.config.onCancel(this.activeModal.close);
-
-    } else {
-      this.activeModal.close();
+    } else if (this.config.cancel){
+      this.config.cancel.click();
     }
+
+    this.activeModal.close();
   }
 }
 
@@ -239,4 +169,4 @@ export class DialogService {
  *                     }));
  * },
  *
-*/
+ */
