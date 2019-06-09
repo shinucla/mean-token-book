@@ -19,7 +19,7 @@
 <!-- controls -->
 <nav class="navbar navbar-light bg-light">
   <ul class="navbar-nav flex-row">
-    <li class="nav-item" *ngIf="!!user.family_id && RoleEnum.PARENT === user.role_id">
+    <li class="nav-item" *ngIf="!!user.family_id && isParent">
       <a class="nav-link" href (click)="showAddTokenDialog(); false">
         <i class="fas fa-plus-circle"></i>
       </a>
@@ -39,7 +39,7 @@
       <th scope="col"
 	  sortable="name"
 	  (sort)="onSort($event)"
-	  *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
+	  *ngIf="user.family_id && isParent">
 	<i class="fas fa-user-friends"></i>
       </th>
       <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
@@ -48,7 +48,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let event of events; index as i">
-      <td *ngIf="user.family_id && RoleEnum.PARENT === user.role_id">
+      <td *ngIf="user.family_id && isParent">
 	{{ event.name }}
       </td>
       <td>{{ event.date + '' }}</td>

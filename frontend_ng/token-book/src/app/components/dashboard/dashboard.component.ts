@@ -72,7 +72,8 @@ export class NgbdSortableHeader {
 export class DashboardComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   user: any;
-  RoleEnum = RoleEnum;
+
+  isParent: boolean = false;
   events: Event[] = [];
   childrenTokenCounts;
   
@@ -84,6 +85,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
+    this.isParent = (this.user && 0 < (RoleEnum.PARENT & this.user.role_id)
+		     ? true
+		     : false);
     this.reload();
   }
 
