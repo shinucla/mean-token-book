@@ -94,6 +94,7 @@ var Family = defineModel('family', require('./model/family-def')(Sequelize));
 var Category = defineModel('category', require('./model/category-def')(Sequelize));
 var TokenEvent = defineModel('token_event', require('./model/token-event-def')(Sequelize));
 var TokenRule = defineModel('token_rule', require('./model/token-rule-def')(Sequelize));
+var Feedback = defineModel('feedback', require('./model/feedback-def')(Sequelize));
 
 async function init() {
   await User.sync();
@@ -102,6 +103,7 @@ async function init() {
   await Category.sync();
   await TokenEvent.sync();
   await TokenRule.sync();
+  await Feedback.sync();
 }
 
 var domain = {
@@ -122,6 +124,7 @@ var domain = {
   Category: Category,
   TokenEvent: TokenEvent,
   TokenRule: TokenRule,
+  Feedback: Feedback,
 };
 
 module.exports = domain;

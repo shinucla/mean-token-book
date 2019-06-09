@@ -28,6 +28,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/settings']);
   }
 
+  navToFeedback() {
+    this.router.navigate(['/feedback']);
+  }
+
   logout() {
     this.auth.logout();
     this.user = null;

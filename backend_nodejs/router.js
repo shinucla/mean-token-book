@@ -53,7 +53,8 @@ module.exports = function(app) {
   require('./controller/user-controller')(app);
   require('./controller/category-controller')(app);
   require('./controller/token-event-controller')(app);
-
+  require('./controller/feedback-controller')(app);
+  
   // to make angular routing works
   app.get('/*', function(req, res) {
     res.sendFile(__dirname + '/dist/index.html');

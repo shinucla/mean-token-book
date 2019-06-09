@@ -82,6 +82,8 @@ UserAuthManager = new (require('./service/user-auth-manager'))();
 FamilyManager = new (require('./service/family-manager'))();
 CategoryManager = new (require('./service/category-manager'))();
 TokenEventManager = new (require('./service/token-event-manager'))();
+FeedbackManager = new (require('./service/feedback-manager'))();
+
 AppConstants = require('./app-constants.js');
 
 // Config:

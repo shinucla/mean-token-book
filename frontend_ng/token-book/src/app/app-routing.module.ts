@@ -9,6 +9,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RegisterFamilyMemberComponent } from './components/register-family-member/register-family-member.component';
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,7 +20,7 @@ const routes: Routes = [
   { path: 'registerFamilyMember', component: RegisterFamilyMemberComponent, canActivate: [AuthGuard] },
   { path: 'family', component: FamilyComponent, canActivate: [AuthGuard] },
   { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
-
+  { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

@@ -22,6 +22,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { FooterComponent } from './components/footer/footer.component';
 import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/dashboard.component';
 import { RecordFormComponent } from './components/record-form/record-form.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { RecordFormComponent } from './components/record-form/record-form.compon
     DashboardComponent, NgbdSortableHeader,
     FooterComponent,
     RecordFormComponent,
+    FeedbackComponent,
   ],
   imports: [
     BrowserModule,
