@@ -14,13 +14,16 @@ const RoleEnum = {
 })
 export class SidebarMenuComponent implements OnInit {
   user: any;
-  RoleEnum = RoleEnum;
+  isParent: boolean = false;
   
   constructor(private router: Router,
 	      private auth: AuthService) { }
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
+    this.isParent = (this.user && 0 < (RoleEnum.PARENT & this.user.role_id)
+		     ? true
+		     : false);
   }
 
   navToHome() {

@@ -12,6 +12,10 @@ export class FeedbackService {
     return this.server.resolve('/api/feedback/getFeedbacks', {});
   }
 
+  getFeedbacksForAdmin() {
+    return this.server.resolve('/api/feedback/getFeedbacksForAdmin', {});
+  }
+
   create(json) {
     return this.server.resolve('/api/feedback/create', json);
   }

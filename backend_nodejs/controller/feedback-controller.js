@@ -20,6 +20,22 @@ module.exports = function(app) {
   ////////////////////////////////////////////////////////////
 
   app
+    .route('/api/feedback/getFeedbacksForAdmin')
+    .post(app.apiRequiredLogin,
+          app.apiRequiredParent,
+	  app.apiRequiredAdmin,
+          (req, res, next) => {
+            var json  = { userId: req.user.id };
+	    
+            FeedbackManager.getFeedbacksForAdmin(json, (err, data) => {
+              if (err) return next(err);
+              res.status(200).send({ data: data });
+            });
+          });
+
+  ////////////////////////////////////////////////////////////
+
+  app
     .route('/api/feedback/create')
     .post(app.apiRequiredLogin,
           app.apiRequiredParent,

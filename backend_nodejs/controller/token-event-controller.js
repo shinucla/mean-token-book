@@ -36,7 +36,7 @@ module.exports = function(app) {
           (req, res, next) => {
             var json  = { familyId: req.user.family_id };
 
-            if (AppConstants.RoleEnum.CHILD.id === req.user.role_id) {
+            if (0 < (AppConstants.RoleEnum.CHILD.id & req.user.role_id)) {
               json.userId = req.user.id;
             }
 
@@ -55,7 +55,7 @@ module.exports = function(app) {
           (req, res, next) => {
             var json  = { familyId: req.user.family_id };
 
-            if (AppConstants.RoleEnum.CHILD.id === req.user.role_id) {
+            if (0 < (AppConstants.RoleEnum.CHILD.id & req.user.role_id)) {
               json.userId = req.user.id;
             }
 

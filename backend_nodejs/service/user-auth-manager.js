@@ -145,10 +145,12 @@ module.exports = class UserAuthManager {
   ////////////////////////////////////////////////////////////
 
   getChildren(json, callback) {
-    Domain.User
-      .findAll({ raw: true,
-                 where: { family_id: json.familyId,
-                          role_id: AppConstants.RoleEnum.CHILD.id }})
+    Domain
+      .withRows('  select id, first_name, last_name'
+		+ '  from user'
+		+ ' where family_id = ' + json.familyId
+		+ '   and 0 < role_id & ' + AppConstants.RoleEnum.CHILD.id
+		+ ' order by first_name')
       .then(users => callback(null, users))
       .catch(err => callback(new Error('getting children failed', 100), null))
     ;

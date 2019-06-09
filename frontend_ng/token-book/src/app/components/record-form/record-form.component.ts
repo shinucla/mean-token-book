@@ -13,6 +13,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import * as _ from 'lodash';
 
 @Component({
@@ -99,9 +100,17 @@ export class RecordFormComponent implements OnInit, OnDestroy {
                              .value(),
 			     
                              /* next callback */
-                             (e) => {
+                             (e) => { console.log(e);
 			       if (!e) {
 				 // NOP
+			       } else if (e instanceof HttpErrorResponse) {
+				 if (e.error.error && e.error.error.message) {
+				   this.alertMessage = e.error.error.message;
+
+				 } else {
+				   this.alertMessage = e.error.error;
+				 }
+				 
 			       } else if (e instanceof Error) {
 				 this.alertMessage = e.message;
 				 

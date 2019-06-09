@@ -1,6 +1,8 @@
+/* power of 2 */
 var RoleEnum = {
   PARENT: { id: 1, label: 'Parent' },
   CHILD: { id: 2, label: 'Child' },
+  ADMIN: { id: 4, label: 'Admin' },
 };
 
 var ErrorEnum = {

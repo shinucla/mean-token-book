@@ -3,6 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 
+const RoleEnum = {
+  PARENT: 1,
+  CHILD: 2,
+  ADMIN: 4
+};
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,7 +16,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   user: any;
-
+  isParent: boolean = false;
+  
   constructor(private auth: AuthService,
 	      private http: HttpClient,
 	      private router: Router
@@ -18,6 +25,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
+    this.isParent = (this.user && RoleEnum.PARENT === (RoleEnum.PARENT & this.user.role_id)
+		     ? true
+		     : false);
   }
 
   navToHome() {

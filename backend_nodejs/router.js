@@ -16,8 +16,17 @@ module.exports = function(app) {
     });
   };
 
+  app.apiRequiredFamily = async function(req, res, next) {
+    if (!req.user.family_id) {
+      res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
+                                      message: 'require family' }});
+    } else {
+      next();
+    }
+  };
+
   app.apiRequiredParent = async function(req, res, next) {
-    if (AppConstants.RoleEnum.PARENT.id !== req.user.role_id) {
+    if (0 === (AppConstants.RoleEnum.PARENT.id & req.user.role_id)) {
       res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
                                       message: 'require parent' }});
     } else {
@@ -25,10 +34,10 @@ module.exports = function(app) {
     }
   };
 
-  app.apiRequiredFamily = async function(req, res, next) {
-    if (!req.user.family_id) {
+  app.apiRequiredAdmin = async function(req, res, next) {
+    if (0 === (AppConstants.RoleEnum.ADMIN.id & req.user.role_id)) {
       res.status(400).send({ error: { code: AppConstants.ErrorEnum.NOT_AUTHORIZED.id,
-                                      message: 'require family' }});
+                                      message: 'require admin' }});
     } else {
       next();
     }

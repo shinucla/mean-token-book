@@ -44,4 +44,18 @@ module.exports = class FeedbackManager {
       //.catch(err => callback(err, null))
     ;
   }
+
+  ////////////////////////////////////////////////////////////
+
+  getFeedbacksForAdmin(json, callback) {
+    Domain
+      .withRows('  select u.id, u.first_name, u.last_name, u.email, f.feedback'
+		+ '  from user u, feedback f'
+		+ ' where f.user_id = u.id'
+		+ ' order by u.id')
+      .then(data => callback(null, data))
+      .catch(err => callback(new Error('getting feedbacks failed', 100), null))
+      //.catch(err => callback(err, null))
+    ;
+  }
 }
