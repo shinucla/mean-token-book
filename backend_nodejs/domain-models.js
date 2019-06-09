@@ -111,6 +111,10 @@ var domain = {
   TransactionErrorHandlerMiddleware: TransactionErrorHandlerMiddleware,
   Sequelize: Sequelize,
 
+  withRows: (sql) => {
+    return sequelize.query(sql, { type: Sequelize.QueryTypes.SELECT });
+  },
+
   /* models */
   User: User,
   UserAuth: UserAuth,

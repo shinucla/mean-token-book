@@ -1,3 +1,21 @@
+<h2>Dashboard</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6" *ngFor="let entry of childrenTokenCounts">
+      <div class="card card-default">
+	<div class="card-body">
+	  <div class="card-title">
+	    <h5>{{ entry.first_name }} {{ entry.last_name }}</h5>
+	    <span class="card-subtitle mb-2 text-muted">balance: {{ entry.sum }} tokens.</span>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
 <!-- controls -->
 <nav class="navbar navbar-light bg-light">
   <ul class="navbar-nav flex-row">

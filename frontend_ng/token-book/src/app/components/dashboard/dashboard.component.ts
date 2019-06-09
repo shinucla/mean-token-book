@@ -74,7 +74,8 @@ export class DashboardComponent implements OnInit {
   user: any;
   RoleEnum = RoleEnum;
   events: Event[] = [];
-
+  childrenTokenCounts;
+  
   constructor(private auth: AuthService,
 	      private userService: UserService,
 	      private categoryService: CategoryService,
@@ -100,6 +101,13 @@ export class DashboardComponent implements OnInit {
                                                    amount: event.amount,
                                                    description: event.description }))))
         .subscribe(events => this.events = events);
+
+      this.tokenEventService
+	.getChildrenTokenCounts()
+	.subscribe(
+	  data => this.childrenTokenCounts = data,
+	  err => console.log('cannot retrieve token counts.')
+	);
     }
   }
 

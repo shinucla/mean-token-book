@@ -10,12 +10,15 @@ export class TokenEventService {
 
   constructor(private server: ServerService) { }
 
-  getChildrenTokenEvents(): Observable<any[]> {
-    return this.server.resolve('/api/token-event/getChildrenTokenEvents', {});
-  }
-
   create(json): Observable<any[]> {
     return this.server.resolve('/api/token-event/create', json);
   }
 
+  getChildrenTokenEvents(): Observable<any[]> {
+    return this.server.resolve('/api/token-event/getChildrenTokenEvents', {});
+  }
+
+  getChildrenTokenCounts(): Observable<any[]> {
+    return this.server.resolve('/api/token-event/getChildrenTokenCounts', {});
+  }
 }

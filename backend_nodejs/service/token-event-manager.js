@@ -49,4 +49,21 @@ module.exports = class TokenEventManager {
       .catch(err => callback(err, null))
     ;
   }
+
+  ////////////////////////////////////////////////////////////
+
+  getChildrenTokenCounts(json, callback) {
+    Domain
+      .withRows('  select u.first_name, u.last_name, u.id, sum(t.amount) as "sum"'
+		+ '  from token_event t, user u'
+		+ ' where t.user_id = u.id'
+		+ '   and t.family_id = u.family_id'
+		+ '   and t.family_id = ' + json.familyId
+		+ '   and u.id = ' + (!!json.userId ? json.userId : 'u.id')
+		+ ' group by u.id')
+      .then(data => callback(null, data))
+      .catch(err => callback(err, null))
+    ;
+  }
+
 }
