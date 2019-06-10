@@ -8,6 +8,7 @@ function generateHash(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
+/* move to another service or utility */
 function encode(text) {
   var cipher = crypto.createCipher(Config.auth.algorithm, Config.auth.secret)
   var crypted = cipher.update(text,'utf8','hex')

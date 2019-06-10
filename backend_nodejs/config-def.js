@@ -20,4 +20,8 @@ config.mysql.pool_config = { max: 5,
 			     acquire: 120000,
 			     idle: 30000 };
 
+config.unsplash = {};
+config.unsplash.access_key = '';
+config.unsplash.secret_key = '';
+
 module.exports = config;

@@ -1,9 +1,42 @@
 <main role="main">
+
+  <div class="py-3 d-flex justify-content-center">
+    <div class="card">
+      <div class="card-body">
+        <ngb-carousel *ngIf="images">
+          <ng-template ngbSlide>
+            <img [src]="images[0]" alt="Random first slide">
+            <div class="carousel-caption">
+              <h3>Sign up today</h3>
+              <p>it is totally free! no fee, no credit card required.</p>
+              <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
+	      <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
+	    </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img [src]="images[1]" alt="Random second slide">
+            <div class="carousel-caption">
+              <h3>Never too late to join in</h3>
+              <p>100% free!</p>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img [src]="images[2]" alt="Random third slide">
+            <div class="carousel-caption">
+              <h3>Give it a try now</h3>
+              <p>before your favorite usernames being taken... plus, it is free! </p>
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+    </div>
+  </div>
+
   <section class="jumbotron text-center">
     <div *ngIf="!user">
       <h1 class="jumbotron-heading">Hi Parents,</h1>
       <p class="lead text-muted">My Token Book provides a rewarding system helping to motivate your children for completing their homeworks, to encourage them for participating household chores, to inspire them for working harder, and all these fun with positive competitions.</p>
-      <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a> 
+      <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
       <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
     </div>
     <div *ngIf="!!user">
@@ -13,29 +46,4 @@
     </div>
   </section>
 
-  <div class="album py-5 bg-light">
-    <div class="row">
-      <div class="col-md-4" *ngFor="let i of [1,2,3,4,5,6,7,8]">
-        <div class="card mb-4 shadow-sm">
-          <img class="bd-placeholder-img card-img-top"
-	       src="assets/home/album-01.jpg"
-	       width="100%"
-	       height="225"
-	       focusable="false"
-	       role="img"
-	       aria-label="Placeholder: Thumbnail" />
-          <div class="card-body">
-            <p class="card-text">This content is a little bit longer.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-              </div>
-              <small class="text-muted">9 mins</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </main>

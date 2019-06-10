@@ -78,6 +78,7 @@ var fs                = require('fs');
 // Global:
 Config = require('./config.js');
 Domain = require('./domain-models.js')
+HomeManager = new (require('./service/home-manager'))();
 UserAuthManager = new (require('./service/user-auth-manager'))();
 FamilyManager = new (require('./service/family-manager'))();
 CategoryManager = new (require('./service/category-manager'))();

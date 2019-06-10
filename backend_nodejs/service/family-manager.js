@@ -1,5 +1,22 @@
 'use strict';
 
+var crypto = require('crypto');
+
+/* move to another service or utility */
+function encode(text) {
+  var cipher = crypto.createCipher(Config.auth.algorithm, Config.auth.secret)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function decode(text) {
+  var decipher = crypto.createDecipher(Config.auth.algorithm, Config.auth.secret)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
+
 module.exports = class CategoryManager {
   constructor() { /* ... */ }
 
@@ -30,4 +47,6 @@ module.exports = class CategoryManager {
       //.catch(err => callback(err, null))
     ;
   }
+
+  
 }
