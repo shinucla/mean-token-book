@@ -1,31 +1,30 @@
 <main role="main">
-
   <div class="py-3 d-flex justify-content-center">
     <div class="card">
       <div class="card-body">
         <ngb-carousel *ngIf="images">
           <ng-template ngbSlide>
             <img [src]="images[0]" alt="Random first slide">
-            <div class="carousel-caption">
-              <h3>Sign up today</h3>
-              <p>it is totally free! no fee, no credit card required.</p>
-              <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
-	      <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
-	    </div>
+              <div class="carousel-caption">
+                <h3 class="strokeme">Sign up today</h3>
+                <p class="strokeme">it is totally free! no fee, no credit card required.</p>
+                <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
+                <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
+              </div>
           </ng-template>
           <ng-template ngbSlide>
             <img [src]="images[1]" alt="Random second slide">
-            <div class="carousel-caption">
-              <h3>Never too late to join in</h3>
-              <p>100% free!</p>
-            </div>
+              <div class="carousel-caption">
+                <h3 class="strokeme">Never too late to join in</h3>
+                <p class="strokeme">100% free!</p>
+              </div>
           </ng-template>
           <ng-template ngbSlide>
             <img [src]="images[2]" alt="Random third slide">
-            <div class="carousel-caption">
-              <h3>Give it a try now</h3>
-              <p>before your favorite usernames being taken... plus, it is free! </p>
-            </div>
+              <div class="carousel-caption">
+                <h3 class="strokeme">Give it a try now</h3>
+                <p class="strokeme">before your favorite usernames being taken... plus, it is free! </p>
+              </div>
           </ng-template>
         </ngb-carousel>
       </div>
@@ -42,7 +41,7 @@
     <div *ngIf="!!user">
       <h1 class="jumbotron-heading">Hi {{ user.first_name }}!</h1>
       <br>
-      <p class="lead text-muted">It is all about promoting good behaviors...</p>
+        <p class="lead text-muted">It is all about promoting good behaviors...</p>
     </div>
   </section>
 

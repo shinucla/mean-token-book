@@ -8,7 +8,7 @@ export class HomeService {
 
   constructor(private server: ServerService) { }
 
-  getRandomPhotos() {
-    return this.server.resolve('/api/home/getRandomPhotos', {});
+  getRandomPhotos(config) {
+    return this.server.resolve('/api/home/getRandomPhotos', config);
   }
 }
