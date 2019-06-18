@@ -51,14 +51,25 @@ export class RecordFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private componentFactoryResolver: ComponentFactoryResolver) { }
 
+  public initCustomizedValidators() {
+    Validators.trimableWithSpace = (control: FormControl) => {
+      const v = control.value;
+      return (!v || (typeof v !== 'string') || v.trim().length === v.length
+	      ? null
+	      : { 'trimable': true });
+    };
+  }
+  
   ngOnInit() {
+    this.initCustomizedValidators();
+    
     let record = this.config.bindings.record;
     let group = {};
     for (let field of this.config.bindings.fields) {
       var value = record ? record[field.name] : null;
       var validators = [];
 
-      if (field.required) validators.push(Validators.required);
+      if (field.required) validators.push(Validators.required, Validators.trimableWithSpace);
       if (field.min) validators.push(Validators.minLength(field.min));
       if (field.max) validators.push(Validators.maxLength(field.max));
       if ('email' === field.type.toLowerCase()) validators.push(Validators.email);

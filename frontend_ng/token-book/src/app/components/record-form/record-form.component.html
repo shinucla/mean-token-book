@@ -23,6 +23,10 @@
       <!-- Error Message -->
       <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">
         <div *ngIf="form[field.name].errors.required">required</div>
+	<div *ngIf="form[field.name].errors.trimable">cannot have leading or tailing whitespaces</div>
+	<div *ngIf="form[field.name].errors.minlength">must be least {{ form[field.name].errors.minlength.requiredLength }} chars.</div>
+	<div *ngIf="form[field.name].errors.maxlength">must be less than {{ form[field.name].errors.maxlength.requiredLength }} chars.</div>
+	<div *ngIf="form[field.name].errors.email">incorrect email format</div>
       </div>
     </div>
   </div>

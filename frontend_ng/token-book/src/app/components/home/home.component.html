@@ -1,48 +1,75 @@
 <main role="main">
-  <div class="py-3 d-flex justify-content-center">
+  <!-- Carousel slideshow when not logged in -->
+  <div class="py-3 d-flex justify-content-center" *ngIf="!user">
     <div class="card">
       <div class="card-body">
         <ngb-carousel *ngIf="images">
           <ng-template ngbSlide>
             <img [src]="images[0]" alt="Random first slide">
-              <div class="carousel-caption">
-                <h3 class="strokeme">Sign up today</h3>
-                <p class="strokeme">it is totally free! no fee, no credit card required.</p>
-                <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
-                <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
-              </div>
+            <div class="carousel-caption">
+              <h1 class="strokeme">Sign up today</h1>
+              <p class="strokeme">My Token Book is a rewarding system.</p>
+              <p class="strokeme">it is totally free! no fee, no credit card required.</p>
+              <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
+              <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
+            </div>
           </ng-template>
           <ng-template ngbSlide>
             <img [src]="images[1]" alt="Random second slide">
-              <div class="carousel-caption">
-                <h3 class="strokeme">Never too late to join in</h3>
-                <p class="strokeme">100% free!</p>
-              </div>
+            <div class="carousel-caption">
+              <p class="strokeme">My Token Book will help to motivate your children for completing their homeworks, to encourage them for participating household chores, to inspire them for working harder, and more...</p>
+            </div>
           </ng-template>
           <ng-template ngbSlide>
             <img [src]="images[2]" alt="Random third slide">
-              <div class="carousel-caption">
-                <h3 class="strokeme">Give it a try now</h3>
-                <p class="strokeme">before your favorite usernames being taken... plus, it is free! </p>
-              </div>
+            <div class="carousel-caption">
+              <h3 class="strokeme">Give it a try now</h3>
+              <p class="strokeme">before your favorite usernames being taken... plus, it is free! </p>
+              <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
+              <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
+            </div>
           </ng-template>
         </ngb-carousel>
       </div>
     </div>
   </div>
 
-  <section class="jumbotron text-center">
-    <div *ngIf="!user">
-      <h1 class="jumbotron-heading">Hi Parents,</h1>
-      <p class="lead text-muted">My Token Book provides a rewarding system helping to motivate your children for completing their homeworks, to encourage them for participating household chores, to inspire them for working harder, and all these fun with positive competitions.</p>
-      <a href="#" class="btn btn-primary mr-2" (click)="signup(); false;">Signup</a>
-      <a href="#" class="btn btn-secondary" (click)="login(); false;">Login</a>
-    </div>
-    <div *ngIf="!!user">
-      <h1 class="jumbotron-heading">Hi {{ user.first_name }}!</h1>
-      <br>
-        <p class="lead text-muted">It is all about promoting good behaviors...</p>
+  <!-- logged in but have not yet created family -->
+  <section class="jumbotron text-center" *ngIf="user && !user.family_id">
+    <h1 class="jumbotron-heading">Hi {{ user.first_name }}, you are one step away ...</h1>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+        <app-record-form [config]="familyRecordForm"></app-record-form>
+      </div>
     </div>
   </section>
 
+  <!-- logged in with family created -->
+  <div class="album py-5 bg-light" *ngIf="user && user.family_id">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let child of children">
+        <div class="card mb-4 shadow-sm">
+          <img class="bd-placeholder-img card-img-top"
+               src="assets/home/album-01.jpg"
+               width="100%"
+               height="225"
+               focusable="false"
+               role="img"
+               aria-label="Placeholder: Thumbnail" />
+          <div class="card-body">
+            <p class="card-text">{{ child.first_name }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+	      <small class="text-muted">9 mins</small>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
 </main>
