@@ -36,31 +36,39 @@ export class HomeComponent implements OnInit {
   familyRecordForm;
 
   //[1, 2, 3].map(() => `https://picsum.photos/1200/500?random&t=${Math.random()}&blur=2&grayscale`);
-  images = [];
+  images: any;
 
   constructor(private router: Router,
               private auth: AuthService,
-	      private userService: UserService,
+              private userService: UserService,
               private homeService: HomeService) { }
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
 
     if (!this.user) {
-      this.homeService
-	.getRandomPhotos({ width: 1200, height: 500, count: 3, orientation: 'landscape', query: 'education' })
-	.subscribe(d => {
-          this.images = (d as any[]).map(x => x.urls.regular);
-	});
-    } else if (!this.user.family_id) {
-      this.familyRecordForm = this.createFamilyRecordForm();
+      this.initCarouselImages();
 
+    } else if (!this.user.family_id) {
+	this.familyRecordForm = this.createFamilyRecordForm();
+	
     } else {
       this.userService.getFamilyMembers().subscribe(data => {
+        var kids = _.filter(data['members'], x => x.role_id === RoleEnum.CHILD);
+        this.children = 0 < kids.length ? kids : this.children;
         this.family = data['family'];
-        this.children = _.filter(data['members'], x => x.role_id === RoleEnum.CHILD);
+
+	if (!this.children) initCarouselimages();
       });
     }
+  }
+
+  initCarouselImages() {
+    this.homeService
+      .getRandomPhotos({ width: 1200, height: 500, count: 3, orientation: 'landscape', query: 'education' })
+      .subscribe(d => {
+        this.images = (d as any[]).map(x => x.urls.regular);
+      });
   }
 
   signup() {
@@ -73,11 +81,11 @@ export class HomeComponent implements OnInit {
 
   createFamilyRecordForm() {
     return { bindings: { fields: [{ name: 'title',
-				    title: 'Give a name to your family:',
-				    type: 'text',
-				    min: 6,
-				    max: 65,
-				    required: true }] },
+                                    title: 'Give a name to your family:',
+                                    type: 'text',
+                                    min: 6,
+                                    max: 65,
+                                    required: true }] },
              submit: { title: 'Create',
                        click: (record, next) => {
                          this.userService

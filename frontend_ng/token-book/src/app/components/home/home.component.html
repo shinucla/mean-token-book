@@ -46,8 +46,8 @@
     </div>
   </section>
 
-  <!-- logged in with family created -->
-  <div class="album py-5 bg-light" *ngIf="user && user.family_id">
+  <!-- logged in with family created and with children-->
+  <div class="album py-5 bg-light" *ngIf="user && user.family_id && children">
     <div class="row">
       <div class="col-md-4" *ngFor="let child of children">
         <div class="card mb-4 shadow-sm">
@@ -72,4 +72,36 @@
       </div>
     </div>
   </div>
+
+  <!-- Carousel slideshow: 1) logged in, 2) has family, 3) has children -->
+  <div class="py-3 d-flex justify-content-center" *ngIf="user && user.family_id && !children">
+    <div class="card">
+      <div class="card-body">
+        <ngb-carousel *ngIf="images">
+          <ng-template ngbSlide>
+            <img [src]="images[0]" alt="Random first slide">
+            <div class="carousel-caption">
+              <h1 class="strokeme">Add your children today</h1>
+              <a href="/family" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img [src]="images[1]" alt="Random second slide">
+            <div class="carousel-caption">
+	      <h1 class="strokeme">Add your children today</h1>
+              <a href="/family" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <img [src]="images[2]" alt="Random third slide">
+            <div class="carousel-caption">
+              <h1 class="strokeme">Add your children today</h1>
+              <a href="/family" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+    </div>
+  </div>
+  
 </main>

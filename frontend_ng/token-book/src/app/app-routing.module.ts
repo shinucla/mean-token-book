@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './services/auth.guard';
-import { ParentGuard } from './services/parent.guard';
+import { AuthGuard } from './services/auth.guard';      // must be logged in
+import { ParentGuard } from './services/parent.guard';  // must be parent role
+import { FamilyGuard } from './services/family.guard';  // must create a family
 
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -15,12 +16,12 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, FamilyGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'registerFamilyMember', component: RegisterFamilyMemberComponent, canActivate: [AuthGuard, ParentGuard] },
-  { path: 'family', component: FamilyComponent, canActivate: [AuthGuard, ParentGuard] },
-  { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard, ParentGuard] },
+  { path: 'family', component: FamilyComponent, canActivate: [AuthGuard, FamilyGuard, ParentGuard] },
+  { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard, FamilyGuard, ParentGuard] },
   { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard, ParentGuard] },
 ];
 

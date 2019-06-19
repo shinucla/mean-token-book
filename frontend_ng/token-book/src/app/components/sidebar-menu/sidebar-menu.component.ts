@@ -15,6 +15,7 @@ const RoleEnum = {
 export class SidebarMenuComponent implements OnInit {
   user: any;
   isParent: boolean = false;
+  hasFamily: boolean = false;
   
   constructor(private router: Router,
 	      private auth: AuthService) { }
@@ -24,6 +25,9 @@ export class SidebarMenuComponent implements OnInit {
     this.isParent = (this.user && 0 < (RoleEnum.PARENT & this.user.role_id)
 		     ? true
 		     : false);
+    this.hasFamily = (this.user && !!this.user.family_id
+		      ? true
+		      : false); 
   }
 
   navToHome() {
