@@ -124,15 +124,15 @@ export class HomeComponent implements OnInit {
            };
   }
 
-  award() {
-    this.addTokenEvent('Award', 1);
+  award(id) {
+    this.addTokenEvent('Award', { userId: id, amount: 1 });
   }
 
-  punish() {
-    this.addTokenEvent('Punish', -1);
+  punish(id) {
+    this.addTokenEvent('Punish', { userId: id, amount: -1 });
   }
 
-  addTokenEvent(title, num) {
+  addTokenEvent(title, record) {
     this.dialog
       .open({ title: title,
               style: { size: 'sm', backdrop: 'static' },
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
                                      title: 'Description',
                                      type: 'string',
                                      required: true }],
-                          record: { amount: num }
+                          record: record
                         },
               submit: { title: 'Add',
                         click: (record, next) => {
