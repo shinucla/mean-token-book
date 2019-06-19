@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -52,7 +52,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
               private componentFactoryResolver: ComponentFactoryResolver) { }
 
   public initCustomizedValidators() {
-    Validators.trimableWithSpace = (control: FormControl) => {
+    Validators['trimableWithSpace'] = (control: FormControl) => {
       const v = control.value;
       return (!v || (typeof v !== 'string') || v.trim().length === v.length
 	      ? null
@@ -69,7 +69,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
       var value = record ? record[field.name] : null;
       var validators = [];
 
-      if (field.required) validators.push(Validators.required, Validators.trimableWithSpace);
+      if (field.required) validators.push(Validators.required, Validators['trimableWithSpace']);
       if (field.min) validators.push(Validators.minLength(field.min));
       if (field.max) validators.push(Validators.maxLength(field.max));
       if ('email' === field.type.toLowerCase()) validators.push(Validators.email);

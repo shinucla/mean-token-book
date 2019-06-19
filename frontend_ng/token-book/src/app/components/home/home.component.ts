@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
         this.children = 0 < kids.length ? kids : this.children;
         this.family = data['family'];
 
-	if (!this.children) initCarouselimages();
+	if (!this.children) this.initCarouselImages();
       });
     }
   }
