@@ -1,5 +1,6 @@
 <main role="main">
-  <!-- Carousel slideshow when not logged in -->
+
+  <!-- Carousel slideshow: 1) not logged in -->
   <div class="py-3 d-flex justify-content-center" *ngIf="!user">
     <div class="card">
       <div class="card-body">
@@ -34,7 +35,7 @@
     </div>
   </div>
 
-  <!-- logged in but have not yet created family -->
+  <!-- Create Family: 1) logged in, 2) have not yet created family -->
   <section class="jumbotron text-center" *ngIf="user && !user.family_id">
     <h1 class="jumbotron-heading">Hi {{ user.first_name }}, you are one step away ...</h1>
     <br>
@@ -46,34 +47,7 @@
     </div>
   </section>
 
-  <!-- logged in with family created and with children-->
-  <div class="album py-5 bg-light" *ngIf="user && user.family_id && children">
-    <div class="row">
-      <div class="col-md-4" *ngFor="let child of children">
-        <div class="card mb-4 shadow-sm">
-          <img class="bd-placeholder-img card-img-top"
-               src="assets/home/album-01.jpg"
-               width="100%"
-               height="225"
-               focusable="false"
-               role="img"
-               aria-label="Placeholder: Thumbnail" />
-          <div class="card-body">
-            <p class="card-text">{{ child.first_name }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-              </div>
-	      <small class="text-muted">9 mins</small>
-	    </div>
-	  </div>
-	</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Carousel slideshow: 1) logged in, 2) has family, 3) has children -->
+  <!-- Carousel slideshow: 1) logged in, 2) has family, 3) no children added -->
   <div class="py-3 d-flex justify-content-center" *ngIf="user && user.family_id && !children">
     <div class="card">
       <div class="card-body">
@@ -104,4 +78,39 @@
     </div>
   </div>
   
+  <!-- List Children: 1) logged in, 2) has family, 3) with children -->
+  <div class="album py-5 bg-light" *ngIf="user && user.family_id && children">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let child of children">
+        <div class="card mb-4 shadow-sm">
+          <img class="bd-placeholder-img card-img-top"
+               src="assets/home/album-01.jpg"
+               width="100%"
+               height="225"
+               focusable="false"
+               role="img"
+               aria-label="Placeholder: Thumbnail" />
+          <div class="card-body">
+            <p class="card-text">{{ child.first_name }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button"
+			class="btn btn-sm btn-outline-secondary"
+			(click)="award()">
+		  <i class="fas fa-award"></i> Award ...
+		</button>
+                <button type="button"
+			class="btn btn-sm btn-outline-secondary"
+			(click)="punish()">
+		  <i class="fas fa-minus-circle"></i> Punish ...
+		</button>
+              </div>
+	      <small class="text-muted">{{ tokenCountMap[child.id] || 0 }} tokens</small>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+
 </main>

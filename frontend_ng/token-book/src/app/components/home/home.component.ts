@@ -14,6 +14,9 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { HomeService } from '../../services/home.service';
+import { TokenEventService } from '../../services/token-event.service';
+import { DialogService } from '../../services/dialog.service';
+import { CategoryService } from '../../services/category.service';
 
 import * as _ from 'lodash';
 
@@ -33,7 +36,8 @@ export class HomeComponent implements OnInit {
   user: any;
   family: any;
   children: any;
-  familyRecordForm;
+  familyRecordForm: any;
+  tokenCountMap: any = {};
 
   //[1, 2, 3].map(() => `https://picsum.photos/1200/500?random&t=${Math.random()}&blur=2&grayscale`);
   images: any;
@@ -41,6 +45,9 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router,
               private auth: AuthService,
               private userService: UserService,
+              private tokenEventService: TokenEventService,
+              private dialog: DialogService,
+              private categoryService: CategoryService,
               private homeService: HomeService) { }
 
   ngOnInit() {
@@ -50,17 +57,32 @@ export class HomeComponent implements OnInit {
       this.initCarouselImages();
 
     } else if (!this.user.family_id) {
-	this.familyRecordForm = this.createFamilyRecordForm();
-	
-    } else {
-      this.userService.getFamilyMembers().subscribe(data => {
-        var kids = _.filter(data['members'], x => x.role_id === RoleEnum.CHILD);
-        this.children = 0 < kids.length ? kids : this.children;
-        this.family = data['family'];
+      this.familyRecordForm = this.createFamilyRecordForm();
 
-	if (!this.children) this.initCarouselImages();
-      });
+    } else {
+      this.reload();
     }
+  }
+
+  reload() {
+    this.userService.getFamilyMembers().subscribe(data => {
+      var kids = _.filter(data['members'], x => x.role_id === RoleEnum.CHILD);
+      this.children = 0 < kids.length ? kids : this.children;
+      this.family = data['family'];
+
+      if (!this.children) this.initCarouselImages();
+    });
+
+    this.tokenEventService
+      .getChildrenTokenCounts()
+      .subscribe(
+        data => {
+          for (let entry of data) {
+            this.tokenCountMap[entry.id] = entry.sum;
+          }
+        },
+        err => console.log('cannot retrieve token counts.')
+      );
   }
 
   initCarouselImages() {
@@ -101,4 +123,60 @@ export class HomeComponent implements OnInit {
                        }}
            };
   }
+
+  award() {
+    this.addTokenEvent('Award', 1);
+  }
+
+  punish() {
+    this.addTokenEvent('Punish', -1);
+  }
+
+  addTokenEvent(title, num) {
+    this.dialog
+      .open({ title: title,
+              style: { size: 'sm', backdrop: 'static' },
+              bindings: { fields: [{ name: 'userId',
+                                     title: 'Child',
+                                     type: 'number',
+                                     required: true,
+                                     values: (this.userService
+                                              .getChildren()
+                                              .pipe(
+                                                map(records => _.map(records, (x) => this._assignFullName(x))),
+                                              )),
+                                     displayKey: 'name',
+                                     valueKey: 'id' },
+                                   { name: 'amount',
+                                     title: 'Amount',
+                                     type: 'number',
+                                     required: true },
+                                   { name: 'categoryId',
+                                     title: 'Category',
+                                     type: 'number',
+                                     required: true,
+                                     values: this.categoryService.getCategories(),
+                                     displayKey: 'label',
+                                     valueKey: 'id' },
+                                   { name: 'description',
+                                     title: 'Description',
+                                     type: 'string',
+                                     required: true }],
+                          record: { amount: num }
+                        },
+              submit: { title: 'Add',
+                        click: (record, next) => {
+                          this.tokenEventService.create(record).subscribe(x => {
+                            this.reload();
+                            next();
+                          }, err => next(err));
+                        }},
+              cancel: { title: 'Cancel', click: () => {}}
+            });
+  }
+
+  _assignFullName(record) {
+    return Object.assign(record, { name: record.first_name + ' ' + record.last_name });
+  }
+
 }
