@@ -51,6 +51,8 @@ export class RecordFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private componentFactoryResolver: ComponentFactoryResolver) { }
 
+  get form() { return this._form.controls; }
+
   public initCustomizedValidators() {
     Validators['trimableWithSpace'] = (control: FormControl) => {
       const v = control.value;
@@ -62,7 +64,10 @@ export class RecordFormComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.initCustomizedValidators();
-    
+    this.resetForm();
+  }
+
+  resetForm() {
     let record = this.config.bindings.record;
     let group = {};
     for (let field of this.config.bindings.fields) {
@@ -88,12 +93,10 @@ export class RecordFormComponent implements OnInit, OnDestroy {
     }
 
     this._form = this.formBuilder.group(group);
+    this.submitted = false;
   }
-
-  get form() { return this._form.controls; }
-
+  
   ngOnDestroy() {
-
   }
 
   onSubmit() {
@@ -113,7 +116,8 @@ export class RecordFormComponent implements OnInit, OnDestroy {
                              /* next callback */
                              (e) => { console.log(e);
 			       if (!e) {
-				 // NOP
+				 this.resetForm();
+				 
 			       } else if (e instanceof HttpErrorResponse) {
 				 if (e.error.error && e.error.error.message) {
 				   this.alertMessage = e.error.error.message;

@@ -32,29 +32,10 @@ export class FamilyComponent implements OnInit {
   ngOnInit() {
     this.user = this.auth.getUserValue();
 
-    if (this.user.family_id) {
-      this.userService.getFamilyMembers().subscribe(data => {
-        this.family = data['family'];
-        this.members = data['members'];
-      });
-
-    } else {
-      this.recordForm = { bindings: { fields: [{ name: 'title', title: 'Title', type: 'text', required: true }] },
-                          submit: { title: 'Create',
-                                    click: (record, next) => {
-                                      this.userService
-                                        .createFamily(record)
-                                        .subscribe(data => {
-                                          var newUser = this.user;
-                                          newUser.family_id = data['id'];
-                                          this.auth.updateUser(newUser);
-                                          next();
-					  location.reload();
-					  
-                                        }, err => next(err));
-                                    }}
-                        };
-    }
+    this.userService.getFamilyMembers().subscribe(data => {
+      this.family = data['family'];
+      this.members = data['members'];
+    });
   }
 
   navToRegisterFamilyMember() {
