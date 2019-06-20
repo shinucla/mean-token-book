@@ -17,6 +17,10 @@ var sequelize = new Sequelize(Config.mysql.db,
                               { host: Config.mysql.host,
                                 dialect: 'mysql',
                                 pool: Config.mysql.pool_config,
+                                define: { charset: 'utf8mb4',
+                                          timestamps: false,
+                                          dialectOptions: { collate: 'utf8mb4_general_ci' }
+                                        },
                                 operatorsAliases: false,
                                 logging: false
                               });
