@@ -1,7 +1,7 @@
 <main role="main">
 
   <!-- Carousel slideshow: 1) not logged in -->
-  <div class="py-3 d-flex justify-content-center" *ngIf="!user">
+  <div class="py-3 d-flex justify-content-center" *ngIf="!isLoggedIn()">
     <div class="card">
       <div class="card-body">
         <ngb-carousel *ngIf="images">
@@ -36,7 +36,7 @@
   </div>
 
   <!-- Create Family: 1) logged in, 2) have not yet created family -->
-  <section class="jumbotron text-center" *ngIf="user && !user.family_id">
+  <section class="jumbotron text-center" *ngIf="isLoggedIn() && !hasFamily()">
     <h1 class="jumbotron-heading">Hi {{ user.first_name }}, you are one step away ...</h1>
     <br>
     <br>
@@ -47,8 +47,8 @@
     </div>
   </section>
 
-  <!-- Carousel slideshow: 1) logged in, 2) has family, 3) no children added -->
-  <div class="py-3 d-flex justify-content-center" *ngIf="user && user.family_id && !children">
+  <!-- Carousel slideshow: 1) logged in, 2) is parent 3) has family, 4) no children added -->
+  <div class="py-3 d-flex justify-content-center" *ngIf="isLoggedIn() && isParent() && hasFamily() && !hasChildren()">
     <div class="card">
       <div class="card-body">
         <ngb-carousel *ngIf="images">
@@ -77,9 +77,9 @@
       </div>
     </div>
   </div>
-  
-  <!-- List Children: 1) logged in, 2) has family, 3) with children -->
-  <div class="album py-5 bg-light" *ngIf="user && user.family_id && children">
+
+  <!-- List Children: 1) logged in, 3) has family, 4) with children -->
+  <div class="album py-5 bg-light" *ngIf="isLoggedIn() && hasFamily() && hasChildren()">
     <div class="row">
       <div class="col-md-4" *ngFor="let child of children">
         <div class="card mb-4 shadow-sm">
@@ -93,7 +93,7 @@
           <div class="card-body">
             <p class="card-text">{{ child.first_name }}</p>
             <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
+              <div class="btn-group" *ngIf="isParent()">
                 <button type="button"
 			class="btn btn-sm btn-outline-secondary"
 			(click)="award(child.id)">

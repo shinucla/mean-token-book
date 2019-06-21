@@ -53,10 +53,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.user = this.auth.getUserValue();
 
-    if (!this.user) {
+    if (!this.isLoggedIn()) {
       this.initCarouselImages();
 
-    } else if (!this.user.family_id) {
+    } else if (!this.hasFamily()) {
       this.familyRecordForm = this.createFamilyRecordForm();
 
     } else {
@@ -100,6 +100,11 @@ export class HomeComponent implements OnInit {
   login() {
     this.router.navigate(['/login']);
   }
+
+  isLoggedIn() { return !!this.user; }
+  isParent() { return this.isLoggedIn() && RoleEnum.PARENT === this.user.role_id; }
+  hasFamily() { return this.isLoggedIn() && !!this.user.family_id; }
+  hasChildren() { return this.isLoggedIn() && !!this.children }
 
   createFamilyRecordForm() {
     return { bindings: { fields: [{ name: 'title',

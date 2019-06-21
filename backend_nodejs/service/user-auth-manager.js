@@ -172,11 +172,17 @@ module.exports = class UserAuthManager {
   }
 
   getFamilyMembers(json, callback) {
+    var where = { family_id: json.familyId };
+
+    if (json.userId) {
+      where.id = json.userId;
+    }
+
     Domain.Family.hasMany(Domain.User, { foreignKey: 'family_id' });
     Domain.User.belongsTo(Domain.Family, { foreignKey: 'family_id' });
     Domain
       .User
-      .findAll({ where: { family_id: json.familyId },
+      .findAll({ where: where,
                  include: [ Domain.Family ]
                })
       .then(data => callback(null, data))
