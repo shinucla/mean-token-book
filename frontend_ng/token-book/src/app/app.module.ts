@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatSidenavModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+// angular material
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSidenavModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,10 +51,14 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSidenavModule,
     BrowserAnimationsModule,
+
+    MatNativeDateModule,
+    MatSidenavModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
 
     HttpClientModule,
     NgbModule.forRoot()

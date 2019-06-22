@@ -5,7 +5,8 @@ import { Component,
          Input,
          Output,
          QueryList,
-         ViewChildren } from '@angular/core';
+         ViewChild,
+	 ViewChildren } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -18,6 +19,17 @@ import { UserService } from '../../services/user.service';
 import { CategoryService } from '../../services/category.service';
 
 import * as _ from 'lodash';
+
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+const ELEMENT_DATA: any[] = [
+  { name: 'Hydrogen', weight: 1.0079 },
+  { name: 'Helium', weight: 4.0026 },
+  { name: 'Fluorine', weight: 18.9984 },
+  { name: 'Neon', weight: 20.1797 }
+];
+
 
 // ================================================================
 
@@ -70,6 +82,10 @@ export class NgbdSortableHeader {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  displayedColumns: string[];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   user: any;
 
@@ -89,6 +105,11 @@ export class DashboardComponent implements OnInit {
 		     ? true
 		     : false);
     this.reload();
+
+    this.dataSource.sort = this.sort;
+    this.displayedColumns = (this.isParent
+			     ? [ 'name', 'date', 'category' ]
+			     : [ 'date', 'category']);
   }
 
   search(text: string): Event[] {
@@ -104,7 +125,7 @@ export class DashboardComponent implements OnInit {
                                                    date: event.date,
                                                    amount: event.amount,
                                                    description: event.description }))))
-        .subscribe(events => this.events = events);
+        .subscribe(events => this.events = new MatTableDataSource(events));
 
       this.tokenEventService
 	.getChildrenTokenCounts()
@@ -113,6 +134,10 @@ export class DashboardComponent implements OnInit {
 	  err => console.log('cannot retrieve token counts.')
 	);
     }
+  }
+
+  view() {
+    console.log('clicked on row');
   }
 
   _assignFullName(record) {
