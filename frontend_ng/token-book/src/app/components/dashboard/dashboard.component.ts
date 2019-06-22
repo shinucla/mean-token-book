@@ -23,56 +23,11 @@ import * as _ from 'lodash';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-const ELEMENT_DATA: any[] = [
-  { name: 'Hydrogen', weight: 1.0079 },
-  { name: 'Helium', weight: 4.0026 },
-  { name: 'Fluorine', weight: 18.9984 },
-  { name: 'Neon', weight: 20.1797 }
-];
-
-
-// ================================================================
-
-export type SortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
-export const compare = (v1, v2) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-
-export interface SortEvent {
-  column: string;
-  direction: SortDirection;
-}
-
-interface Event {
-  name: string;
-  category: string;
-  date: number;
-  amount: number;
-}
 
 const RoleEnum = {
   PARENT: 1,
   CHILD: 2,
 };
-
-// ================================================================
-
-@Directive({
-  selector: 'th[sortable]',
-  host: {
-    '[class.asc]': 'direction === "asc"',
-    '[class.desc]': 'direction === "desc"',
-    '(click)': 'rotate()'
-  }
-})
-export class NgbdSortableHeader {
-  @Input() sortable: string;
-  @Input() direction: SortDirection = '';
-  @Output() sort = new EventEmitter<SortEvent>();
-  rotate() {
-    this.direction = rotate[this.direction];
-    this.sort.emit({column: this.sortable, direction: this.direction});
-  }
-}
 
 // ================================================================
 
@@ -83,14 +38,11 @@ export class NgbdSortableHeader {
 })
 export class DashboardComponent implements OnInit {
   displayedColumns: string[];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  @ViewChild(MatSort) sort: MatSort;
   user: any;
 
   isParent: boolean = false;
-  events: Event[] = [];
+  events = new MatTableDataSource([]);
   childrenTokenCounts;
 
   constructor(private auth: AuthService,
@@ -104,12 +56,12 @@ export class DashboardComponent implements OnInit {
     this.isParent = (this.user && 0 < (RoleEnum.PARENT & this.user.role_id)
 		     ? true
 		     : false);
-    this.reload();
 
-    this.dataSource.sort = this.sort;
     this.displayedColumns = (this.isParent
 			     ? [ 'name', 'date', 'category' ]
 			     : [ 'date', 'category']);
+
+    this.reload();
   }
 
   search(text: string): Event[] {
@@ -125,7 +77,10 @@ export class DashboardComponent implements OnInit {
                                                    date: event.date,
                                                    amount: event.amount,
                                                    description: event.description }))))
-        .subscribe(events => this.events = new MatTableDataSource(events));
+        .subscribe(events => {
+	  this.events = new MatTableDataSource(events);
+	  this.events.sort = this.sort;
+	});
 
       this.tokenEventService
 	.getChildrenTokenCounts()
@@ -134,10 +89,6 @@ export class DashboardComponent implements OnInit {
 	  err => console.log('cannot retrieve token counts.')
 	);
     }
-  }
-
-  view() {
-    console.log('clicked on row');
   }
 
   _assignFullName(record) {
@@ -186,22 +137,4 @@ export class DashboardComponent implements OnInit {
 			    });
   }
 
-  onSort({column, direction}: SortEvent) {
-    console.log(column, direction);
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    if (direction === '') {
-      // do nothing
-    } else {
-      this.events = this.events.sort((a, b) => {
-        const res = compare(a[column], b[column]);
-        return direction === 'asc' ? res : -res;
-      });
-    }
-  }
 }

@@ -33,64 +33,32 @@
 </nav>
 
 <!-- table -->
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col"
-          sortable="name"
-          (sort)="onSort($event)"
-          *ngIf="user.family_id && isParent">
-        <i class="fas fa-user-friends"></i>
-      </th>
-      <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
-      <th scope="col" sortable="category" (sort)="onSort($event)">Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let event of events; index as i" (click)="view()">
-      <td *ngIf="user.family_id && isParent">
-        {{ event.name }}
-      </td>
-      <td>{{ event.date + '' }}</td>
-      <td>{{ event.category }}
-        <button class="badge badge-secondary"
-                placement="top"
-                ngbTooltip="{{ event.description}}"
-                triggers="click:blur hover:blur">
-          {{ event.amount | number }}
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <div class="table-container mat-elevation-z8">
-  <table mat-table [dataSource]="events" matSort class="mat-elevation-z8">
-
-    <!-- Column def -->
+  <table class="mat-elevation-z8" mat-table [dataSource]="events" matSort>
+    <!-- name -->
     <ng-container matColumnDef="name" *ngIf="user.family_id && isParent">
       <th mat-header-cell *matHeaderCellDef mat-sort-header><i class="fas fa-user-friends"></i></th>
-      <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+      <td mat-cell *matCellDef="let event"> {{ event.name }} </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
-    <!-- Column def -->
+    <!-- date -->
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-      <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+      <td mat-cell *matCellDef="let event"> {{ event.date }} </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
-    <!-- Column def -->
+    <!-- category -->
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-      <td mat-cell *matCellDef="let element">
-	{{ element.category }}
+      <td mat-cell *matCellDef="let event">
+	{{ event.category }}
 	<button class="badge badge-secondary"
                 placement="top"
-                ngbTooltip="{{ element.description }}"
+                ngbTooltip="{{ event.description }}"
                 triggers="click:blur hover:blur">
-          {{ element.amount | number }}
+          {{ event.amount | number }}
 	</button>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>

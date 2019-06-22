@@ -85,6 +85,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@angular/material/checkbox
+
+@angular/material/sort
+
+@angular/material/table
+
 @angular/platform-browser
 MIT
 

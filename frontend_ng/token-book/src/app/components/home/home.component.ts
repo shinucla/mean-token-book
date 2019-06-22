@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
   }
 
   isLoggedIn() { return !!this.user; }
-  isParent() { return this.isLoggedIn() && RoleEnum.PARENT === this.user.role_id; }
+  isParent() { return this.isLoggedIn() && 0 < (RoleEnum.PARENT & this.user.role_id); }
   hasFamily() { return this.isLoggedIn() && !!this.user.family_id; }
   hasChildren() { return this.isLoggedIn() && !!this.children }
 

@@ -25,7 +25,7 @@ import { SidebarMenuComponent } from './components/sidebar-menu/sidebar-menu.com
 import { FamilyComponent } from './components/family/family.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DashboardComponent, NgbdSortableHeader } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecordFormComponent } from './components/record-form/record-form.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 
@@ -41,7 +41,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     SidebarMenuComponent,
     FamilyComponent,
     CategoriesComponent,
-    DashboardComponent, NgbdSortableHeader,
+    DashboardComponent,
     FooterComponent,
     RecordFormComponent,
     FeedbackComponent,
