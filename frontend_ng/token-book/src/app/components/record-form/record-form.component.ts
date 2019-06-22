@@ -30,6 +30,10 @@ export class RecordFormComponent implements OnInit, OnDestroy {
    *                           title: string,
    *                           type: string,
    *                           required?: boolean,
+   *                           min: int,
+   *                           max: int,
+   *                           disabled: boolean, // default false
+   *                           visible: boolean,  // default true
    *                           values: [{...}] | Observale<[{...}]>,
    *                           displayKey: string,
    *                           valueKey: string
@@ -61,7 +65,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
 	      : { 'trimable': true });
     };
   }
-  
+
   ngOnInit() {
     this.initCustomizedValidators();
     this.resetForm();
@@ -95,7 +99,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
     this._form = this.formBuilder.group(group);
     this.submitted = false;
   }
-  
+
   ngOnDestroy() {
   }
 
@@ -112,12 +116,12 @@ export class RecordFormComponent implements OnInit, OnDestroy {
                              .keyBy('name')
                              .mapValues(x => this.form[x.name].value)
                              .value(),
-			     
+
                              /* next callback */
                              (e) => { console.log(e);
 			       if (!e) {
 				 this.resetForm();
-				 
+
 			       } else if (e instanceof HttpErrorResponse) {
 				 if (e.error.error && e.error.error.message) {
 				   this.alertMessage = e.error.error.message;
@@ -125,16 +129,16 @@ export class RecordFormComponent implements OnInit, OnDestroy {
 				 } else {
 				   this.alertMessage = e.error.error;
 				 }
-				 
+
 			       } else if (e instanceof Error) {
 				 this.alertMessage = e.message;
-				 
+
 			       } else if (e instanceof ErrorEvent) {
 				 this.alertMessage = e.message;
-				 
+
 			       } else if (e.error && e.error.error) {
 				 this.alertMessage = e.error.error;
-				 
+
 			       } else {
                                  this.alertMessage = 'There is error in the form';
 			       }

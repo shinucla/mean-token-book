@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
   isParent: boolean = false;
   events: Event[] = [];
   childrenTokenCounts;
-  
+
   constructor(private auth: AuthService,
 	      private userService: UserService,
 	      private categoryService: CategoryService,

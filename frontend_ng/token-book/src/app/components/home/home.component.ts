@@ -145,7 +145,9 @@ export class HomeComponent implements OnInit {
                                      title: 'Child',
                                      type: 'number',
                                      required: true,
-                                     values: (this.userService
+				     visible: false,
+				     disabled: true,
+				     values: (this.userService
                                               .getChildren()
                                               .pipe(
                                                 map(records => _.map(records, (x) => this._assignFullName(x))),
