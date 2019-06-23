@@ -8,11 +8,19 @@ export class CategoryService {
 
   constructor(private server: ServerService) { }
 
-  getCategories() {
-    return this.server.resolve('/api/category/getCategories', {});
-  }
-
   create(json) {
     return this.server.resolve('/api/category/create', json);
+  }
+
+  update(json) {
+    return this.server.resolve('/api/category/update', json);
+  }
+
+  delete(json) {
+    return this.server.resolve('/api/category/delete', json);
+  }
+
+  getCategories() {
+    return this.server.resolve('/api/category/getCategories', {});
   }
 }

@@ -9,14 +9,12 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoriesComponent implements OnInit {
   categories: any;
-  fields = [{ name: 'label',
+  fields = [{ name: 'id', visible: false, disabled: true },
+	    { name: 'label',
               title: 'Label',
               type: 'text',
-              required: true },
-            { name: 'description',
-              title: 'Description',
-              type: 'text',
-              required: true }];
+              required: true }
+	   ];
 
   constructor(private dialog: DialogService,
               private categoryService: CategoryService) { }
@@ -52,11 +50,10 @@ export class CategoriesComponent implements OnInit {
 				   record: record },
                        submit: { title: 'Create',
                                  click: (record, next) => {
-                                   //this.categoryService.create(record).subscribe(x => {
-                                   //  this.reload();
-                                   //  next();
-                                   //}, err => next(err));
-				   console.log(record);
+                                   this.categoryService.update(record).subscribe(x => {
+                                     this.reload();
+                                     next();
+                                   }, err => next(err));
                                  }},
                        cancel: { title: 'Cancel',
                                  click: () => { /* NOP */ }}
@@ -64,12 +61,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   delete(record) {
-    this.dialog.confirm("are you sure you want to delete?",
+    this.dialog.confirm("Are you sure?",
                         (next) => {
-                          console.log('clicked on ok');
-                          next();
-                        }, () => {
-                          console.log('clicked on cancel');
-                        });
+                          this.categoryService.delete({ id: record.id }).subscribe(x => {
+			    this.reload();
+			    next();
+			  });
+			},
+                        () => { /* nop */ });
   }
 }

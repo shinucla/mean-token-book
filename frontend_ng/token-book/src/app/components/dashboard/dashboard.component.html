@@ -20,7 +20,7 @@
 <nav class="navbar navbar-light bg-light">
   <ul class="navbar-nav flex-row">
     <li class="nav-item" *ngIf="!!user.family_id && isParent">
-      <a class="nav-link" href (click)="showAddTokenDialog(); false">
+      <a class="nav-link" href (click)="addToken(); false">
         <i class="fas fa-plus-circle"></i>
       </a>
     </li>
@@ -49,17 +49,27 @@
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
-    <!-- category -->
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+    <!-- description -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
       <td mat-cell *matCellDef="let event">
-	{{ event.category }}
+	{{ event.description }}
 	<button class="badge badge-secondary"
                 placement="top"
-                ngbTooltip="{{ event.description }}"
+                ngbTooltip="{{ event.category }}"
                 triggers="click:blur hover:blur">
           {{ event.amount | number }}
 	</button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <!-- date -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+      <td mat-cell *matCellDef="let event">
+	<a href="#" (click)="editToken(event); false;"><i class="far fa-edit mr-2"></i></a>
+	<a href="#" (click)="deleteToken(event); false;"><i class="far fa-trash-alt mr-2"></i></a>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>

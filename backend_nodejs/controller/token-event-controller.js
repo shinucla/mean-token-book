@@ -27,8 +27,40 @@ module.exports = function(app) {
             });
           });
 
-  ////////////////////////////////////////////////////////////
+  app
+    .route('/api/token-event/update')
+    .post(app.apiRequiredLogin,
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
+          (req, res, next) => {
+            var json = { id: req.body.id,
+                         userId: req.body.userId,
+                         amount: req.body.amount,
+                         categoryId: req.body.categoryId,
+                         description: req.body.description };
 
+            TokenEventManager.updateTokenEvent(json, (err, event) => {
+              if (err) return next(err);
+              res.status(200).send({ data: event });
+            });
+          });
+
+  app
+    .route('/api/token-event/delete')
+    .post(app.apiRequiredLogin,
+          app.apiRequiredParent,
+          app.apiRequiredFamily,
+          (req, res, next) => {
+            var json = { id: req.body.id };
+
+            TokenEventManager.deleteTokenEvent(json, (err, event) => {
+              if (err) return next(err);
+              res.status(200).send({ data: event });
+            });
+          });
+
+  ////////////////////////////////////////////////////////////
+  
   app
     .route('/api/token-event/getChildrenTokenEvents')
     .post(app.apiRequiredLogin,

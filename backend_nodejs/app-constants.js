@@ -10,8 +10,13 @@ var ErrorEnum = {
   NOT_AUTHORIZED: { id: 101, label: 'Not Authorized' },
 };
 
+var StatusEnum = {
+  ACTIVE: { id: 0, label: 'active' },
+  DELETED: { id: 1, label: 'deleted' },
+};
 
 module.exports = {
   RoleEnum: RoleEnum,
   ErrorEnum: ErrorEnum,
+  StatusEnum: StatusEnum,
 };

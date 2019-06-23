@@ -1,12 +1,12 @@
 import { Component,
-	 OnInit,
-	 Directive,
+         OnInit,
+         Directive,
          EventEmitter,
          Input,
          Output,
          QueryList,
          ViewChild,
-	 ViewChildren } from '@angular/core';
+         ViewChildren } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -46,20 +46,20 @@ export class DashboardComponent implements OnInit {
   childrenTokenCounts;
 
   constructor(private auth: AuthService,
-	      private userService: UserService,
-	      private categoryService: CategoryService,
+              private userService: UserService,
+              private categoryService: CategoryService,
               private tokenEventService: TokenEventService,
-              private dialogService: DialogService) { }
+              private dialog: DialogService) { }
 
   ngOnInit() {
     this.user = this.auth.getUserValue();
     this.isParent = (this.user && 0 < (RoleEnum.PARENT & this.user.role_id)
-		     ? true
-		     : false);
+                     ? true
+                     : false);
 
     this.displayedColumns = (this.isParent
-			     ? [ 'name', 'date', 'category' ]
-			     : [ 'date', 'category']);
+                             ? [ 'name', 'date', 'description', 'actions' ]
+                             : [ 'date', 'description']);
 
     this.reload();
   }
@@ -72,22 +72,26 @@ export class DashboardComponent implements OnInit {
     if (this.user.family_id) {
       this.tokenEventService
         .getChildrenTokenEvents()
-        .pipe(map(events => events.map(event => ({ name: event.user.first_name + ' ' + event.user.last_name,
+        .pipe(map(events => events.map(event => ({ id: event.id,
+						   userId: event.user_id,
+						   categoryId: event.category_id,
+
+						   name: event.user.first_name + ' ' + event.user.last_name,
                                                    category: event.category.label,
                                                    date: event.date,
                                                    amount: event.amount,
                                                    description: event.description }))))
         .subscribe(events => {
-	  this.events = new MatTableDataSource(events);
-	  this.events.sort = this.sort;
-	});
+          this.events = new MatTableDataSource(events);
+          this.events.sort = this.sort;
+        });
 
       this.tokenEventService
-	.getChildrenTokenCounts()
-	.subscribe(
-	  data => this.childrenTokenCounts = data,
-	  err => console.log('cannot retrieve token counts.')
-	);
+        .getChildrenTokenCounts()
+        .subscribe(
+          data => this.childrenTokenCounts = data,
+          err => console.log('cannot retrieve token counts.')
+        );
     }
   }
 
@@ -95,46 +99,78 @@ export class DashboardComponent implements OnInit {
     return Object.assign(record, { name: record.first_name + ' ' + record.last_name });
   }
 
-  showAddTokenDialog() {
-    this.dialogService.open({ title: 'Token',
-                              style: { size: 'sm', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'userId',
-						     title: 'Child',
-						     type: 'number',
-						     required: true,
-						     values: (this.userService
-							      .getChildren()
-							      .pipe(
-								map(records => _.map(records, (x) => this._assignFullName(x))),
-							      )),
-						     displayKey: 'name',
-						     valueKey: 'id' },
-						   { name: 'amount',
-						     title: 'Amount',
-						     type: 'number',
-						     required: true },
-						   { name: 'categoryId',
-						     title: 'Category',
-						     type: 'number',
-						     required: true,
-						     values: this.categoryService.getCategories(),
-						     displayKey: 'label',
-						     valueKey: 'id' },
-						   { name: 'description',
-						     title: 'Description',
-						     type: 'string',
-						     required: true }],
-					  record: { amount: 1 }
-					},
-			      submit: { title: 'Add',
-					click: (record, next) => {
-					  this.tokenEventService.create(record).subscribe(x => {
-					    this.reload();
-					    next();
-					  }, err => next(err));
-					}},
-			      cancel: { title: 'Cancel', click: () => {}}
-			    });
+  createTokenFields() {
+    return [{ name: 'id', visible: false, disabled: true },
+	    { name: 'userId',
+              title: 'Child',
+              type: 'number',
+              required: true,
+              values: (this.userService
+                       .getChildren()
+                       .pipe(
+                         map(records => _.map(records, (x) => this._assignFullName(x))),
+                       )),
+              displayKey: 'name',
+              valueKey: 'id' },
+            { name: 'amount',
+              title: 'Amount',
+              type: 'number',
+              required: true },
+            { name: 'categoryId',
+              title: 'Category',
+              type: 'number',
+              required: true,
+              values: this.categoryService.getCategories(),
+              displayKey: 'label',
+              valueKey: 'id' },
+            { name: 'description',
+              title: 'Description',
+              type: 'string',
+              required: true }];
   }
 
+  addToken() {
+    this.dialog.open({ title: 'Token',
+                       style: { size: 'sm', backdrop: 'static' },
+                       bindings: { fields: this.createTokenFields(),
+                                   record: { amount: 1 }
+                                 },
+                       submit: { title: 'Add',
+                                 click: (record, next) => {
+                                   this.tokenEventService.create(record).subscribe(x => {
+                                     this.reload();
+                                     next();
+                                   }, err => next(err));
+                                 }},
+                       cancel: { title: 'Cancel', click: () => {}}
+                     });
+  }
+
+  editToken(record) {
+    this.dialog.open({ title: 'Edit',
+                       style: { size: 'sm', backdrop: 'static' },
+                       bindings: { fields: this.createTokenFields(),
+                                   record: record
+                                 },
+                       submit: { title: 'Save',
+                                 click: (record, next) => {
+                                   this.tokenEventService.update(record).subscribe(x => {
+                                     this.reload();
+                                     next();
+                                   }, err => next(err));
+                                 }},
+                       cancel: { title: 'Cancel', click: () => {}}
+                     });
+  }
+
+  deleteToken(record) {
+    this.dialog.confirm("Are you sure?",
+			(next) => {
+			  this.tokenEventService.delete(record.id).subscribe(x => {
+			    this.reload();
+			    next();
+			  }, err => next(err));
+			},
+			() => { /* NOP */ });
+  }
 }

@@ -26,6 +26,29 @@ module.exports = class TokenEventManager {
     ;
   }
 
+  updateTokenEvent(json, callback) {
+    Domain.TokenEvent
+      .update({ user_id: json.userId,
+                amount: json.amount,
+		category_id: json.categoryId,
+		description: json.description },
+	      { returning: true,
+		where: { id: json.id }})
+      .then(event => callback(null, event))
+      .catch(err => callback(new Error('failed updating token event', 100), null))
+    //.catch(err => callback(err, null))
+    ;
+  }
+
+  deleteTokenEvent(json, callback) {
+    Domain.TokenEvent
+      .destroy({ where: json })
+      .then(event => callback(null, event))
+      .catch(err => callback(new Error('failed deleting token event', 100), null))
+    //.catch(err => callback(err, null))
+    ;
+  }
+  
   ////////////////////////////////////////////////////////////
 
   getChildrenTokenEvents(json, callback) {

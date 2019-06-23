@@ -14,6 +14,14 @@ export class TokenEventService {
     return this.server.resolve('/api/token-event/create', json);
   }
 
+  update(json): Observable<any[]> {
+    return this.server.resolve('/api/token-event/update', json);
+  }
+
+  delete(id): Observable<any[]> {
+    return this.server.resolve('/api/token-event/delete', { id: id });
+  }
+
   getChildrenTokenEvents(): Observable<any[]> {
     return this.server.resolve('/api/token-event/getChildrenTokenEvents', {});
   }

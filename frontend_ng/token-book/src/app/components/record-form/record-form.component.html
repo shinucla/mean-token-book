@@ -9,14 +9,14 @@
 
       <!-- field group -->
       <div [hidden]="false === field.visible">
-        <label for="{{ field.name }}" *ngIf="'boolean' !== field.type">{{ field.title }}</label>
+        <label for="{{ field.name }}" *ngIf="'boolean' !== field.type">{{ field.title || field.name }}</label>
 
         <div *ngIf="!config.style || false !== config.style.showInput">
           <mat-checkbox *ngIf="'boolean' === field.type"
                         [labelPosition]="'before'">{{ field.title }}</mat-checkbox>
           <input *ngIf="!field.values && 'boolean' !== field.type"
                  [attr.disabled]="field.disabled ? '' : null"
-                 type="{{ field.type }}"
+                 type="{{ field.type || 'text' }}"
                  formControlName="{{ field.name }}"
                  class="form-control"
                  [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
@@ -32,6 +32,9 @@
         </div>
 
         <!-- Error Message -->
+	<div class="invalid-feedback">
+          <div>required</div>
+	</div>
         <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">
           <div *ngIf="form[field.name].errors.required">required</div>
           <div *ngIf="form[field.name].errors.trimable">cannot have leading or tailing whitespaces</div>

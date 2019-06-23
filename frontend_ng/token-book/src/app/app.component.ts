@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'tooken-book';
   user: any;
   images = [1, 2, 3].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
-  
+
   constructor(private auth: AuthService) {
     this.user = auth.getUserValue();
   }

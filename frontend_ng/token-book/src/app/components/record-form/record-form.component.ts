@@ -81,7 +81,7 @@ export class RecordFormComponent implements OnInit, OnDestroy {
       if (field.required) validators.push(Validators.required, Validators['trimableWithSpace']);
       if (field.min) validators.push(Validators.minLength(field.min));
       if (field.max) validators.push(Validators.maxLength(field.max));
-      if ('email' === field.type.toLowerCase()) validators.push(Validators.email);
+      if ('email' === (field.type || field.name).toLowerCase()) validators.push(Validators.email);
 
       group[field.name] = [ value, validators ];
 

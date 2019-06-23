@@ -3,16 +3,10 @@
 module.exports = class CategoryManager {
   constructor() { /* ... */ }
 
-  ////////////////////////////////////////////////////////////
-
-  createCategory(json, callback) {
-
+  create(json, callback) {
     if (!json.label || 0 === json.label.trim().length) {
       return callback(new Error('label cannot be empty.'), null);
-
-    } else if (!json.description || 0 === json.description.trim().length) {
-      return callback(new Error('description cannot be empty.'), null);
-    }
+    } 
 
     Domain
       .Category
@@ -25,12 +19,40 @@ module.exports = class CategoryManager {
     ;
   }
 
+  update(json, callback) {
+    if (!json.label || 0 === json.label.trim().length) {
+      return callback(new Error('label cannot be empty.'), null);
+    }
+
+    Domain
+      .Category
+      .update({ label: json.label },
+	      { returning: true,
+		where: { id: json.id }})
+      .then(category => callback(null, category))
+      .catch(err => callback(new Error('failed updating category', 100), null))
+      //.catch(err => callback(err, null))
+    ;
+  }
+
+  delete(json, callback) {
+    Domain
+      .Category
+      .update({ status: AppConstants.StatusEnum.DELETED.id },
+	      { returning: true,
+		where: json })
+      .then(category => callback(null, category))
+      .catch(err => callback(new Error('failed deleting category', 100), null))
+      //.catch(err => callback(err, null))
+    ;
+  }
+  
   ////////////////////////////////////////////////////////////
 
   getCategories(json, callback) {
     Domain
       .Category
-      .findAll({ where: { family_id: json.familyId }})
+      .findAll({ where: { family_id: json.familyId, status: AppConstants.StatusEnum.ACTIVE.id }})
       .then(categories => callback(null, categories))
       .catch(err => callback(err, null))
     ;

@@ -12,15 +12,13 @@
   <thead>
     <tr>
       <th scope="col">Label</th>
-      <th scope="col">Description</th>
-      <th></th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let record of categories">
       <!--th scope="row"><input type="checkbox" value=""></th-->
       <td>{{ record.label}}</td>
-      <td>{{ record.description }}</td>
       <td>
 	<a href="#" (click)="edit(record); false;"><i class="far fa-edit mr-2"></i></a>
 	<a href="#" (click)="delete(record); false;"><i class="far fa-trash-alt mr-2"></i></a>
