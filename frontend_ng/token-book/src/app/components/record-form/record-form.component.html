@@ -11,23 +11,25 @@
       <div [hidden]="false === field.visible">
         <label for="{{ field.name }}" *ngIf="'boolean' !== field.type">{{ field.title }}</label>
 
-        <mat-checkbox *ngIf="'boolean' === field.type"
-		      [labelPosition]="'before'">{{ field.title }}</mat-checkbox>
-        <input *ngIf="!field.values && 'boolean' !== field.type"
-               [attr.disabled]="field.disabled ? '' : null"
-               type="{{ field.type }}"
-               formControlName="{{ field.name }}"
-               class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
-        <select *ngIf="field.values"
-                [attr.disabled]="field.disabled ? '' : null"
-                class="form-control"
-                formControlName="{{ field.name }}"
-                [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }">
-          <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
-            {{ c[field.displayKey] }}
-          </option>
-        </select>
+        <div *ngIf="!config.style || false !== config.style.showInput">
+          <mat-checkbox *ngIf="'boolean' === field.type"
+                        [labelPosition]="'before'">{{ field.title }}</mat-checkbox>
+          <input *ngIf="!field.values && 'boolean' !== field.type"
+                 [attr.disabled]="field.disabled ? '' : null"
+                 type="{{ field.type }}"
+                 formControlName="{{ field.name }}"
+                 class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }" />
+          <select *ngIf="field.values"
+                  [attr.disabled]="field.disabled ? '' : null"
+                  class="form-control"
+                  formControlName="{{ field.name }}"
+                  [ngClass]="{ 'is-invalid': submitted && form[field.name].errors }">
+            <option *ngFor="let c of field.values" [value]="c[field.valueKey]">
+              {{ c[field.displayKey] }}
+            </option>
+          </select>
+        </div>
 
         <!-- Error Message -->
         <div *ngIf="submitted && form[field.name].errors" class="invalid-feedback">

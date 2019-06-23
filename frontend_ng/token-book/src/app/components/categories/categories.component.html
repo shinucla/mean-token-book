@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light">
   <ul class="navbar-nav flex-row">
     <li class="nav-item">
-      <a class="nav-link" href (click)="showDialog(); false">
+      <a class="nav-link" href (click)="add(); false;">
         <i class="fas fa-plus-circle"></i>
       </a>
     </li>
@@ -13,13 +13,18 @@
     <tr>
       <th scope="col">Label</th>
       <th scope="col">Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let category of categories">
+    <tr *ngFor="let record of categories">
       <!--th scope="row"><input type="checkbox" value=""></th-->
-      <td>{{ category.label}}</td>
-      <td>{{ category.description }}</td>
+      <td>{{ record.label}}</td>
+      <td>{{ record.description }}</td>
+      <td>
+	<a href="#" (click)="edit(record); false;"><i class="far fa-edit mr-2"></i></a>
+	<a href="#" (click)="delete(record); false;"><i class="far fa-trash-alt mr-2"></i></a>
+      </td>
     </tr>
   </tbody>
 </table>

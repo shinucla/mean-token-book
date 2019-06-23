@@ -20,7 +20,13 @@ import * as _ from 'lodash';
 @Component({
   template: `
   <div class="modal-header">
-    <h3 class="modal-title">{{ config.title }}</h3>
+    <h5 class="modal-title">
+      <i class="far fa-check-square" *ngIf="config.style && config.style.isConfirm"></i>
+      <i class="fas fa-exclamation-triangle" *ngIf="config.style && config.style.isWarning"></i>
+      <i class="fas fa-info-circle" *ngIf="config.style && config.style.isInfo"></i>
+      <i class="far fa-comment-dots" *ngIf="config.style && config.style.isMessage"></i>
+       {{ config.title }}
+    </h5>
     <a class="close" href (click)="onCancel(); false">
       <i class="far fa-times-circle"></i>
     </a>
@@ -34,7 +40,7 @@ import * as _ from 'lodash';
 export class FormFieldComponent implements OnInit, OnDestroy {
   /* config def:
    * { title: string,
-   *   style: string,
+   *   style: { size: string, backdrop: string, isWarning: boolean, isInfo: boolean, isConfirm, isMessage },
    *   component?: Component,
    *   bindings?: { fields: [{ name: string,
    *                           title: string,
@@ -124,6 +130,39 @@ export class DialogService {
     compRef.componentInstance.config = config;
   }
 
+  confirm(message, onOk, onCancel) {
+    this.open({ title: 'Confirmation',
+		style: { size: 'md', backdrop: 'static', isConfirm: true, showInput: false },
+		bindings: { fields: [{ name: 'value', title: message, type: 'text' }]},
+		submit: { title: 'Ok', click: (record, next) => onOk(next)},
+		cancel: { title: 'Cancel', click: onCancel }
+	      });
+  }
+
+  info(message) {
+    this.open({ title: 'Information',
+		style: { size: 'md', backdrop: 'static', isInfo: true, showInput: false },
+		bindings: { fields: [{ name: 'value', title: message, type: 'text' }]},
+		submit: { title: 'Ok', click: (record, next) => next()},
+	      });
+  }
+
+  warn(message) {
+    this.open({ title: 'Warning',
+		style: { size: 'md', backdrop: 'static', isWarning: true, showInput: false },
+		bindings: { fields: [{ name: 'value', title: message, type: 'text' }]},
+		submit: { title: 'Ok', click: (record, next) => next()},
+	      });
+  }
+
+  message(message) {
+    this.open({ title: 'Message',
+		style: { size: 'md', backdrop: 'static', isMessage: true, showInput: false },
+		bindings: { fields: [{ name: 'value', title: message, type: 'text' }]},
+		submit: { title: 'Ok', click: (record, next) => next()},
+	      });
+  }
+
   popup(config) {
     //TBI
   }
@@ -132,25 +171,7 @@ export class DialogService {
     //let compRef = this.ngbModal.open(DialogComponent, (config.style || { size: 'md', backdrop: 'static' }));
     //compRef.componentInstance.config = { title: config.title, component: content};
   }
-
-  warn(config) {
-    // TBI
-  }
-
-  confirm(config) {
-    // TBI
-  }
-
-  info(config) {
-    // TBI
-  }
-
-  message(config) {
-    // TBI
-  }
 }
-
-
 
 
 /*

@@ -9,39 +9,67 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoriesComponent implements OnInit {
   categories: any;
+  fields = [{ name: 'label',
+              title: 'Label',
+              type: 'text',
+              required: true },
+            { name: 'description',
+              title: 'Description',
+              type: 'text',
+              required: true }];
 
-  constructor(private dialogService: DialogService,
-	      private categoryService: CategoryService) { }
+  constructor(private dialog: DialogService,
+              private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.reload();
   }
 
-  showDialog() {
-    this.dialogService.open({ title: 'Add Category',
-			      style: { size: 'sm', backdrop: 'static' },
-			      bindings: { fields: [{ name: 'label',
-						     title: 'Label',
-						     type: 'text',
-						     required: true },
-						   { name: 'description',
-						     title: 'Description',
-						     type: 'text',
-						     required: true }],
-					},
-			       submit: { title: 'Create',
-					 click: (record, next) => {
-					   this.categoryService.create(record).subscribe(x => {
-					     this.reload();
-					     next();
-					   }, err => next(err));
-					 }},
-			       cancel: { title: 'Cancel',
-					 click: () => { /* NOP */ }}
-			     });
-  }
-
   reload() {
     this.categoryService.getCategories().subscribe(records => this.categories = records);
+  }
+
+  add() {
+    this.dialog.open({ title: 'Add Category',
+                       style: { size: 'sm', backdrop: 'static' },
+                       bindings: { fields: this.fields },
+                       submit: { title: 'Create',
+                                 click: (record, next) => {
+                                   this.categoryService.create(record).subscribe(x => {
+                                     this.reload();
+                                     next();
+                                   }, err => next(err));
+                                 }},
+                       cancel: { title: 'Cancel',
+                                 click: () => { /* NOP */ }}
+                     });
+  }
+
+  edit(record) {
+    this.dialog.open({ title: 'Edit Category',
+                       style: { size: 'sm', backdrop: 'static' },
+                       bindings: { fields: this.fields,
+				   record: record },
+                       submit: { title: 'Create',
+                                 click: (record, next) => {
+                                   //this.categoryService.create(record).subscribe(x => {
+                                   //  this.reload();
+                                   //  next();
+                                   //}, err => next(err));
+				   console.log(record);
+                                 }},
+                       cancel: { title: 'Cancel',
+                                 click: () => { /* NOP */ }}
+                     });
+  }
+
+  delete(record) {
+    this.dialog.confirm("are you sure you want to delete?",
+                        (next) => {
+                          console.log('clicked on ok');
+                          next();
+                        }, () => {
+                          console.log('clicked on cancel');
+                        });
   }
 }
