@@ -12,7 +12,7 @@ module.exports = class CategoryManager {
       .Category
       .create({ family_id: json.familyId,
                 label: json.label,
-                description: json.description })
+                status: AppConstants.StatusEnum.ACTIVE.id })
       .then(category => callback(null, category))
       .catch(err => callback(new Error('failed creating category', 100), null))
       //.catch(err => callback(err, null))
