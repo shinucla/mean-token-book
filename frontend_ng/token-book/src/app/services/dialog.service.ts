@@ -75,15 +75,21 @@ export class FormFieldComponent implements OnInit, OnDestroy {
 
       this.recordForm = this.config;
       this.recordForm.submit.click = (record, next) => {
-        submit(record,
-               (error) => {
-                 if (error) {
-                   next(error);
-
-                 } else {
-                   this.activeModal.close();
-                 }
-               });
+	if (this.config.bindings.record
+	    && !this.isRecordChanged(this.config.bindings.record, record)) {
+	  this.activeModal.close();
+	  
+	} else {
+	  submit(record,
+		 (error) => {
+                   if (error) {
+                     next(error);
+		     
+                   } else {
+                     this.activeModal.close();
+                   }
+		 });
+	}
       };
 
       this.recordForm.cancel.click = () => {
@@ -98,6 +104,14 @@ export class FormFieldComponent implements OnInit, OnDestroy {
     }
   }
 
+  isRecordChanged(oldRecord, newRecord) {
+    let changed: boolean = false;
+    for (let k in newRecord) {
+      changed = changed || (newRecord[k] !== oldRecord[k]);
+    }
+    return changed;
+  }
+  
   ngOnDestroy() {
     if (this.componentRef) {
       this.componentRef.destroy();

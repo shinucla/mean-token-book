@@ -48,7 +48,7 @@ export class CategoriesComponent implements OnInit {
                        style: { size: 'sm', backdrop: 'static' },
                        bindings: { fields: this.fields,
 				   record: record },
-                       submit: { title: 'Create',
+                       submit: { title: 'Save',
                                  click: (record, next) => {
                                    this.categoryService.update(record).subscribe(x => {
                                      this.reload();
