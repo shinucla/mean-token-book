@@ -18,7 +18,7 @@ export default class LinkComponent extends React.Component {
   render() {
     return (
       <View>
-	<Text onPress={ this.openInBrowser.bind(this, link } >
+	<Text onPress={ this.openInBrowser.bind(this, link) } >
           { title }
 	</Text>
       </View>
