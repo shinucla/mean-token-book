@@ -1,7 +1,22 @@
 # mean-node-login-template
 mean = mysql express angular node
 
-node.js setup:
+================================================================
+[emacs setup]:
+(setq package-archives '(("gnu", "https://elpa.gnu.org/packages")
+                        ("melpa", "https://stable.melpa.org/packages/")
+                        ))
+
+M-x package-refresh-contents
+M-x package-install [RET] js2-mode [RET]
+M-x package-install [RET] rjsx-mode [RET]
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+
+
+
+================================================================
+[node.js setup]:
  - [ubuntu]
    sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
    sudo apt-get install -y nodejs
@@ -10,7 +25,8 @@ node.js setup:
    install brew: https://brew.sh/
    brew install node@10
 
-ng setup:
+================================================================
+[ng setup]:
   1) installs
      npm install -g @angular/cli
 
@@ -36,8 +52,17 @@ ng setup:
      - deploy with static output folder
        ng build --prod --output-path ../../backend_nodejs/dist
 
-================================================================
 
+================================================================
+[expo-cli setup]:
+npm install -g expo-cli --unsafe-perm --allow-root
+
+expo init proj
+cd proj
+expo start
+
+
+================================================================
 [Free UI wireframe tool]
 https://www.fluidui.com/editor/live/
 

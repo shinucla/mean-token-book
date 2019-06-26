@@ -62,7 +62,7 @@
           <ng-template ngbSlide>
             <img [src]="images[1]" alt="Random second slide">
             <div class="carousel-caption">
-	      <h1 class="strokeme">Add your children today</h1>
+              <h1 class="strokeme">Add your children today</h1>
               <a href="/family" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>
             </div>
           </ng-template>
@@ -83,32 +83,35 @@
     <div class="row">
       <div class="col-md-4" *ngFor="let child of children">
         <div class="card mb-4 shadow-sm">
-          <img class="bd-placeholder-img card-img-top"
-               src="assets/home/album-01.jpg"
-               width="100%"
-               height="225"
-               focusable="false"
-               role="img"
-               aria-label="Placeholder: Thumbnail" />
+          <a href="#"
+             (click)="loadChild(child); false;">
+            <img class="bd-placeholder-img card-img-top"
+                 src="assets/home/album-01.jpg"
+                 width="100%"
+                 height="225"
+                 focusable="false"
+                 role="img"
+                 aria-label="Placeholder: Thumbnail" />
+          </a>
           <div class="card-body">
             <p class="card-text">{{ child.first_name }}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group" *ngIf="isParent()">
                 <button type="button"
-			class="btn btn-sm btn-outline-secondary"
-			(click)="award(child.id)">
-		  <i class="fas fa-award"></i> Award ...
-		</button>
+                        class="btn btn-sm btn-outline-secondary"
+                        (click)="award(child.id)">
+                  <i class="fas fa-award"></i> Award ...
+                </button>
                 <button type="button"
-			class="btn btn-sm btn-outline-secondary"
-			(click)="punish(child.id)">
-		  <i class="fas fa-minus-circle"></i> Punish ...
-		</button>
+                        class="btn btn-sm btn-outline-secondary"
+                        (click)="punish(child.id)">
+                  <i class="fas fa-minus-circle"></i> Punish ...
+                </button>
               </div>
-	      <small class="text-muted">{{ tokenCountMap[child.id] || 0 }} tokens</small>
-	    </div>
-	  </div>
-	</div>
+              <small class="text-muted">{{ tokenCountMap[child.id] || 0 }} tokens</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
