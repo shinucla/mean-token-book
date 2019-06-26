@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 
-import LinkComponent from '../link/link.component';
+import LinkTextComponent from '../link-text/link-text.component';
 
 import styles from './home.component.style';
 
@@ -34,7 +34,7 @@ export default class HomeComponent extends React.Component {
 
           { /* content */ }
 	  <View style={styles.getStartedContainer}>
-            <LinkComponent />
+            <LinkTextComponent title="My Token Book" link="http://mytokenbook.com" />
 
             <Text style={styles.getStartedText}>Hello World!</Text>
 

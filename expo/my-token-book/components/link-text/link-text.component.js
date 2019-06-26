@@ -10,16 +10,20 @@ import {
   View,
 } from 'react-native';
 
-let title = 'My Token Book';
-let link = 'https://mytokenbook.com';
+export default class LinkTextComponent extends React.Component {
 
-export default class LinkComponent extends React.Component {
+  //@Override
+  constructor(prop) {
+    super(prop);
+    this.prop = prop;
+  }
+  
   //@Override
   render() {
     return (
       <View>
-	<Text onPress={ this.openInBrowser.bind(this, link) } >
-          { title }
+	<Text onPress={ this.openInBrowser.bind(this, this.prop.link) } >
+          { this.prop.title }
 	</Text>
       </View>
     );
@@ -29,3 +33,4 @@ export default class LinkComponent extends React.Component {
     WebBrowser.openBrowserAsync(link);
   }
 }
+
