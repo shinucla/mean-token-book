@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../repositories/user.repository.dart';
 
 class FamilyComponent extends StatelessWidget {
   FamilyComponent({ Key key }) : super(key: key);
@@ -14,7 +15,11 @@ class FamilyComponent extends StatelessWidget {
 
 
 class Content extends StatelessWidget {
-  Content({ Key key }) : super( key: key);
+  Content({ Key key }) : super( key: key) {
+    // test
+    var rtn = new UserRepository().getChildren();
+    print(rtn);
+  }
 
   @override
   Widget build(BuildContext context) => Center(
