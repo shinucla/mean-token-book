@@ -7,12 +7,8 @@ class LoginComponent extends StatefulWidget {
 }
 
 class _ComponentState extends State<LoginComponent> {
-  
-  @override
-  Widget build(BuildContext context) {
-    
-    return Scaffold(
-                    );
-  }
-}
 
+  @override
+  Widget build(BuildContext context) => Scaffold(
+  );
+}

@@ -11,7 +11,7 @@ class MainPageComponent extends StatefulWidget {
   final String title;
 
   @override
-  _ComponentState createState() => _ComponentState();
+  _ComponentState createState() => new _ComponentState();
 }
 
 class _ComponentState extends State<MainPageComponent> {
@@ -19,50 +19,46 @@ class _ComponentState extends State<MainPageComponent> {
   int _bottomNavIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Center(
+        child: Text(widget.title, textAlign: TextAlign.center) // widget: for referencing parent widget
+      )
+    ),
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(widget.title, textAlign: TextAlign.center) // widget: for referencing parent widget
-        )
-      ),
+    body: _getWidgetComponent(this._bottomNavIndex),
 
-      body: _getWidgetComponent(this._bottomNavIndex),
+    bottomNavigationBar: new BottomNavigationBar(
+      currentIndex: this._bottomNavIndex,
+      type: BottomNavigationBarType.fixed,
+      items: [
+        BottomNavigationBarItem(
+          title: Text('Home'),
+          icon: Icon(Icons.home)
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: Colors.black,
+          title: Text('Dashboard'),
+          icon: Icon(Icons.list)
+        ),
+        BottomNavigationBarItem(
+          title: Text('Family'),
+          icon: Icon(Icons.people)
+        ),
+        BottomNavigationBarItem(
+          title: Text('Category'),
+          icon: Icon(Icons.category)
+        )],
 
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: this._bottomNavIndex,
-	type: BottomNavigationBarType.fixed,
-	items: [
-	  BottomNavigationBarItem(
-	    title: Text('Home'),
-	    icon: Icon(Icons.home)
-	  ),
-	  BottomNavigationBarItem(
-	    backgroundColor: Colors.black,
-	    title: Text('Dashboard'),
-	    icon: Icon(Icons.list)
-	  ),
-	  BottomNavigationBarItem(
-	    title: Text('Family'),
-	    icon: Icon(Icons.people)
-	  ),
-	  BottomNavigationBarItem(
-	    title: Text('Category'),
-	    icon: Icon(Icons.category)
-	  )],
+      onTap: (int index) {
+        setState(() {
+          this._counter+=index;
+          this._bottomNavIndex = index;
+        });
+      },
+    ),
 
-	onTap: (int index) {
-          setState(() {
-	    this._counter+=index;
-	    this._bottomNavIndex = index;
-	  });
-        },
-      ),
-
-    );
-
-  }
+  );
 
   Widget _getWidgetComponent(int index) {
     switch (index) {

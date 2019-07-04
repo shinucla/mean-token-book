@@ -10,8 +10,6 @@ class RecordFieldComponent extends StatefulWidget {
 }
 
 class _ComponentState extends State<RecordFieldComponent> {
-
-  @override Widget build(BuildContext context) {
-    return Scaffold();
-  }
+  @override Widget build(BuildContext context) => Scaffold(
+  );
 }
