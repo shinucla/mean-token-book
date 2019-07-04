@@ -21,16 +21,13 @@ class HomeComponent extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
       itemCount: 100,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
+      itemBuilder: (BuildContext context, int index) => Container(
           color: Colors.amber[600],
           //child: Center(child: Text('Entry ${entries[index]}')),
           child: Center(child: Text('Entry ${ counter }')),
-        );
-      }
+      )
     );
   }
-
 }
 
 

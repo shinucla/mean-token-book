@@ -21,12 +21,11 @@ class _ComponentState extends State<MainPageComponent> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Center(
-        child: Text(widget.title, textAlign: TextAlign.center) // widget: for referencing parent widget
-      )
+      centerTitle: true,
+      title: Text(widget.title) // widget: for referencing parent widget
     ),
 
-    body: _getWidgetComponent(this._bottomNavIndex),
+    body: _getScreenComponent(this._bottomNavIndex),
 
     bottomNavigationBar: new BottomNavigationBar(
       currentIndex: this._bottomNavIndex,
@@ -60,7 +59,7 @@ class _ComponentState extends State<MainPageComponent> {
 
   );
 
-  Widget _getWidgetComponent(int index) {
+  Widget _getScreenComponent(int index) {
     switch (index) {
     case 0: return new HomeComponent( counter: this._counter );
     case 1: return new DashboardComponent();
