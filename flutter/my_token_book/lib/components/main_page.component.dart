@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import './home.component.dart';
+import './dashboard.component.dart';
+import './family.component.dart';
+import './category.component.dart';
 
 class MainPageComponent extends StatefulWidget {
   // super class with contructor takes an optional parameter: key (type of Key)
@@ -17,14 +20,15 @@ class _ComponentState extends State<MainPageComponent> {
 
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
 
+    return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title) // widget: for referencing parent widget
+        title: Center(
+          child: Text(widget.title, textAlign: TextAlign.center) // widget: for referencing parent widget
+        )
       ),
 
-      body: new HomeComponent( counter: _counter ),
+      body: _getWidgetComponent(this._bottomNavIndex),
 
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: this._bottomNavIndex,
@@ -49,27 +53,31 @@ class _ComponentState extends State<MainPageComponent> {
 	  )],
 
 	onTap: (int index) {
-	  //this._counter+=index;
-	  //this._bottomNavIndex = index;
-	  //setState(() {});
-	  setState(() {
+          setState(() {
 	    this._counter+=index;
 	    this._bottomNavIndex = index;
 	  });
         },
-        
       ),
-      
+
     );
 
   }
 
-  void _incrementCounter() {
-    //setState(() {
-    //  _counter++;
-    //});
+  Widget _getWidgetComponent(int index) {
+    switch (index) {
+    case 0: return new HomeComponent( counter: this._counter );
+    case 1: return new DashboardComponent();
+    case 2: return new FamilyComponent();
+    case 3: return new CategoryComponent();
+    default: return new HomeComponent( counter: this._counter );
+    }
+  }
 
-    setState(() => _counter++);
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
   }
 
 }

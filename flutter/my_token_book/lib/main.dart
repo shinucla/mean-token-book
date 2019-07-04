@@ -3,7 +3,7 @@ import './components/main_page.component.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: MainPageComponent(title: 'My Token Book'),
+    home: new MainPageComponent(title: 'My Token Book'),
     theme: ThemeData(
       primarySwatch: Colors.green,
     )
