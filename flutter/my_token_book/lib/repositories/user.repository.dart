@@ -2,21 +2,24 @@ import 'package:http/http.dart' as http;
 import 'package:geolocation/geolocation.dart';
 
 /*
- * Repository as singleton
+ * singleton might not be a good idea
  */
 class UserRepository {
-  static final http.client httpClient;
-  static final UserRepository _repo = new UserPepository._internal();
 
-  static UserRepository get() { return _repo; }
+  static UserRepository get() { return new _UserRepository(); }
 
-  UserRepository._internal() {
-    //httpClient =
+  UserRepository();
+
+  getChildren() {
+    return http.post('/api/user/getChildren', body: {});
   }
 
+  getFamilyMembers() {
+    return http.post('/api/user/getFamilyMembers', body: {});
+  }
 
+  createFamily(json) {
+    return http.post('/api/user/createFamily', body: json);
+  }
 
-  UserRepository({ this.httpClient });
-
-  //Future<
 }
