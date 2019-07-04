@@ -2,6 +2,9 @@ import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
 
 class ServerCallInterceptor implements InterceptorContract {
+
+  ServerCallInterceptor();
+
   @override
   Future<RequestData> interceptRequest({RequestData data}) async {
     print('http requesting...\r\n');

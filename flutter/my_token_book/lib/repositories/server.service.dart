@@ -3,12 +3,9 @@ import './server-call.interceptor.dart';
 
 class ServerService {
 
-  Client httpClient = HttpClientWithInterceptor.build(interceptors: [
-    new ServerCallInterceptor(),
-  ]);
+  ServerService();
 
-  resolve({ @required String url, json }) async {
-    // try catch?
-    return await this.httpClient.post(url, body: json);
+  resolve(url, json) {
+    return http.post(url, body: json);
   }
 }

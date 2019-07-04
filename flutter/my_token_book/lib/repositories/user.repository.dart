@@ -10,21 +10,23 @@ class UserRepository {
   static UserRepository get() { return new UserRepository(); }
 
   ServerService _server;
-  
+
   UserRepository() {
     this._server = new ServerService();
   }
 
-  getChildren() {
-    return _server.resolve('https://mytokenbook.com/api/user/getChildren', body: {});
+  getChildren(callback) {
+    _server
+      .resolve('https://mytokenbook.com/api/user/getChildren', {})
+      .then(callback);
   }
 
   getFamilyMembers() {
-    return _server.resolve('/api/user/getFamilyMembers', body: {});
+    //return _server.resolve('/api/user/getFamilyMembers', body: {});
   }
 
   createFamily(json) {
-    return _server.resolve('/api/user/createFamily', body: json);
+    //return _server.resolve('/api/user/createFamily', body: json);
   }
 
 }
