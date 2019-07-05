@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../repositories/user.repository.dart';
-
-import 'package:http/http.dart' as http;
+import '../repositories/auth.service.dart';
 
 class FamilyComponent extends StatelessWidget {
   FamilyComponent({ Key key }) : super(key: key);
@@ -18,15 +17,24 @@ class FamilyComponent extends StatelessWidget {
 
 class Content extends StatelessWidget {
   Content({ Key key }) : super( key: key) {
-    new UserRepository().getChildren((data) => print(data.body));
-
-    //this.doit();
+    doAsync();
   }
 
-  void doit() async {
-    var res = await http.post('https://mytokenbook.com/api/user/getChildren', body: {});
-    print(res.body);
-    print(res.statusCode);
+  void doAsync() async {
+    var auth = new AuthService();
+
+    if (await auth.isLoggedIn()) {
+      print('logged in');
+      print(await auth.getUser());
+
+    } else {
+      Map user = {};
+      user['username'] = 'cchenzx';
+      user['password'] = 'matrix';
+      await auth.login(user).then((data) {
+	print(data);
+      });
+    }
   }
 
   @override

@@ -1,21 +1,21 @@
 PODS:
   - Flutter (1.0.0)
-  - http_interceptor (0.0.1):
+  - flutter_secure_storage (3.1.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
-  - http_interceptor (from `.symlinks/plugins/http_interceptor/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
-  http_interceptor:
-    :path: ".symlinks/plugins/http_interceptor/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  http_interceptor: cf43ac31ff62cb1c43abce27c35e66a29f461800
+  flutter_secure_storage: cbb73e37aa0c66689fe63799a9619ac66849b8fa
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
 

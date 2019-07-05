@@ -1,32 +1,15 @@
-import 'package:http/http.dart' as http;
-//import 'package:geolocation/geolocation.dart';
 import './server.service.dart';
 
-/*
- * singleton might not be a good idea
- */
 class UserRepository {
-
-  static UserRepository get() { return new UserRepository(); }
-
-  ServerService _server;
-
-  UserRepository() {
-    this._server = new ServerService();
-  }
-
-  getChildren(callback) {
-    _server
-      .resolve('https://mytokenbook.com/api/user/getChildren', {})
-      .then(callback);
+  getChildren() {
+    return ServerService().resolve('/api/user/getChildren', {});
   }
 
   getFamilyMembers() {
-    //return _server.resolve('/api/user/getFamilyMembers', body: {});
+    return ServerService().resolve('/api/user/getFamilyMembers', {});
   }
 
   createFamily(json) {
-    //return _server.resolve('/api/user/createFamily', body: json);
+    return ServerService().resolve('/api/user/createFamily', json);
   }
-
 }

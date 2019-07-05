@@ -32,7 +32,8 @@ dependencies:
   flutter_redux: ^0.5.3
   redux_logging: ^0.3.0
 
-  http_interceptor: any
+  date_format: 1.0.5
+  flutter_secure_storage: 3.1.2
 
 dev_dependencies:
   flutter_test:
