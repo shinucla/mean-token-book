@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HomeComponent extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   int counter;
 
-  HomeComponent({ Key key, int this.counter }) : super(key: key);
+  HomeScreen({ Key key, int this.counter }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(

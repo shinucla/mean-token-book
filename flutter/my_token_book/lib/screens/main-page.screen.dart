@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import './home.component.dart';
-import './dashboard.component.dart';
-import './family.component.dart';
-import './category.component.dart';
+import './home.screen.dart';
+import './dashboard.screen.dart';
+import './family.screen.dart';
+import './category.screen.dart';
 
-class MainPageComponent extends StatefulWidget {
+class MainPageScreen extends StatefulWidget {
   // super class with contructor takes an optional parameter: key (type of Key)
-  MainPageComponent({ Key key, this.title }) : super(key: key);
+  MainPageScreen({ Key key, this.title }) : super(key: key);
 
   final String title;
 
   @override
-  _ComponentState createState() => new _ComponentState();
+  _ScreenState createState() => new _ScreenState();
 }
 
-class _ComponentState extends State<MainPageComponent> {
+class _ScreenState extends State<MainPageScreen> {
   int _counter = 0;
   int _bottomNavIndex = 0;
 
@@ -25,7 +25,7 @@ class _ComponentState extends State<MainPageComponent> {
       title: Text(widget.title) // widget: for referencing parent widget
     ),
 
-    body: _getScreenComponent(this._bottomNavIndex),
+    body: _getScreen(this._bottomNavIndex),
 
     bottomNavigationBar: new BottomNavigationBar(
       currentIndex: this._bottomNavIndex,
@@ -59,13 +59,13 @@ class _ComponentState extends State<MainPageComponent> {
 
   );
 
-  Widget _getScreenComponent(int index) {
+  Widget _getScreen(int index) {
     switch (index) {
-    case 0: return new HomeComponent( counter: this._counter );
-    case 1: return new DashboardComponent();
-    case 2: return new FamilyComponent();
-    case 3: return new CategoryComponent();
-    default: return new HomeComponent( counter: this._counter );
+    case 0: return new HomeScreen( counter: this._counter );
+    case 1: return new DashboardScreen();
+    case 2: return new FamilyScreen();
+    case 3: return new CategoryScreen();
+    default: return new HomeScreen( counter: this._counter );
     }
   }
 

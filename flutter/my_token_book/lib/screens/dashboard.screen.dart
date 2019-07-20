@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DashboardComponent extends StatelessWidget {
-  DashboardComponent({ Key key }) : super(key: key);
+class DashboardScreen extends StatelessWidget {
+  DashboardScreen({ Key key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../repositories/user.repository.dart';
-import '../repositories/auth.service.dart';
+import '../services/user.repository.dart';
+import '../services/auth.service.dart';
 
-class FamilyComponent extends StatelessWidget {
-  FamilyComponent({ Key key }) : super(key: key);
+class FamilyScreen extends StatelessWidget {
+  FamilyScreen({ Key key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(

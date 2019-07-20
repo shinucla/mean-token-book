@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CategoryComponent extends StatelessWidget {
-  CategoryComponent({ Key key }) : super(key: key);
+class CategoryScreen extends StatelessWidget {
+  CategoryScreen({ Key key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(

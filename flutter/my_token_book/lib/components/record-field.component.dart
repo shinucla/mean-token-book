@@ -1,5 +1,5 @@
 import 'package: flutter/material.dart';
-import '../momdels/record-field.dart';
+import '../models/record-field.dart';
 
 class RecordFieldComponent extends StatefulWidget {
   RecordField field;

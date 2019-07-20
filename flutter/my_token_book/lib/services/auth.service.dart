@@ -12,7 +12,7 @@ import '../config/config.dart';
 class AuthService {
   final _server = new ServerService();
   final _storage = new StorageService();
-  
+    
   getJwt() async {
     return await this._storage.getJwt();
   }
@@ -28,6 +28,7 @@ class AuthService {
   
   logout() async {
     await this._storage.delete('user');
+    await this._storage.delete('jwt');
   }
 
   login(Map user) {
@@ -41,7 +42,7 @@ class AuthService {
           user['jwt'] = jwt;
 
 	  _storage.writeMap('user', user);
-
+	  
 	  return Future.value(user);
 
 	} else {
