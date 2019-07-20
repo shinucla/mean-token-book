@@ -66,7 +66,8 @@ module.exports = class TokenEventManager {
     Domain
       .TokenEvent
       .findAll({ where: where,
-                 include: [ Domain.User, Domain.Category ]
+		 order: [['id', 'DESC']],
+                 include: [ Domain.User, Domain.Category ]		 
                })
       .then(events => callback(null, events))
       .catch(err => callback(err, null))
