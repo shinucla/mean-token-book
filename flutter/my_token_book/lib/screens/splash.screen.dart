@@ -30,7 +30,7 @@ class _ScreenState extends State<SplashScreen> {
     return Container(
       color: Colors.green,
       alignment: FractionalOffset.center,
-      child: Text('My Token Book')
+      child: new Image.asset('assets/sharkla.png', fit: BoxFit.fill)
     );
   }
   
