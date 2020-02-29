@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
+
 
 /*
  * Using provider for state management:
@@ -33,7 +35,7 @@ enum AuthState { UNINITIALIZED, UNAUTHENTICATED, AUTHENTICATING, AUTHENTICATED }
 enum RoleState { UNINITIALIZED, PARENT, CHILD, ADMIN }
 /* roles: 1 = parent, 2 = child, 4 = admin */
 
-class AuthRoleChangeNotifier extends ChangeNotifier {
+class AuthRoleModel extends ChangeNotifier {
   var _user = null;
   var _jwt = null;
   var _authState = AuthState.UNINITIALIZED;
