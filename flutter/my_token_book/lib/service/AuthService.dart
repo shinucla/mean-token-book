@@ -1,8 +1,9 @@
 import 'dart:convert'; // for using jsonDecode()
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import './storage.service.dart';
-import './server.service.dart';
-import '../config/config.dart';
+
+import 'package:my_token_book/service/StorageService.dart';
+import 'package:my_token_book/service/ServerService.dart';
+import 'package:my_token_book/config/Config.dart';
 
 /*
  * 1) http.post => Future<http.Response> => responose.body : String
@@ -11,7 +12,7 @@ import '../config/config.dart';
  */
 class AuthService {
   final _server = new ServerService();
-  final _storage = new StorageService();
+  final _storage = StorageService.get();
     
   getJwt() async {
     return await this._storage.getJwt();

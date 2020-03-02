@@ -1,6 +1,7 @@
 import 'dart:convert'; // for using jsonDecode()
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../config/config.dart';
+
+import 'package:my_token_book/config/Config.dart';
 
 /*
  * 1) http.post => Future<http.Response> => responose.body : String
@@ -28,8 +29,13 @@ class StorageService {
   StorageService._internal() { } // internel constructor
 
   getJwt() async {
-    String jwt = await this._storage.read(key: Config.FSS_KEY_JWT);
-    return jwt;
+    String str = await this._storage.read(key: Config.FSS_KEY_JWT);
+
+    if (str.startsWith('"') && str.endsWith('"')) {
+      str = str.substring(1, str.length - 1);
+    }
+      
+    return str;
   }
   
   getUser() async {
@@ -37,6 +43,20 @@ class StorageService {
     return (null == data
 	    ? null
 	    : jsonDecode(data));
+  }
+
+  getUserJwt() async {
+    var data = {};
+    var userstring = await this._storage.read(key: Config.FSS_KEY_USER); // Please jsonDecode this at main.dart
+    data['jwt'] = await this._storage.read(key: Config.FSS_KEY_JWT);
+    data['user'] = null == userstring ? null : jsonDecode(userstring);
+
+    return data;
+  }
+
+  saveUserJwt(data) async {
+    await this._storage.write(key: Config.FSS_KEY_USER, value: jsonEncode(data['user']));
+    await this._storage.write(key: Config.FSS_KEY_JWT, value: data['jwt']);
   }
 
   read(String key) async {

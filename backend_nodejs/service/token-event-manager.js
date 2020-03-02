@@ -78,13 +78,16 @@ module.exports = class TokenEventManager {
 
   getChildrenTokenCounts(json, callback) {
     Domain
-      .withRows('  select u.first_name, u.last_name, u.id, sum(t.amount) as "sum"'
-		+ '  from token_event t, user u'
-		+ ' where t.user_id = u.id'
-		+ '   and t.family_id = u.family_id'
-		+ '   and t.family_id = ' + json.familyId
+      .withRows('  select u.first_name, u.last_name, u.id, token.sum as "sum"'
+		+ '  from user u'
+		+ '  left join (select family_id, user_id, sum(amount) sum'
+		+ '               from token_event'
+		+ '              group by family_id, user_id) as token'
+		+ '    on token.family_id = u.family_id and token.user_id = u.id'
+		+ ' where u.family_id = ' + json.familyId
+		+ '   and u.role_id = ' + AppConstants.RoleEnum.CHILD.id
 		+ '   and u.id = ' + (!!json.userId ? json.userId : 'u.id')
-		+ ' group by u.id')
+		)
       .then(data => callback(null, data))
       .catch(err => callback(err, null))
     ;

@@ -1,4 +1,4 @@
-import './server.service.dart';
+import 'package:my_token_book/service/ServerService.dart';
 
 class CategoryRepository {
   create(json) {

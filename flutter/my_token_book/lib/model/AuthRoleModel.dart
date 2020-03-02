@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import 'package:my_token_book/service/StorageService.dart';
 
 /*
  * Using provider for state management:
@@ -31,40 +33,67 @@ import 'package:provider/provider.dart';
  * 4) Admin ------------- full access to all views
  */
 
-enum AuthState { UNINITIALIZED, UNAUTHENTICATED, AUTHENTICATING, AUTHENTICATED }
+enum AuthState { UNINITIALIZED, UNAUTHENTICATED, AUTHENTICATING, AUTHENTICATED_WITHOUT_FAMILY, AUTHENTICATED_WITH_FAMILY }
 enum RoleState { UNINITIALIZED, PARENT, CHILD, ADMIN }
 /* roles: 1 = parent, 2 = child, 4 = admin */
 
+@JsonSerializable()
 class AuthRoleModel extends ChangeNotifier {
   var _user = null;
   var _jwt = null;
   var _authState = AuthState.UNINITIALIZED;
   var _roleState = RoleState.UNINITIALIZED;
-
+  var _childrenTokenCounts = [];
+  
   getUser() { return this._user; }
   getJwt() { return this._jwt; }
   getAuthState() { return this._authState; }
   getRoleState() { return this._roleState; }
-
-  login(user) {
+  getChildrenTokenCounts() { return this._childrenTokenCounts; }
+  
+  //auth() {
+  //  this._authState = AuthState.AUTHENTICATED;
+  //  notifyListeners();
+  //}
+  
+  //tryToLoadUserFromStorage() async {
+  //  var data = await StorageService.get().getUserJwt();
+  //
+  //  print(data);
+  //  
+  //  if (null != data['user'] && null != data['jwt']) {
+  //    setUserJwtWithoutNotifyListeners(data['user'], data['jwt']);
+  //  }
+  //}
+  
+  setUserJwtWithoutNotifyListeners(user, jwt) {
     this._user = user;
-    this._jwt = user.jwt;
+    this._jwt = jwt;
 
-    if (null != user && null != user.jwt) {
-      this._authState = AuthState.AUTHENTICATED;
-    }
-
-    if (null != user.role) {
-      switch (user.role) {
-        case 1: this._roleState = RoleState.PARENT; break;
-        case 2: this._roleState = RoleState.CHILD; break;
-        case 4: this._roleState = RoleState.ADMIN; break;
+    if (null != user && null != jwt) {
+      if (null != user['family_id']) {
+        this._authState = AuthState.AUTHENTICATED_WITH_FAMILY;
+      } else {
+        this._authState = AuthState.AUTHENTICATED_WITHOUT_FAMILY;
       }
     }
 
+    if (null != user['role_id']) {
+      switch (user['role_id']) {
+        case 1: this._roleState = RoleState.PARENT; break; // 0x0001
+        case 2: this._roleState = RoleState.CHILD; break;  // 0x0010
+        case 4: this._roleState = RoleState.ADMIN; break;  // 0x0100
+        case 5: this._roleState = RoleState.ADMIN; break;  // 0x0101
+      }
+    }
+  }
+  
+  login(user, jwt) {
+    setUserJwtWithoutNotifyListeners(user, jwt);
+    
     notifyListeners();
   }
-
+  
   logout() {
     this._user = null;
     this._jwt = null;
@@ -95,6 +124,12 @@ class AuthRoleModel extends ChangeNotifier {
 
   setRoleState(RoleState state) {
     this._roleState = state;
+
+    notifyListeners();
+  }
+
+  setChildrenTokenCountsWithoutNotifyListeners(data) {
+    this._childrenTokenCounts = data;
 
     notifyListeners();
   }

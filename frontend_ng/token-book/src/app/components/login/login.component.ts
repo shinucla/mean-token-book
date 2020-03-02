@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
                                         if (u && u.jwt) {
                                           //this.router.navigate(['/']);
                                           location.reload();
-					  next();
-					  
+                                          next();
+
                                         } else {
-					  next(new Error('Please try again later'));
-					}
+                                          next(new Error('Please try again later'));
+                                        }
                                       }, err => next(err));
                                   }},
                         cancel: { title: 'Sign up',
