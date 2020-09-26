@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatelessWidget {
-  DashboardScreen({ Key key }) : super(key: key);
+class AuthenticatingScreen extends StatelessWidget {
+  AuthenticatingScreen({ Key key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -12,7 +12,6 @@ class DashboardScreen extends StatelessWidget {
   );
 }
 
-
 class Content extends StatelessWidget {
   Content({ Key key }) : super( key: key);
 
@@ -21,7 +20,8 @@ class Content extends StatelessWidget {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('Dashboard!')
+        Text('Authenticating Screen')
       ]
-  ));
+    )
+  );
 }

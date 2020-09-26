@@ -32,7 +32,7 @@ class Content extends StatelessWidget {
       user['username'] = 'cchenzx';
       user['password'] = 'matrix';
       await auth.login(user).then((data) {
-	print(data);
+          print(data);
       });
     }
   }
@@ -44,5 +44,5 @@ class Content extends StatelessWidget {
       children: <Widget>[
         Text('Family')
       ]
-    ));
+  ));
 }
