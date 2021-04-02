@@ -1,0 +1,140 @@
+
+backend_nodejs/controller/category-controller.js,30
+module.exports exports9,177
+
+backend_nodejs/controller/feedback-controller.js,29
+module.exports exports3,15
+
+backend_nodejs/controller/home-controller.js,29
+module.exports exports3,15
+
+backend_nodejs/controller/token-event-controller.js,30
+module.exports exports9,177
+
+backend_nodejs/controller/user-controller.js,30
+module.exports exports9,177
+
+backend_nodejs/model/category-def.js,29
+module.exports exports3,16
+
+backend_nodejs/model/family-def.js,29
+module.exports exports3,16
+
+backend_nodejs/model/feedback-def.js,29
+module.exports exports3,16
+
+backend_nodejs/model/token-event-def.js,29
+module.exports exports3,16
+
+backend_nodejs/model/token-rule-def.js,29
+module.exports exports3,16
+
+backend_nodejs/model/user-auth-def.js,29
+module.exports exports3,15
+
+backend_nodejs/model/user-def.js,29
+module.exports exports3,16
+
+backend_nodejs/service/category-manager.js,29
+module.exports exports3,15
+
+backend_nodejs/service/facebook-service.js,287
+var request 2,1
+var _FB_API_VER 5,37
+var _FB_API_URI 6,63
+class FacebookService 8,133
+  constructor(9,157
+  get(11,188
+class Params 24,588
+  constructor(25,603
+  setParam(29,648
+  toString(34,725
+var service 44,913
+service.Params Params45,944
+module.exports exports47,970
+
+backend_nodejs/service/family-manager.js,46
+function encode(6,89
+function decode(13,295
+
+backend_nodejs/service/feedback-manager.js,29
+module.exports exports3,15
+
+backend_nodejs/service/home-manager.js,47
+var request 3,15
+module.exports exports5,50
+
+backend_nodejs/service/token-event-manager.js,29
+module.exports exports3,15
+
+backend_nodejs/service/user-auth-manager.js,77
+function generateHash(7,131
+function encode(12,274
+function decode(19,480
+
+frontend_ng/token-book/src/app/components/dashboard/dashboard.component.html,14
+Dashboard1,0
+
+frontend_ng/token-book/src/app/components/family/family.component.html,25
+{{ family.title }}5,149
+
+frontend_ng/token-book/src/app/components/feedback/feedback.component.html,26
+Add a new feedback21,563
+
+frontend_ng/token-book/src/app/components/header/header.component.html,116
+{{ user.first_name.toUpperCase().charAt(0) }}{{ user.last_name.toUpperCase().charAt(0) }}headerDropdownMenu17,598
+
+frontend_ng/token-book/src/app/components/login/login.component.html,14
+Sign in6,124
+
+frontend_ng/token-book/src/app/components/register/register.component.html,14
+Sign up6,124
+
+frontend_ng/token-book/src/app/components/register-family-member/register-family-member.component.html,31
+Register A Family Member5,119
+
+frontend_ng/token-book/src/index.html,18
+My Tokenbook5,69
+
+frontend_ng/token-book/src/karma.conf.js,30
+module.exports exports4,129
+
+frontend_ng/token-book/src/styles.scss,0
+
+frontend_ng/token-book/src/app/components/sidebar-menu/sidebar-menu.component.scss,0
+
+frontend_ng/token-book/src/app/components/sidebar-menu/sidebar-menu.component.html,0
+
+frontend_ng/token-book/src/app/components/register-family-member/register-family-member.component.scss,0
+
+frontend_ng/token-book/src/app/components/register/register.component.scss,0
+
+frontend_ng/token-book/src/app/components/record-form/record-form.component.scss,0
+
+frontend_ng/token-book/src/app/components/record-form/record-form.component.html,0
+
+frontend_ng/token-book/src/app/components/login/login.component.scss,0
+
+frontend_ng/token-book/src/app/components/home/home.component.scss,0
+
+frontend_ng/token-book/src/app/components/home/home.component.html,0
+
+frontend_ng/token-book/src/app/components/header/header.component.scss,0
+
+frontend_ng/token-book/src/app/components/footer/footer.component.scss,0
+
+frontend_ng/token-book/src/app/components/footer/footer.component.html,0
+
+frontend_ng/token-book/src/app/components/feedback/feedback.component.scss,0
+
+frontend_ng/token-book/src/app/components/family/family.component.scss,0
+
+frontend_ng/token-book/src/app/components/dashboard/dashboard.component.scss,0
+
+frontend_ng/token-book/src/app/components/categories/categories.component.scss,0
+
+frontend_ng/token-book/src/app/components/categories/categories.component.html,0
+
+frontend_ng/token-book/src/app/app.component.scss,0
+
+frontend_ng/token-book/src/app/app.component.html,0
