@@ -67,6 +67,6 @@ module.exports = function(app) {
   
   // to make angular routing works
   app.get('/*', function(req, res) {
-    res.sendFile(__dirname + '/dist/index.html');
+    res.sendFile(__dirname + '/dist/index-ng.html');
   });
 }
